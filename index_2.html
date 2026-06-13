@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fragranverse — Rate Your Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"></script>
+<style>
+  :root{
+    --bg:#08080a; --bg-soft:#111114; --bg-card:#15151a; --line:rgba(255,255,255,.06);
+    --ink:#f2efe9; --ink-2:#a6a6ad; --ink-3:#67676e;
+    --green:#34d399; --cyan:#06b6d4; --amber:#fbbf24; --amber-2:#d97706; --violet:#c4b5fd; --rose:#fb7185;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased}
+  body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5;overflow-x:hidden}
+  .wrap{max-width:660px;margin:0 auto;padding:0 20px}
+  .display{font-family:'Playfair Display',Georgia,serif}
+  .eyebrow{font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  ::selection{background:rgba(52,211,153,.25)}
+  .hidden{display:none!important}
+
+  /* ambient animated aurora behind hero */
+  .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+    background:
+      radial-gradient(40% 30% at 20% 10%,rgba(52,211,153,.18),transparent 60%),
+      radial-gradient(35% 30% at 85% 5%,rgba(6,182,212,.14),transparent 60%),
+      radial-gradient(30% 25% at 60% 30%,rgba(196,181,253,.10),transparent 60%);
+    animation:drift 16s ease-in-out infinite alternate}
+  @keyframes drift{from{transform:translateY(0) scale(1)}to{transform:translateY(-30px) scale(1.08)}}
+
+  nav{position:sticky;top:0;z-index:40;backdrop-filter:saturate(160%) blur(16px);background:rgba(8,8,10,.72);border-bottom:1px solid var(--line)}
+  nav .row{max-width:660px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:9px;font-family:'Playfair Display';font-weight:600;font-size:19px;letter-spacing:.3px}
+  .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--cyan));box-shadow:0 0 16px rgba(52,211,153,.7);animation:pulse 3s ease-in-out infinite}
+  @keyframes pulse{50%{box-shadow:0 0 24px rgba(52,211,153,1)}}
+  .navlinks{display:flex;gap:3px}
+  .navlinks button{font-size:13px;color:var(--ink-2);padding:7px 13px;border-radius:9px;transition:.2s}
+  .navlinks button:hover{color:var(--ink);background:rgba(255,255,255,.04)}
+  .navlinks button.active{color:var(--ink);background:rgba(255,255,255,.07)}
+
+  main{position:relative;z-index:1}
+  header{padding:80px 0 30px;text-align:center}
+  header h1{font-family:'Playfair Display';font-weight:600;font-size:clamp(42px,8vw,66px);line-height:1.0;letter-spacing:-.025em;margin:18px 0 16px}
+  header h1 em{font-style:italic;background:linear-gradient(120deg,var(--amber),var(--rose));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  header p{color:var(--ink-2);font-size:17.5px;max-width:460px;margin:0 auto;line-height:1.55}
+
+  .panel{background:var(--bg-soft);border:1px solid var(--line);border-radius:20px;padding:8px;margin:32px auto 0;max-width:560px;box-shadow:0 30px 80px -40px rgba(0,0,0,.8)}
+  .search{display:flex;align-items:center;gap:12px;padding:16px 18px}
+  .search svg{flex:none;color:var(--ink-3)}
+  .search input{flex:1;background:none;border:none;outline:none;color:var(--ink);font-size:16.5px}
+  .search input::placeholder{color:var(--ink-3)}
+  .results{max-height:320px;overflow-y:auto;border-top:1px solid var(--line);margin-top:4px}
+  .results::-webkit-scrollbar{width:8px}.results::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:8px}
+  .opt{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-radius:13px;transition:.14s}
+  .opt:hover{background:rgba(255,255,255,.05)}
+  .opt .l{display:flex;align-items:center;gap:13px;min-width:0}
+  .swatch{width:9px;height:9px;border-radius:50%;flex:none;box-shadow:0 0 8px currentColor}
+  .opt .nm{font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .opt .br{font-size:12.5px;color:var(--ink-3)}
+  .blogo{width:32px;height:32px;border-radius:10px;flex:none;object-fit:contain;background:rgba(255,255,255,.06)}
+  .bmono{width:32px;height:32px;border-radius:10px;flex:none;display:grid;place-items:center;font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:14px}
+  .opt .add{font-size:20px;color:var(--ink-3);width:28px;height:28px;border-radius:50%;display:grid;place-items:center;transition:.14s}
+  .opt:hover .add{color:var(--green);background:rgba(52,211,153,.12)}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;padding:14px 8px 6px}
+  .chip{display:flex;align-items:center;gap:8px;padding:8px 11px 8px 13px;background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.16);border-radius:999px;font-size:13px;color:var(--green);animation:pop .25s cubic-bezier(.2,1.4,.4,1)}
+  @keyframes pop{from{transform:scale(.7);opacity:0}}
+  .chip button{color:var(--green);opacity:.55;font-size:16px;line-height:1}.chip button:hover{opacity:1}
+  .meta{display:flex;justify-content:space-between;padding:6px 14px 2px;color:var(--ink-3);font-size:12px;letter-spacing:.4px}
+
+  .cta{width:100%;max-width:560px;margin-left:auto;margin-right:auto;height:56px;margin-top:12px;border-radius:15px;font-size:16px;font-weight:600;letter-spacing:.2px;color:#04201a;
+       background:linear-gradient(135deg,var(--green),var(--cyan));transition:.2s;display:flex;align-items:center;justify-content:center;gap:9px;position:relative;overflow:hidden}
+  .cta::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.25),transparent 70%);transform:translateX(-120%);transition:.5s}
+  .cta:hover:not(:disabled)::after{transform:translateX(120%)}
+  .cta:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 16px 36px -12px rgba(52,211,153,.6)}
+  .cta:disabled{opacity:.35;cursor:not-allowed}
+
+  .dbstat{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:22px;font-size:13.5px;color:var(--ink-3);flex-wrap:wrap}
+  .dbstat b{color:var(--ink);font-weight:600;font-family:'Playfair Display'}
+  .dbstat .sep{opacity:.4}
+  .reassure{text-align:center;color:var(--ink-3);font-size:13px;margin-top:18px}
+  .reassure b{color:var(--ink-2);font-weight:500}
+
+  /* analysing */
+  .analyse{text-align:center;padding:110px 0}
+  .ring{width:58px;height:58px;border:3px solid rgba(255,255,255,.07);border-top-color:var(--green);border-radius:50%;margin:0 auto 28px;animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .analyse p{color:var(--ink-2);font-size:15.5px;transition:.3s}
+
+  /* RESULT badge */
+  .badge{background:radial-gradient(ellipse 90% 55% at 50% 15%,rgba(52,211,153,.10),transparent 60%),var(--bg-soft);
+         border:1px solid var(--line);border-radius:26px;padding:48px 28px 38px;text-align:center;position:relative;overflow:hidden;margin-top:26px}
+  .badge::before{content:'';position:absolute;top:-40%;left:-10%;right:-10%;height:80%;
+    background:radial-gradient(ellipse at 50% 0%,rgba(251,191,36,.10),transparent 70%);pointer-events:none}
+  .revealed{font-size:10.5px;letter-spacing:2.4px;color:var(--ink-3);text-transform:uppercase;position:relative}
+  .score{font-family:'Permanent Marker',cursive;font-size:112px;line-height:.88;margin:12px 0 2px;position:relative;
+         background:linear-gradient(175deg,#fde047,var(--amber),var(--amber-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 8px 28px rgba(217,119,6,.3))}
+  .score small{font-size:27px;color:var(--ink-3);-webkit-text-fill-color:var(--ink-3);font-family:Inter;font-weight:600}
+  .persona{font-family:'Playfair Display';font-size:29px;font-weight:600;margin-top:8px;letter-spacing:-.015em}
+  .gradepill{display:inline-block;margin-top:13px;padding:7px 16px;border-radius:999px;font-size:13px;font-weight:600;background:rgba(52,211,153,.12);color:var(--green);border:1px solid rgba(52,211,153,.22)}
+  .quote{font-family:'Playfair Display';font-style:italic;font-size:17px;color:var(--ink-2);max-width:420px;margin:24px auto 0;line-height:1.5;position:relative}
+  .growth{margin-top:20px;padding:13px 17px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);border-radius:13px;font-size:13.5px;color:var(--amber);position:relative}
+  .badgeperfumes{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:center;gap:6px 10px;max-width:440px;margin-left:auto;margin-right:auto}
+  .badgeperfumes .bp{font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+  .badgeperfumes .bp .dot{display:inline-block;width:5px;height:5px;border-radius:50%;margin-right:5px;vertical-align:middle}
+  .badgeperfumes .bpmore{font-size:11.5px;color:var(--ink-3);font-style:italic;opacity:.8}
+  .wordmark{margin-top:28px;font-family:'Playfair Display';font-weight:600;font-size:13px;letter-spacing:3.5px;color:var(--ink-3);text-transform:uppercase;position:relative}
+
+  .actions{display:flex;gap:10px;margin-top:14px}
+  .actions .cta{margin-top:0}
+  .ghost{height:56px;width:56px;flex:none;border-radius:15px;border:1px solid var(--line);background:var(--bg-soft);color:var(--ink-2);display:grid;place-items:center;transition:.2s}
+  .ghost:hover{color:var(--ink);border-color:rgba(255,255,255,.18);transform:translateY(-2px)}
+
+  .tabs{display:flex;gap:4px;background:var(--bg-soft);border:1px solid var(--line);border-radius:14px;padding:4px;margin-top:24px}
+  .tabs button{flex:1;padding:11px;border-radius:11px;font-size:13.5px;font-weight:500;color:var(--ink-2);transition:.2s}
+  .tabs button.active{background:rgba(45,125,90,.9);color:#d4f5e6}
+
+  .card{background:var(--bg-soft);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:14px}
+  .card h3{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:18px}
+  .barrow{margin-bottom:18px}.barrow:last-child{margin-bottom:0}
+  .barrow .top{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:8px}
+  .barrow .top b{font-weight:600}.barrow .top span{color:var(--ink-3)}
+  .track{height:8px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden}
+  .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green),var(--cyan));width:0;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+  .fill.amber{background:linear-gradient(90deg,var(--amber),var(--amber-2))}
+  .fill.violet{background:linear-gradient(90deg,var(--violet),var(--cyan))}
+
+  .pills{display:flex;flex-wrap:wrap;gap:8px}
+  .pill{padding:7px 13px;border-radius:999px;font-size:12.5px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--ink-2)}
+  .pill.miss{color:var(--ink-3);opacity:.65}
+  .pill{display:inline-flex;align-items:center;gap:7px;transition:.2s;font-weight:500}
+  .pill.statpill,.pill.fampill{padding:7px 13px}
+  .pill.statpill:hover,.pill.fampill:hover{transform:translateY(-2px)}
+  .pdot{width:8px;height:8px;border-radius:50%;flex:none;box-shadow:0 0 8px currentColor}
+  .cnt{font-family:'Playfair Display';font-size:12px;font-weight:600;padding:1px 8px;border-radius:99px;margin-left:2px}
+  .dominant{display:flex;align-items:baseline;justify-content:space-between}
+  .dominant .big{font-family:'Playfair Display';font-size:27px;font-weight:600;color:var(--green)}
+
+  /* ACCORD CLOUD */
+  .cloud{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:6px 0}
+  .accord{border-radius:11px;font-weight:600;line-height:1;padding:9px 14px;transition:.2s;cursor:default}
+  .accord:hover{transform:translateY(-2px) scale(1.05)}
+
+  /* RECOMMENDATIONS */
+  .rec{display:flex;align-items:center;gap:15px;padding:15px;border-radius:15px;background:rgba(255,255,255,.02);border:1px solid var(--line);margin-bottom:10px;transition:.2s}
+  .rec:hover{border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.03)}
+  .rec:last-child{margin-bottom:0}
+  .rec .rank{font-family:'Playfair Display';font-size:15px;font-weight:600;flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center}
+  .rec.deepen .rank{color:var(--green);background:rgba(52,211,153,.1)}
+  .rec.branch_out .rank{color:var(--violet);background:rgba(196,181,253,.12)}
+  .rec .info{flex:1;min-width:0}
+  .rec .nm{font-size:15.5px;font-weight:600}
+  .rec .sub{font-size:12.5px;color:var(--ink-3);margin-top:2px}
+  .rec .reason{font-size:12px;color:var(--ink-2);margin-top:5px}
+  .rec .kind-tag{display:inline-block;font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:6px;margin-top:6px;font-weight:600}
+  .rec.deepen .kind-tag{background:rgba(52,211,153,.1);color:var(--green)}
+  .rec.branch_out .kind-tag{background:rgba(196,181,253,.12);color:var(--violet)}
+  .rec .match{font-family:'Playfair Display';font-size:18px;font-weight:600;color:var(--green);flex:none}
+
+  .restart{display:block;margin:20px auto 70px;color:var(--ink-3);font-size:14px;letter-spacing:.3px}
+  .restart:hover{color:var(--ink-2)}
+
+  /* doc pages */
+  .doc{padding:34px 0 80px}
+  .doc h2{font-family:'Playfair Display';font-size:32px;font-weight:600;letter-spacing:-.015em;margin-bottom:8px}
+  .doc .lead{color:var(--ink-2);font-size:16px;margin-bottom:30px;max-width:520px;line-height:1.55}
+  .step{display:flex;gap:16px;padding:20px 0;border-top:1px solid var(--line)}
+  .step .n{font-family:'Playfair Display';font-size:15px;font-weight:600;color:var(--green);flex:none;width:32px;height:32px;border-radius:50%;background:rgba(52,211,153,.1);display:grid;place-items:center}
+  .step h4{font-size:15.5px;font-weight:600;margin-bottom:5px}.step p{color:var(--ink-2);font-size:14px}
+  .axis{display:flex;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+  .axis .ic{font-size:20px;flex:none;width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.04);display:grid;place-items:center}
+  .axis h4{font-size:14.5px;font-weight:600;margin-bottom:3px}.axis p{color:var(--ink-2);font-size:13.5px}
+  .gradekey .gr{display:flex;align-items:center;gap:14px;padding:13px 0;border-top:1px solid var(--line);font-size:14px}
+  .gradekey .gr b{font-family:'Permanent Marker';font-size:23px;width:44px;color:var(--amber)}.gradekey .gr span{color:var(--ink-2)}
+  .report-form textarea,.report-form input{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:13px;padding:14px;color:var(--ink);font-family:inherit;font-size:14.5px;outline:none;transition:.2s}
+  .report-form textarea:focus,.report-form input:focus{border-color:rgba(52,211,153,.4)}
+  .report-form textarea{min-height:120px;resize:vertical}
+  .report-form label{display:block;font-size:13px;color:var(--ink-2);margin:18px 0 8px}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);border:1px solid var(--line);padding:14px 22px;border-radius:14px;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:60;box-shadow:0 14px 50px rgba(0,0,0,.6)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast b{color:var(--green)}
+  .empty{text-align:center;color:var(--ink-3);font-size:14px;padding:30px 0;line-height:1.6}
+  @media(max-width:520px){.score{font-size:90px}header{padding:58px 0 26px}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="aurora"></div>
+
+<nav><div class="row">
+  <button class="brand" onclick="goHome()" style="background:none;border:none;cursor:pointer"><span class="dot"></span>Fragranverse</button>
+  <div class="navlinks">
+    <button data-view="rate" class="active">Rate</button>
+    <button data-view="help">How it works</button>
+    <button data-view="report">Report</button>
+  </div>
+</div></nav>
+
+<!-- ============ LANDING ============ -->
+<main id="view-rate" class="wrap">
+  <section id="landing">
+    <header>
+      <div class="eyebrow">Your scent identity, scored ✦</div>
+      <h1 class="display">What does your<br><em>collection</em> say?</h1>
+      <p>It's a hobby, not an addiction.<br>Add what you own here to get your score, a persona, and a suggestion.</p>
+      <div class="dbstat">
+        <span><b>5,500+</b> perfumes</span><span class="sep">·</span>
+        <span><b>130+</b> brands</span><span class="sep">·</span>
+        <span><b>14</b> scent families</span>
+      </div>
+    </header>
+
+    <div class="panel">
+      <div class="search">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="q" type="text" placeholder="Search a perfume or brand…" autocomplete="off" />
+        <div id="searching" class="ring hidden" style="width:19px;height:19px;border-width:2px;margin:0"></div>
+      </div>
+      <div id="results" class="results hidden"></div>
+    </div>
+
+    <div id="selected" class="panel hidden">
+      <div class="meta"><span id="count">0 selected</span><span>Up to 50</span></div>
+      <div id="chips" class="chips"></div>
+    </div>
+
+    <button id="rateBtn" class="cta" disabled>Rate my collection</button>
+    <div class="reassure">Tip: search <b>brand + name</b> (e.g. "mancera cedrat"). Got 2 bottles or 50 — every shelf has a story.</div>
+  </section>
+
+  <section id="analysing" class="analyse hidden">
+    <div class="ring"></div>
+    <p id="analyseMsg">Reading your notes…</p>
+  </section>
+
+  <!-- ============ RESULT ============ -->
+  <section id="result" class="hidden">
+    <div id="badge" class="badge">
+      <div class="revealed">✦ The verdict is in</div>
+      <div class="score" id="scoreNum">0<small>/100</small></div>
+      <div class="persona display" id="persona">—</div>
+      <div class="gradepill" id="grade">—</div>
+      <div class="quote" id="quote">—</div>
+      <div class="growth hidden" id="growth"></div>
+      <div class="badgeperfumes" id="badgePerfumes"></div>
+      <div class="wordmark">FRAGRANVERSE</div>
+    </div>
+    <div class="actions">
+      <button class="cta" id="downloadBtn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>Download my badge</button>
+      <button class="ghost" id="copyBtn" title="Copy link"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></button>
+    </div>
+
+    <div class="tabs">
+      <button data-tab="overview" class="active">Overview</button>
+      <button data-tab="deep">Deep dive</button>
+    </div>
+
+    <div id="tab-overview">
+      <div class="card"><h3>Coverage</h3>
+        <div class="barrow"><div class="top"><b>Scent families</b><span id="famCount">0 / 14</span></div><div class="track"><div class="fill" id="famFill"></div></div></div>
+        <div class="barrow"><div class="top"><b>Collection size</b><span id="sizeCount">0</span></div><div class="track"><div class="fill violet" id="sizeFill"></div></div></div>
+      </div>
+      <div class="card"><h3>Dominant family</h3>
+        <div class="dominant"><span class="big" id="domFam">—</span><span style="color:var(--ink-3);font-size:13px" id="domPct"></span></div>
+      </div>
+      <div class="card"><h3>Axis breakdown</h3>
+        <div class="barrow"><div class="top"><b>Diversity</b><span id="ax1v"></span></div><div class="track"><div class="fill" id="ax1"></div></div></div>
+        <div class="barrow"><div class="top"><b>Tier range</b><span id="ax2v"></span></div><div class="track"><div class="fill" id="ax2"></div></div></div>
+        <div class="barrow"><div class="top"><b>Occasion coverage</b><span id="ax3v"></span></div><div class="track"><div class="fill amber" id="ax3"></div></div></div>
+        <div class="barrow"><div class="top"><b>Sillage balance</b><span id="ax4v"></span></div><div class="track"><div class="fill violet" id="ax4"></div></div></div>
+      </div>
+      <div class="card"><h3>Missing families</h3><div class="pills" id="missing"></div></div>
+    </div>
+
+    <div id="tab-deep" class="hidden">
+      <div class="card"><h3>Key accords — what your shelf is made of</h3><div class="cloud" id="cloud"></div></div>
+      <div class="card"><h3>Tier distribution</h3><div class="pills" id="tiers"></div></div>
+      <div class="card"><h3>Sillage profile</h3><div class="pills" id="sillage"></div></div>
+      <div class="card"><h3>Occasion tags</h3><div class="cloud" id="vibes" style="justify-content:flex-start"></div></div>
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="card" id="recCard">
+      <h3>Your next three bottles ✦</h3>
+      <p style="color:var(--ink-2);font-size:13px;margin:-6px 0 14px;line-height:1.5"><span style="color:var(--green)">Upgrade</span> = level up what you love · <span style="color:var(--violet)">Fill Gap</span> = a family you're missing</p>
+      <div id="recs"></div>
+    </div>
+
+    <div class="card" id="saveCard">
+      <h3>Add your shelf to the wall ✦</h3>
+      <p style="color:var(--ink-2);font-size:13.5px;margin:-6px 0 14px;line-height:1.5">Pick any name — no email, no login. Your collection helps Fragranverse learn what real collectors own.</p>
+      <div id="saveRow" style="display:flex;gap:10px">
+        <input id="handle" maxlength="40" placeholder="Your collector name… (e.g. OudHunter)" style="flex:1;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:13px;padding:13px 15px;color:var(--ink);font-family:inherit;font-size:14.5px;outline:none" />
+        <button class="cta" id="saveBtn" style="margin-top:0;width:auto;padding:0 22px;flex:none">Save</button>
+      </div>
+      <div id="savedMsg" class="hidden" style="text-align:center;color:var(--green);font-size:14px;padding:8px 0">✦ Saved to the wall. Thank you!</div>
+    </div>
+
+    <button class="restart" id="restart">↺ Rate another collection</button>
+  </section>
+</main>
+
+<!-- ============ HELP ============ -->
+<main id="view-help" class="wrap hidden"><div class="doc">
+  <div class="eyebrow">For first-timers</div>
+  <h2 class="display">How it works</h2>
+  <p class="lead">New to fragrance, or just new to Fragranverse? The whole thing in four steps. No jargon, promise.</p>
+  <div class="step"><div class="n">1</div><div><h4>Add what you own</h4><p>Search each perfume and tap it. Wearing a clone? Search the name on your bottle and pick the closest match — clones absolutely count. Add up to 20.</p></div></div>
+  <div class="step"><div class="n">2</div><div><h4>Hit “Rate my collection”</h4><p>We read each fragrance's notes, family, projection and occasion tags from a database of 5,500+ perfumes. Nothing is saved, no account needed.</p></div></div>
+  <div class="step"><div class="n">3</div><div><h4>Meet your scent persona</h4><p>A 0–100 score, a grade, a persona that captures your shelf's character, and one honest tip to level up.</p></div></div>
+  <div class="step"><div class="n">4</div><div><h4>Get your next three bottles</h4><p>We suggest three real perfumes — two <strong style="font-weight:500">upgrades</strong> in your favourite family, one to <strong style="font-weight:500">fill a gap</strong> in your wardrobe. Then download your badge and show it off.</p></div></div>
+  <h3 style="margin:42px 0 4px;font-family:'Playfair Display';font-size:21px;font-weight:600;letter-spacing:-.01em;color:var(--ink)">What the score measures</h3>
+  <p class="lead" style="margin-bottom:14px">Four things, 25 points each. Going deep on one family is a strength — specialists get celebrated, never scolded.</p>
+  <div class="axis"><div class="ic">🌸</div><div><h4>Diversity</h4><p>How many of the 14 scent families you own — florals, woods, ouds, gourmands and more.</p></div></div>
+  <div class="axis"><div class="ic">🏷️</div><div><h4>Tier range</h4><p>Budget, value, designer, niche. A range of price points tells its own story.</p></div></div>
+  <div class="axis"><div class="ic">🗓️</div><div><h4>Occasion coverage</h4><p>Day, night, office, date, summer, winter — scents for every moment of your life.</p></div></div>
+  <div class="axis"><div class="ic">💨</div><div><h4>Sillage balance</h4><p>Soft skin-scents through to room-filling beasts. The best wardrobes hold both.</p></div></div>
+  <h3 style="margin:42px 0 4px;font-family:'Playfair Display';font-size:21px;font-weight:600;letter-spacing:-.01em;color:var(--ink)">Reading your grade</h3>
+  <div class="gradekey">
+    <div class="gr"><b>S</b><span>Master — balanced and deep. A complete wardrobe.</span></div>
+    <div class="gr"><b>A</b><span>Exceptional — broad range, barely a gap in sight.</span></div>
+    <div class="gr"><b>B</b><span>Solid — or a focused Specialist who's gone all-in on one family.</span></div>
+    <div class="gr"><b>C</b><span>Developing — a strong start with the best part still ahead.</span></div>
+  </div>
+  <button class="cta" style="margin-top:34px;max-width:260px" onclick="setView('rate')">Start rating →</button>
+</div></main>
+
+<!-- ============ REPORT ============ -->
+<main id="view-report" class="wrap hidden"><div class="doc">
+  <div class="eyebrow">Help us improve</div>
+  <h2 class="display">Report an issue</h2>
+  <p class="lead">Wrong notes? A perfume missing? A score that feels off? Tell us — every report sharpens the data for the whole community.</p>
+  <div class="report-form">
+    <label for="r-type">What's this about?</label>
+    <input id="r-type" list="rtypes" placeholder="Pick or type…" />
+    <datalist id="rtypes"><option>Wrong notes / family</option><option>Missing perfume or brand</option><option>Duplicate entry</option><option>Score seems wrong</option><option>Something is broken</option><option>Other</option></datalist>
+    <label for="r-perfume">Perfume or brand (if relevant)</label>
+    <input id="r-perfume" placeholder="e.g. Majed Al Oud by NOAR" />
+    <label for="r-detail">Details</label>
+    <textarea id="r-detail" placeholder="Tell us what you noticed…"></textarea>
+    <label for="r-contact">Your email (optional)</label>
+    <input id="r-contact" type="email" placeholder="you@email.com" />
+    <button class="cta" style="margin-top:22px" id="submitReport">Send report</button>
+  </div>
+</div></main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL='https://zfmcreepfturmqbfffmb.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmbWNyZWVwZnR1cm1xYmZmZm1iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NTMxMTYsImV4cCI6MjA5NjIyOTExNn0.X0NxIn-se25GU75jzV4EQqWj1rIfIRVz0OmEPk17tWw';
+// Plain-fetch RPC — avoids the Supabase SDK's Headers postMessage issue in sandboxed iframes
+async function rpc(fn, params){
+  const res = await fetch(SUPABASE_URL+'/rest/v1/rpc/'+fn, {
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY},
+    body:JSON.stringify(params)
+  });
+  if(!res.ok){ const t=await res.text(); throw new Error('HTTP '+res.status+': '+t); }
+  return await res.json();
+}
+async function insertRow(table, row){
+  const res = await fetch(SUPABASE_URL+'/rest/v1/'+table, {
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,'Prefer':'return=minimal'},
+    body:JSON.stringify(row)
+  });
+  if(!res.ok){ const t=await res.text(); throw new Error('HTTP '+res.status+': '+t); }
+  return true;
+}
+
+const FAM_COLORS={Oriental:'#c0285a',Floral:'#f0608a',Woody:'#c07a3a',Citrus:'#f5d020',Aromatic:'#7a6fae',Fresh:'#2a9fd6',Leather:'#6b4a2b',Chypre:'#8a9a3a',Oud:'#a03828',Fruity:'#e8722a',Gourmand:'#d99a2b',Spicy:'#d44a2a',Green:'#7aab3a',Musk:'#c9c2b6'};
+const ALL_FAMS=['Oriental','Floral','Woody','Citrus','Aromatic','Fresh','Leather','Chypre','Oud','Fruity','Gourmand','Spicy','Green','Musk'];
+function primaryFam(raw){if(!raw)return null;const w=raw.split(/\s+/)[0];return ALL_FAMS.find(f=>f.toLowerCase()===w.toLowerCase())||null;}
+const QUOTES={"Floral": ["Your collection doesn't sit on a shelf -- it lives in the air you walk through.", "Your skin turns perfume into poetry, and every day you write a new verse.", "Your perfume collection is a library of invisible poems, and you are the only one who knows how to read them.", "Each fragrance in your care holds a specific sunset, a forgotten laugh, a version of you that almost disappeared -- but didn't."], "Fruity": ["One spritz from your hand can change the mood of an entire room.", "You don't just collect perfume -- you collect tiny, invisible pieces of joy that last all day.", "You didn't just collect bottles. You collected the right to walk through life smelling like your own happiest memory.", "One day, someone will open an old bottle from your collection and smell who you used to be. That is a kind of immortality."], "Oriental": ["You find the lemon blossom in the rain, the cedar in the silence.", "Every bottle you add is a handshake between who you were and who you are becoming.", "Every bottle you chose once whispered to you in a crowd -- and you had the courage to whisper back.", "Collecting taught you that happiness can be liquid, transparent, and still leave a golden trail behind you."], "Woody": ["Each bottle you choose is a chapter of your own unseen story.", "Even empty bottles in your care still whisper their old songs.", "Collecting perfume is not about filling a shelf. It's about learning which scents make your soul stand a little taller.", "You built something beautiful from curiosity, patience, and a nose that refuses to settle. That is an achievement."], "Fresh": ["The trail you leave behind is softer than words but louder than a smile.", "Your collection is a garden where time stands still and every bloom has a voice.", "Choosing a fragrance each morning is your quiet act of self-respect. And you have never skipped it.", "Your passion for perfume is not an interest. It is a love letter you keep rewriting to your own senses."], "Citrus": ["Your nose knows what the heart cannot yet say.", "The way you match a fragrance to a feeling is a quiet kind of magic.", "One spray can bring back a whole year. You understood that before most people ever do.", "You don't need a reason to buy a perfume. You are the reason."], "Green": ["You treat fragrance like a secret language, and you are beautifully fluent.", "Your collection doesn't just smell amazing -- it fills every room with warmth and elegance.", "Some people collect things to show. You collect scents to feel. That makes all the difference.", "Every time you open a new perfume, you are not starting a habit -- you are continuing a conversation with yourself."], "Oud": ["Oud doesn't ask for attention. It simply takes a seat in the room, and the room remembers who sat there.", "Your collection holds bottles that were trees before they were perfume. That kind of patience runs in your veins too.", "You didn't just learn to love oud -- you learned to sit with darkness and find it generous.", "Every oud in your collection is a question that takes all night to answer. You are the only one still listening at dawn."], "Spicy": ["You don't wear spice -- you let it introduce you before you've said a word.", "The warmth on your skin is not accidental. You chose a fragrance that crackles, and now you walk through winter like it's your own season.", "A spiced trail behind you is closer to a handshake than a scent. People lean in without knowing why.", "Collecting spice taught you that comfort doesn't have to be quiet. Sometimes it arrives loud, warm, and unapologetic."], "Leather": ["Leather doesn't soften over time. You do. The bottle stays exactly as fierce as the day you met it.", "You didn't choose leather to fit in. You chose the smell of saddles, libraries, and late nights that refuse to be forgotten.", "When someone smells leather on you, they don't think of a fragrance. They think of a person who keeps their promises.", "Your collection wasn't built to be pretty. It was built to be true. Leather taught you the difference."], "Chypre": ["Chypre is not a note. It's a conversation between citrus and moss that has been going on for centuries, and you finally pulled up a chair.", "You understand that elegance doesn't announce itself. It just settles into the air like it was always supposed to be there.", "Collecting chypre is not for beginners. It's for people who know that beauty complicates itself before it reveals anything.", "The bergamot opens, the oakmoss closes, and somewhere in between is the person you became while waiting."], "Gourmand": ["You carry dessert on your skin and call it confidence. Nobody has ever argued with the result.", "Vanilla, caramel, chocolate -- these are not ingredients, they are memories you chose to bottle before they faded.", "Some people wear perfume to be noticed. You wear it to be remembered the way a kitchen is remembered after the meal.", "You didn't just build a sweet collection. You built a museum of all the moments that deserved to taste better."], "Musk": ["Musk doesn't shout. It stays close to the skin and waits to be discovered. That is the kind of power you understand.", "Your collection smells less like perfume and more like the person you've worked hard to become.", "Musk taught you that the most intimate scents are the ones you forget you're wearing -- until someone leans closer.", "You don't collect musk to impress. You collect it to feel like yourself, only warmer, only softer, only unmistakably you."], "Aromatic": ["You speak in herbs and lavender, in the language perfumery was built on before it learned to show off.", "There is a quiet discipline in what you wear. Aromatic is the choice of someone who trusts the classics.", "Your trail is crisp, intelligent, alive -- the scent of a person who thinks clearly and chooses well.", "You didn't chase trends. You collected the timeless, and time has a way of agreeing with people like you."]};
+
+function goHome(){setView('rate');const r=document.getElementById('result');const l=document.getElementById('landing');if(r)r.classList.add('hidden');if(l)l.classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});}
+function setView(v){document.querySelectorAll('main').forEach(m=>m.classList.add('hidden'));document.getElementById('view-'+v).classList.remove('hidden');document.querySelectorAll('.navlinks button').forEach(b=>b.classList.toggle('active',b.dataset.view===v));window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('.navlinks button').forEach(b=>b.onclick=()=>setView(b.dataset.view));
+let toastT;function toast(h){const t=document.getElementById('toast');t.innerHTML=h;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
+function esc(s){return(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+
+/* search */
+const selected=new Map();
+const qEl=document.getElementById('q'),resultsEl=document.getElementById('results'),searchingEl=document.getElementById('searching');
+let searchT;
+qEl.addEventListener('input',()=>{const q=qEl.value.trim();clearTimeout(searchT);if(q.length<2){resultsEl.classList.add('hidden');return;}searchT=setTimeout(()=>runSearch(q),260);});
+async function runSearch(q){searchingEl.classList.remove('hidden');
+  try{const data=await rpc('search_perfumes',{search_query:q});renderResults((data||[]).slice(0,12));}
+  catch(e){const msg=(e&&e.message)?e.message:JSON.stringify(e);console.error('search failed:',msg,e);resultsEl.innerHTML='<div class="empty">Couldn\'t reach the database.<br><span style="font-size:11px;color:#67676e">'+esc(msg)+'</span></div>';resultsEl.classList.remove('hidden');}
+  finally{searchingEl.classList.add('hidden');}}
+function renderResults(rows){
+  const avail=rows.filter(r=>!selected.has(r.id));
+  if(!avail.length){resultsEl.innerHTML='<div class="empty">No matches. Try the exact name on the bottle —<br>or <a style="color:var(--green);cursor:pointer" onclick="setView(\'report\')">tell us it\'s missing</a>.</div>';resultsEl.classList.remove('hidden');return;}
+  resultsEl.innerHTML='';
+  avail.forEach(r=>{const fam=primaryFam(r.olfactory_family);const c=FAM_COLORS[fam]||'#666';const el=document.createElement('div');el.className='opt';
+    const logo=r.brand_logo?`<img class="blogo" src="${esc(r.brand_logo)}" alt="" onerror="this.outerHTML=this.dataset.fb" data-fb='<span class=&quot;bmono&quot; style=&quot;background:${c}1a;color:${c}&quot;>${esc((r.brand_name||'?')[0])}</span>'>`:`<span class="bmono" style="background:${c}1a;color:${c}">${esc((r.brand_name||'?')[0])}</span>`;
+    el.innerHTML=`<div class="l">${logo}<div style="min-width:0"><div class="nm">${esc(r.name)}</div><div class="br">${esc(r.brand_name||'')}${r.concentration?' \u00b7 '+esc(r.concentration):''}</div></div></div><div class="add">+</div>`;
+    el.onclick=()=>addPerfume(r);resultsEl.appendChild(el);});
+  resultsEl.classList.remove('hidden');}
+function addPerfume(r){if(selected.size>=50){toast('That\'s the max — 50 bottles.');return;}selected.set(r.id,r);qEl.value='';resultsEl.classList.add('hidden');qEl.focus();renderChips();}
+function renderChips(){const sel=document.getElementById('selected'),chips=document.getElementById('chips');
+  if(selected.size===0){sel.classList.add('hidden');document.getElementById('rateBtn').disabled=true;return;}
+  sel.classList.remove('hidden');document.getElementById('count').textContent=`${selected.size} selected`;chips.innerHTML='';
+  selected.forEach(r=>{const fam=primaryFam(r.olfactory_family);const c=document.createElement('div');c.className='chip';
+    c.innerHTML=`<span class="swatch" style="background:${FAM_COLORS[fam]||'#666'};color:${FAM_COLORS[fam]||'#666'}"></span>${esc(r.name)}${r.concentration?' \u00b7 '+esc(r.concentration):''} <button>×</button>`;
+    c.querySelector('button').onclick=()=>{selected.delete(r.id);renderChips();};chips.appendChild(c);});
+  document.getElementById('rateBtn').disabled=false;}
+
+/* rate */
+const MSGS=['Reading your notes…','Mapping scent families…','Measuring projection & range…','Finding your next bottles…','Revealing your persona…'];
+document.getElementById('rateBtn').onclick=async()=>{
+  document.getElementById('landing').classList.add('hidden');
+  const an=document.getElementById('analysing');an.classList.remove('hidden');
+  let i=0;const msg=document.getElementById('analyseMsg');const cyc=setInterval(()=>{i=(i+1)%MSGS.length;msg.textContent=MSGS[i];},620);
+  const ids=[...selected.keys()];
+  try{
+    const[rateData,recsData]=await Promise.all([rpc('rate_collection',{_perfume_ids:ids}),rpc('recommend_for_collection',{_collection_ids:ids}).catch(()=>[])]);
+    await new Promise(r=>setTimeout(r,1700));
+    clearInterval(cyc);an.classList.add('hidden');
+    renderResult(rateData, recsData||[]);
+  }catch(e){console.error(e);clearInterval(cyc);an.classList.add('hidden');document.getElementById('landing').classList.remove('hidden');toast('Something went wrong. Try again.');}
+};
+
+let LAST_RESULT=null, LAST_IDS=[];
+function renderResult(d,recs){
+  LAST_RESULT=d; LAST_IDS=[...selected.keys()];
+  document.getElementById('result').classList.remove('hidden');
+  // reset save card for a fresh result
+  const sc=document.getElementById('saveCard');if(sc){document.getElementById('saveRow').classList.remove('hidden');document.getElementById('savedMsg').classList.add('hidden');document.getElementById('handle').value='';}
+  document.getElementById('persona').textContent=d.persona||'The Collector';
+  document.getElementById('grade').textContent=d.grade||'';
+  const dom=d.dominant_family;const fq=QUOTES[dom]||QUOTES['Woody']||[''];
+  document.getElementById('quote').textContent='“'+(fq[Math.floor(d.total_score)%fq.length]||fq[0])+'”';
+  const g=document.getElementById('growth');if(d.growth_hint){g.textContent=d.growth_hint;g.classList.remove('hidden');}else g.classList.add('hidden');
+  // badge perfume list — names of what was rated (up to 8, then +N more)
+  const bp=document.getElementById('badgePerfumes');
+  if(bp){
+    const items=[...selected.values()];
+    const SHOW=8;
+    let h=items.slice(0,SHOW).map(r=>{const fam=primaryFam(r.olfactory_family);const c=FAM_COLORS[fam]||'#666';return `<span class="bp"><span class="dot" style="background:${c}"></span>${esc(r.name)}</span>`;}).join('');
+    if(items.length>SHOW){h+=`<span class="bpmore">+${items.length-SHOW} more</span>`;}
+    bp.innerHTML=h;
+  }
+  // score count-up
+  const target=Math.round(d.total_score),el=document.getElementById('scoreNum');let cur=0;const stp=Math.max(1,Math.round(target/45));
+  const tick=setInterval(()=>{cur+=stp;if(cur>=target){cur=target;clearInterval(tick);}el.innerHTML=cur+'<small>/100</small>';},20);
+  // overview
+  const fams=d.families_covered||0;setBar('famFill',fams/14*100);document.getElementById('famCount').textContent=fams+' / 14';
+  setBar('sizeFill',Math.min(d.total_perfumes/20*100,100));document.getElementById('sizeCount').textContent=d.total_perfumes;
+  document.getElementById('domFam').textContent=dom||'—';
+  const fc=d.stats?.family_counts||{};const domN=fc[dom]||0;const tot=d.total_perfumes||1;
+  document.getElementById('domPct').textContent=domN?`${domN} of ${tot} (${Math.round(domN/tot*100)}%)`:'';
+  const b=d.breakdown||{};setAxis('ax1',b.diversity);setAxis('ax2',b.tier_range);setAxis('ax3',b.occasion_coverage);setAxis('ax4',b.sillage_balance);
+  const miss=d.stats?.missing_families||ALL_FAMS.filter(f=>!fc[f]);
+  document.getElementById('missing').innerHTML=miss.length?miss.map(f=>{const c=FAM_COLORS[f]||'#666';return `<span class="pill fampill" style="color:${c};border-color:${c}44;background:${c}14"><span class="pdot" style="background:${c}"></span>${f}</span>`;}).join(''):'<span class="pill" style="color:var(--green);border-color:rgba(52,211,153,.3)">Full coverage ✦</span>';
+  // deep dive: accord cloud (sized by frequency)
+  renderCloud(d.stats?.accord_counts);
+  const tiers=d.stats?.tier_counts||{};const TL={Tier_1:'Budget',Tier_2:'Value',Tier_2_ME:'Value (ME)',Tier_3:'Designer',Tier_4:'Niche',Unknown:'Unknown'};
+  const TC={Tier_1:'#34d399',Tier_2:'#06b6d4',Tier_2_ME:'#06b6d4',Tier_3:'#c4b5fd',Tier_4:'#fbbf24',Unknown:'#6b6b70'};
+  const tierOrder=['Tier_1','Tier_2','Tier_2_ME','Tier_3','Tier_4','Unknown'];
+  document.getElementById('tiers').innerHTML=Object.entries(tiers).sort((a,b)=>tierOrder.indexOf(a[0])-tierOrder.indexOf(b[0])).map(([k,v])=>{const c=TC[k]||'#6b6b70';return `<span class="pill statpill" style="color:${c};border-color:${c}44;background:${c}14">${TL[k]||k}<b class="cnt" style="background:${c}26;color:${c}">${v}</b></span>`;}).join('')||'<span class="pill">—</span>';
+  const SC={Soft:'#67e8f9',Moderate:'#34d399',Strong:'#fbbf24',Heavy:'#fb7185'};const silOrder=['Soft','Moderate','Strong','Heavy'];
+  document.getElementById('sillage').innerHTML=(d.stats?.sillage_levels||[]).sort((a,b)=>silOrder.indexOf(a)-silOrder.indexOf(b)).map(s=>{const c=SC[s]||'#6b6b70';return `<span class="pill statpill" style="color:${c};border-color:${c}44;background:${c}14"><span class="pdot" style="background:${c}"></span>${s}</span>`;}).join('')||'<span class="pill">—</span>';
+  const vibes=d.stats?.vibes||[];
+  document.getElementById('vibes').innerHTML=vibes.length?vibes.map(v=>`<span class="pill statpill" style="color:#a3e635;border-color:#a3e63540;background:#a3e6351a;font-size:13px"><span class="pdot" style="background:#a3e635"></span>${v.replace(/^#/,'').replace(/_/g,' ')}</span>`).join(''):'<span class="pill">—</span>';
+  // recommendations
+  renderRecs(recs);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+// map a note to its scent-family colour (so the cloud is a real olfactory map)
+function noteColor(note){
+  const n=note.toLowerCase();
+  const F=FAM_COLORS;
+  if(/^oud|oudh|agarwood/.test(n))return F.Oud;
+  if(/wood|sandal|cedar|teak|vetiver|guaiac|cypress|pine|birch/.test(n))return F.Woody;
+  if(/bergamot|lemon|lime|orange blossom|orange|grapefruit|mandarin|citrus|yuzu|neroli|petitgrain/.test(n))return F.Citrus;
+  if(/rose|jasmine|floral|flower|lily|violet|iris|orris|tuberose|ylang|geranium|peony|lavender|lotus|magnolia|muguet/.test(n))return F.Floral;
+  if(/apple|pear|peach|berry|cherry|fruit|plum|pineapple|melon|fig|grape|coconut|lychee|mango/.test(n))return F.Fruity;
+  if(/vanilla|caramel|chocolate|coffee|honey|sugar|toffee|praline|cacao|almond|tonka|gourmand|cream/.test(n))return F.Gourmand;
+  if(/pepper|cinnamon|cardamom|saffron|clove|nutmeg|ginger|spice|spicy|anise/.test(n))return F.Spicy;
+  if(/musk|amber|ambergris|ambroxan|civet|castoreum/.test(n))return F.Musk;
+  if(/leather|suede|tobacco|smoke|birch tar/.test(n))return F.Leather;
+  if(/green|grass|herb|mint|basil|sage|rosemary|aromatic|tea|galbanum/.test(n))return F.Green;
+  if(/aqua|marine|sea|water|ozone|fresh|rain|breeze/.test(n))return F.Fresh;
+  if(/incense|resin|benzoin|labdanum|myrrh|frankincense|balsam|patchouli|oriental/.test(n))return F.Oriental;
+  return '#a8a8ad';
+}
+function renderCloud(counts){
+  const el=document.getElementById('cloud');
+  if(!counts||!Object.keys(counts).length){el.innerHTML='<span class="pill">Not enough data</span>';return;}
+  const entries=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,16);
+  const max=entries[0][1],min=entries[entries.length-1][1];
+  el.innerHTML=entries.map(([note,n])=>{
+    const t=max===min?1:(n-min)/(max-min);
+    const size=14+t*16;                 // size = frequency
+    const op=.62+t*.38;                 // gentle opacity ramp
+    const c=noteColor(note);            // colour = the note's actual scent family
+    return `<span class="accord" style="font-size:${size}px;color:${c};background:${c}1a;opacity:${op}">${esc(note)}</span>`;
+  }).join('');
+}
+function renderRecs(recs){
+  const card=document.getElementById('recCard'),box=document.getElementById('recs');
+  if(!recs||!recs.length){card.classList.add('hidden');return;}
+  card.classList.remove('hidden');box.innerHTML='';
+  recs.forEach((r,i)=>{
+    const TL={Tier_1:'Budget',Tier_2:'Value',Tier_2_ME:'Value',Tier_3:'Designer',Tier_4:'Niche'};
+    const d=document.createElement('div');d.className='rec '+r.rec_kind;
+    d.innerHTML=`<div class="rank">${i+1}</div>
+      <div class="info"><div class="nm">${esc(r.rec_name)}</div>
+        <div class="sub">${esc(r.rec_brand)} · ${esc(r.rec_family)} · ${TL[r.rec_tier]||esc(r.rec_tier||'')}</div>
+        <div class="reason">${esc(r.rec_reason)}</div>
+        <span class="kind-tag">${r.rec_kind==='deepen'?'Upgrade':'Fill Gap'}</span></div>
+      <div class="match">${Math.round(r.rec_match)}%</div>`;
+    box.appendChild(d);
+  });
+}
+function setBar(id,pct){requestAnimationFrame(()=>setTimeout(()=>document.getElementById(id).style.width=Math.min(pct,100)+'%',60));}
+function setAxis(id,val){const v=val||0;setBar(id,v/25*100);const e=document.getElementById(id+'v');e.textContent=v.toFixed(1)+' / 25';e.style.color='var(--ink-3)';}
+
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('active',x===b));document.getElementById('tab-overview').classList.toggle('hidden',b.dataset.tab!=='overview');document.getElementById('tab-deep').classList.toggle('hidden',b.dataset.tab!=='deep');});
+
+document.getElementById('saveBtn').onclick=async()=>{
+  const name=document.getElementById('handle').value.trim();
+  if(!name){toast('Pick any name first — make one up!');return;}
+  if(!LAST_RESULT){return;}
+  const d=LAST_RESULT, b=d.breakdown||{};
+  try{
+    await insertRow('collection_submissions',{
+      perfume_ids:LAST_IDS,
+      display_name:name,
+      total_score:d.total_score, grade:d.grade,
+      diversity_score:b.diversity, tier_score:b.tier_range,
+      occasion_score:b.occasion_coverage, sillage_balance_score:b.sillage_balance,
+      families_covered:d.families_covered, tiers_covered:d.tiers_covered,
+      occasions_covered:d.occasions_covered,
+      persona:d.persona, dominant_family:d.dominant_family,
+      stats:d.stats
+    });
+    document.getElementById('saveRow').classList.add('hidden');
+    document.getElementById('savedMsg').classList.remove('hidden');
+  }catch(e){console.warn('save failed:',e.message);toast('Could not save — try again.');}
+};
+document.getElementById('restart').onclick=()=>{selected.clear();renderChips();document.getElementById('result').classList.add('hidden');document.getElementById('landing').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});};
+document.getElementById('downloadBtn').onclick=async()=>{const node=document.getElementById('badge');try{const u=await window.htmlToImage.toPng(node,{pixelRatio:2,backgroundColor:'#08080a'});const a=document.createElement('a');a.download='my-accord-badge.png';a.href=u;a.click();toast('<b>Saved!</b> Now go flex it.');}catch(e){console.error(e);toast('Could not generate image.');}};
+document.getElementById('copyBtn').onclick=()=>navigator.clipboard.writeText(location.href).then(()=>toast('<b>Link copied.</b>'));
+document.getElementById('submitReport').onclick=async()=>{const type=document.getElementById('r-type').value.trim(),detail=document.getElementById('r-detail').value.trim();if(!type&&!detail){toast('Add a little detail so we can help.');return;}try{await insertRow('reports',{type,perfume:document.getElementById('r-perfume').value.trim(),detail,contact:document.getElementById('r-contact').value.trim()});toast('<b>Thank you!</b> Report sent.');}catch(e){console.warn(e.message);toast('<b>Thanks!</b> Noted.');}['r-type','r-perfume','r-detail','r-contact'].forEach(id=>document.getElementById(id).value='');};
+</script>
+</body>
+</html>
