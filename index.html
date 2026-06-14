@@ -573,7 +573,29 @@ document.getElementById('saveBtn').onclick=async()=>{
 document.getElementById('restart').onclick=()=>{selected.clear();renderChips();document.getElementById('result').classList.add('hidden');document.getElementById('landing').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});};
 document.getElementById('downloadBtn').onclick=async()=>{const node=document.getElementById('badge');try{const u=await window.htmlToImage.toPng(node,{pixelRatio:2,backgroundColor:'#08080a'});const a=document.createElement('a');a.download='my-accord-badge.png';a.href=u;a.click();toast('<b>Saved!</b> Now go flex it.');}catch(e){console.error(e);toast('Could not generate image.');}};
 document.getElementById('copyBtn').onclick=()=>navigator.clipboard.writeText(location.href).then(()=>toast('<b>Link copied.</b>'));
-document.getElementById('submitReport').onclick=async()=>{const type=document.getElementById('r-type').value.trim(),detail=document.getElementById('r-detail').value.trim();if(!type&&!detail){toast('Add a little detail so we can help.');return;}try{await insertRow('reports',{type,perfume:document.getElementById('r-perfume').value.trim(),detail,contact:document.getElementById('r-contact').value.trim()});toast('<b>Thank you!</b> Report sent.');}catch(e){console.warn(e.message);toast('<b>Thanks!</b> Noted.');}['r-type','r-perfume','r-detail','r-contact'].forEach(id=>document.getElementById(id).value='');};
+document.getElementById('submitReport').onclick=async()=>{
+  const type=document.getElementById('r-type').value.trim();
+  const detail=document.getElementById('r-detail').value.trim();
+  const perfume=document.getElementById('r-perfume').value.trim();
+  const contact=document.getElementById('r-contact').value.trim();
+  if(!type&&!detail){toast('Add a little detail so we can help.');return;}
+  try{
+    await insertRow('reports',{type,perfume,detail,contact});
+    await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        access_key:'f2039d18-415d-43bb-9eb8-369c63e88610',
+        subject:'Fragranverse Report: '+type,
+        name:contact||'Anonymous',
+        email:contact||'noreply@fragranverse.com',
+        message:'Type: '+type+'\nPerfume: '+(perfume||'N/A')+'\nDetails: '+detail+'\nContact: '+(contact||'None')
+      })
+    });
+    toast('<b>Thank you!</b> Report sent.');
+  }catch(e){console.warn(e.message);toast('<b>Thanks!</b> Noted.');}
+  ['r-type','r-perfume','r-detail','r-contact'].forEach(id=>document.getElementById(id).value='');
+};
 </script>
 </body>
 </html>
