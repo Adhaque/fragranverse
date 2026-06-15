@@ -191,6 +191,26 @@
   .rec.branch_out .kind-tag{background:rgba(196,181,253,.12);color:var(--violet)}
   .rec .match{font-family:'Playfair Display';font-size:18px;font-weight:600;color:var(--green);flex:none}
 
+  .match-card{padding:16px;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid var(--line);margin-bottom:10px;display:flex;align-items:flex-start;gap:14px}
+  .match-card:last-child{margin-bottom:0}
+  .match-card.high{border-color:rgba(251,113,133,.3);background:rgba(251,113,133,.04)}
+  .match-card.medium{border-color:rgba(251,191,36,.25);background:rgba(251,191,36,.04)}
+  .match-card.low{border-color:rgba(52,211,153,.2);background:rgba(52,211,153,.04)}
+  .match-pct{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:600;flex:none;width:60px;text-align:center}
+  .match-card.high .match-pct{color:#fb7185}
+  .match-card.medium .match-pct{color:var(--amber)}
+  .match-card.low .match-pct{color:var(--green)}
+  .match-info .mn{font-size:15px;font-weight:600;margin-bottom:3px}
+  .match-info .br{font-size:12.5px;color:var(--ink-3)}
+  .match-info .notes{margin-top:7px;display:flex;flex-wrap:wrap;gap:5px}
+  .match-info .note{font-size:11.5px;padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.05);color:var(--ink-2)}
+  .verdict{padding:16px;border-radius:14px;margin-bottom:14px;text-align:center}
+  .verdict.safe{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2)}
+  .verdict.caution{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2)}
+  .verdict.danger{background:rgba(251,113,133,.08);border:1px solid rgba(251,113,133,.2)}
+  .verdict .vicon{font-size:28px;margin-bottom:6px}
+  .verdict .vtitle{font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:600;margin-bottom:5px}
+  .verdict .vtext{font-size:13.5px;color:var(--ink-2);line-height:1.5}
   .restart{display:block;margin:20px auto 70px;color:var(--ink-3);font-size:14px;letter-spacing:.3px}
   .restart:hover{color:var(--ink-2)}
 
@@ -206,6 +226,12 @@
   .axis h4{font-size:14.5px;font-weight:600;margin-bottom:3px}.axis p{color:var(--ink-2);font-size:13.5px}
   .gradekey .gr{display:flex;align-items:center;gap:14px;padding:13px 0;border-top:1px solid var(--line);font-size:14px}
   .gradekey .gr b{font-family:'Permanent Marker';font-size:23px;width:44px;color:var(--amber)}.gradekey .gr span{color:var(--ink-2)}
+  .gsec{margin-bottom:32px}
+  .gstitle{font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink);font-weight:700;margin:28px 0 14px;padding:10px 14px;background:rgba(52,211,153,.08);border-left:3px solid var(--green);border-radius:0 8px 8px 0}
+  .gterm{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+  .gterm:last-child{border-bottom:none}
+  .gtname{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:600;color:var(--green);margin-bottom:5px}
+  .gtdef{font-size:14px;color:var(--ink-2);line-height:1.6}
   .report-form textarea,.report-form input{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:13px;padding:14px;color:var(--ink);font-family:inherit;font-size:14.5px;outline:none;transition:.2s}
   .report-form textarea:focus,.report-form input:focus{border-color:rgba(52,211,153,.4)}
   .report-form textarea{min-height:120px;resize:vertical}
@@ -225,8 +251,9 @@
   <button class="brand" onclick="goHome()" style="background:none;border:none;cursor:pointer"><span class="dot"></span>Fragranverse</button>
   <div class="navlinks">
     <button data-view="help">How it works</button>
+      <button data-view="check">Before You Buy</button>
       <button data-view="report" title="Report an issue" style="font-size:18px;padding:5px 9px">⚑</button>
-      <button data-view="blog">Blog</button>
+      <button data-view="blog">Glossary</button>
   </div>
 </div></nav>
 
@@ -334,6 +361,58 @@
   </section>
 </main>
 
+
+<!-- ============ CHECK ============ -->
+<main id="view-check" class="wrap hidden">
+  <header style="padding:60px 0 24px;text-align:center;position:relative">
+    <div class="glow"></div>
+    <div class="eyebrow">Before you spend ✦</div>
+    <h1 class="display" style="font-size:clamp(34px,6vw,52px);margin:14px 0 12px">Before You Buy</h1>
+    <p style="color:var(--ink-2);font-size:16px;max-width:460px;margin:0 auto">Search the perfume you're thinking of buying. Then add what you already own. We'll show you how much they overlap — so you know before you spend.</p>
+  </header>
+
+  <!-- Step 1: Candidate perfume -->
+  <div class="card" style="margin-top:0">
+    <h3>Step 1 — What are you thinking of buying?</h3>
+    <div class="panel" style="margin-top:0;box-shadow:none;border-radius:14px">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="cq" type="text" placeholder="e.g. Creed Aventus, Hawas Ice, Khamrah…" autocomplete="off" />
+      </div>
+      <div id="cresults" class="results hidden"></div>
+    </div>
+    <div id="candidate-chip" class="hidden" style="margin-top:10px;display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);border-radius:13px">
+      <span id="cname" style="font-weight:600;font-size:15px;color:var(--amber)">—</span>
+      <button onclick="clearCandidate()" style="color:var(--ink-3);font-size:18px;margin-left:auto">×</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Collection -->
+  <div class="card" style="margin-top:14px">
+    <h3>Step 2 — What do you already own? <span style="font-weight:400;color:var(--ink-3)">(up to 20)</span></h3>
+    <div class="panel" style="margin-top:0;box-shadow:none;border-radius:14px">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="oq" type="text" placeholder="Search perfumes on your shelf…" autocomplete="off" />
+      </div>
+      <div id="oresults" class="results hidden"></div>
+    </div>
+    <div id="owned-chips" class="chips" style="padding:10px 4px 0"></div>
+    <p id="owned-count" style="font-size:12px;color:var(--ink-3);padding:4px 4px 0">0 perfumes added</p>
+  </div>
+
+  <button id="checkBtn" class="cta" disabled style="margin-top:12px">Check for redundancy</button>
+
+  <!-- Result -->
+  <div id="check-result" class="hidden" style="margin-top:18px">
+    <div class="card">
+      <h3>Here's what we found</h3>
+      <div id="check-matches"></div>
+    </div>
+    <button onclick="clearCheck()" class="restart">↺ Check another perfume</button>
+  </div>
+</main>
+
 <!-- ============ HELP ============ -->
 <main id="view-help" class="wrap hidden"><div class="doc">
   <div class="eyebrow">For first-timers</div>
@@ -361,14 +440,109 @@
 
 <!-- ============ BLOG ============ -->
 <main id="view-blog" class="wrap hidden"><div class="doc">
-  <div class="eyebrow">Coming soon</div>
-  <h2 class="display">The Fragranverse Blog</h2>
-  <p class="lead">Guides, deep dives, and fragrance intelligence — for collectors who want to understand their shelf, not just fill it.</p>
-  <div style="background:var(--bg-soft);border:1px solid var(--line);border-radius:18px;padding:28px;text-align:center;margin-top:20px">
-    <p style="font-size:32px;margin-bottom:12px">✦</p>
-    <p style="font-weight:600;font-size:16px;margin-bottom:8px">First article dropping soon</p>
-    <p style="color:var(--ink-2);font-size:14px">The Budget Collector's Guide to Building a Wardrobe That Punches Above Its Weight</p>
+  <div class="eyebrow">Learn the language</div>
+  <h2 class="display">Fragrance Glossary</h2>
+  <p class="lead">57 terms explained simply. No jargon, no fluff. Written for collectors in India and the Middle East who want to understand what they are buying.</p>
+  <div id="glossary-content">
+<div class="gsec"><div class="gstitle">Concentration</div><div class="gterm">
+  <div class="gtname">EDT</div>
+  <div class="gtdef">Eau de Toilette. Contains around 5 to 15 percent fragrance oil. Projects well for the first hour or two, then fades by hour four or five. Best for casual daytime use.</div>
+</div><div class="gterm">
+  <div class="gtname">EDP</div>
+  <div class="gtdef">Eau de Parfum. Contains 15 to 20 percent oil. Lasts six to ten hours and sits closer to the skin. The most common format for Indian daily wear.</div>
+</div><div class="gterm">
+  <div class="gtname">Parfum / Extrait</div>
+  <div class="gtdef">Contains 20 to 30 percent oil. Lasts eight to twelve hours or more. The projection is softer but the scent is the most intense. Best for evenings, dates, and air conditioned environments.</div>
+</div><div class="gterm">
+  <div class="gtname">Attar</div>
+  <div class="gtdef">Traditional Indian and Middle Eastern perfume in oil form, with no alcohol. Applied directly to pulse points and lasts all day. Mysore rose attar and oud attars are community favourites. Very personal and does not project much into a room.</div>
+</div></div><div class="gsec"><div class="gstitle">Performance</div><div class="gterm">
+  <div class="gtname">Top Notes</div>
+  <div class="gtdef">The first thing you smell after spraying. Usually citrus, bergamot, or light herbs. They disappear within ten to twenty minutes. Think of them as the opening hook of the fragrance.</div>
+</div><div class="gterm">
+  <div class="gtname">Mid Notes</div>
+  <div class="gtdef">The heart of the fragrance. Florals, spices, and lavender usually live here. Lasts two to four hours. This is what the people around you smell most of the time.</div>
+</div><div class="gterm">
+  <div class="gtname">Base Notes</div>
+  <div class="gtdef">The foundation. Woods, musk, vanilla, and amber stay six to twelve hours or more. They linger on clothes long after you have left the room.</div>
+</div><div class="gterm">
+  <div class="gtname">Dry Down</div>
+  <div class="gtdef">The final stage of a perfume, usually three to four hours in, when the top and mid notes are gone and only the base remains. This is where a perfume reveals its true character.</div>
+</div><div class="gterm">
+  <div class="gtname">Projection</div>
+  <div class="gtdef">How far the scent travels from your body. Strong projection means people can smell you across the room. Indian heat tends to amplify projection significantly.</div>
+</div><div class="gterm">
+  <div class="gtname">Sillage</div>
+  <div class="gtdef">The scent trail you leave behind when you walk. Related to projection but not the same thing. Sillage is what lingers in the air after you have already left the room.</div>
+</div><div class="gterm">
+  <div class="gtname">Longevity</div>
+  <div class="gtdef">How long you can smell the perfume on your skin. The community rates it as short (2 to 4 hours), moderate (4 to 6 hours), long lasting (6 to 8 hours), or eternal (8 to 12 hours and beyond).</div>
+</div><div class="gterm">
+  <div class="gtname">AC Environment</div>
+  <div class="gtdef">Air conditioning dramatically reduces how far a perfume projects. A fragrance that fills a room outdoors may become a soft skin scent the moment you walk into an air conditioned office. Heavy orientals and ouds hold up better in AC. Light citrus and aquatic fragrances can almost disappear. If you wear perfume mostly indoors, choose something with strong base notes.</div>
+</div><div class="gterm">
+  <div class="gtname">Humidity</div>
+  <div class="gtdef">High humidity amplifies everything. A fragrance that smells balanced in winter can become overwhelming in a Mumbai or Chennai summer. Heat and moisture push the top notes to project harder and faster, which means they also fade faster. In humid weather, lighter concentrations like EDT work better, and one or two sprays is usually enough.</div>
+</div><div class="gterm">
+  <div class="gtname">Maceration</div>
+  <div class="gtdef">Letting a new bottle sit in a cool dark place for two to four weeks before judging it. Middle Eastern perfumes often need this time to settle. The smell deepens and performance improves. Common advice for Armaf, Afnan, and Lattafa bottles.</div>
+</div><div class="gterm">
+  <div class="gtname">Reformulation</div>
+  <div class="gtdef">When a brand changes the formula of a perfume, usually to cut costs or meet safety regulations. According to Fragranverse data, over 170 niche perfumes launched before 2015 show signs of reformulation, with most changes happening after the EU tightened fragrance ingredient restrictions in 2012 and 2014. Oakmoss, nitro musks, and several citrus materials were restricted during this period. The number one complaint in the community is that a new batch does not smell the same as the original. Batch codes help you identify which version you have.</div>
+</div><div class="gterm">
+  <div class="gtname">Batch</div>
+  <div class="gtdef">The production run a specific bottle comes from. Tells you roughly when it was made and which formula it uses. Pre August 2024 Hawas is a well known example of why batch awareness matters.</div>
+</div></div><div class="gsec"><div class="gstitle">Community Terms</div><div class="gterm">
+  <div class="gtname">Clone</div>
+  <div class="gtdef">A budget perfume that copies the scent DNA of an expensive original. Turathi Blue is a good example. To a beginner it reads like Paco Rabanne Invictus. To an experienced nose it smells closer to Bvlgari Tygar. Same perfume, different reference depending on your exposure.</div>
+</div><div class="gterm">
+  <div class="gtname">Clone Tier</div>
+  <div class="gtdef">Fragranverse classifies every perfume by tier. Budget is Tier 1, Value is Tier 2, Designer is Tier 3, and Niche is Tier 4. Recommendations respect your tier so a budget collector is never suggested a fragrance they cannot afford.</div>
+</div><div class="gterm">
+  <div class="gtname">Flanker</div>
+  <div class="gtdef">A variation of an existing perfume. Hawas Ice is a flanker of the original Hawas. Same core DNA, different twist. Most popular fragrances have multiple flankers.</div>
+</div><div class="gterm">
+  <div class="gtname">Beast Mode</div>
+  <div class="gtdef">Extremely strong projection and longevity. Fills a room and lasts ten hours or more. Hawas, Club de Nuit Intense Man, and Kaaf are frequently called beasts by the community.</div>
+</div><div class="gterm">
+  <div class="gtname">Blind Buy</div>
+  <div class="gtdef">Buying a perfume without smelling it first, based only on reviews and note descriptions. The community rule of thumb is to try a decant first and only blind buy if the price is under 1,500 rupees.</div>
+</div><div class="gterm">
+  <div class="gtname">Decant</div>
+  <div class="gtdef">A small sample of two to ten millilitres rebottled from a full bottle. Usually costs between 100 and 500 rupees. The number one piece of advice in the community before committing to a full bottle.</div>
+</div><div class="gterm">
+  <div class="gtname">Dumb Reach</div>
+  <div class="gtdef">The perfume you grab without thinking. Easy, versatile, and reliable everywhere. Community examples include Turathi Blue, Dylan Blue, and YSL Y. Your daily no brainer.</div>
+</div><div class="gterm">
+  <div class="gtname">Compliment Getter</div>
+  <div class="gtdef">A perfume that regularly makes strangers say you smell good. Tends to have strong projection and a mass appealing character. Club de Nuit Intense Man, Hawas, and 9PM are top compliment getters in the Indian community.</div>
+</div><div class="gterm">
+  <div class="gtname">Skin Scent</div>
+  <div class="gtdef">A fragrance that stays very close to the body. Only you and someone standing very close can smell it. Some people prefer this for office settings or intimate occasions.</div>
+</div><div class="gterm">
+  <div class="gtname">ME Fragrance</div>
+  <div class="gtdef">Middle Eastern perfume houses like Armaf, Afnan, Lattafa, Rasasi, and Al Haramain. Known for strong clones, excellent performance, and budget friendly prices. The backbone of the Indian collector community.</div>
+</div><div class="gterm">
+  <div class="gtname">Accord</div>
+  <div class="gtdef">A blend of notes that creates a completely new smell together. Like how individual spices combine to make garam masala. Not one ingredient but the result of mixing several.</div>
+</div><div class="gterm">
+  <div class="gtname">DNA</div>
+  <div class="gtdef">The core scent profile shared between related perfumes. Saying something has the same DNA means it shares the same fundamental character, even if the execution differs slightly.</div>
+</div></div><div class="gsec"><div class="gstitle">Buyer Terms</div><div class="gterm">
+  <div class="gtname">Tester</div>
+  <div class="gtdef">A full perfume bottle sold without the retail box. Same fragrance inside, usually twenty to thirty percent cheaper. Popular among community members buying from WhatsApp sellers.</div>
+</div><div class="gterm">
+  <div class="gtname">Vintage</div>
+  <div class="gtdef">An older batch of a perfume, often considered superior to current versions. Pre 2024 Hawas is a good example. Reformulations make vintage batches more sought after over time.</div>
+</div><div class="gterm">
+  <div class="gtname">IFRA</div>
+  <div class="gtdef">International Fragrance Association. Sets global safety limits on fragrance ingredients. When your favourite perfume suddenly smells different, IFRA probably restricted an ingredient the brand relied on.</div>
+</div><div class="gterm">
+  <div class="gtname">Atomizer</div>
+  <div class="gtdef">The spray mechanism on a perfume bottle. A good atomizer produces a fine mist with even coverage. Armaf bottles are well known in the community for having excellent atomizers.</div>
+</div></div>
   </div>
+  <p style="font-size:12px;color:var(--ink-3);margin-top:28px;padding-top:18px;border-top:1px solid var(--line)">Sources: IFRA Fragrance Ingredient Glossary, Fragranverse database (5,500+ perfumes), r/DesiFragranceAddicts community data</p>
 </div></main>
 
 <!-- ============ REPORT ============ -->
@@ -617,6 +791,167 @@ document.getElementById('submitReport').onclick=async()=>{
   }catch(e){console.warn(e.message);toast('<b>Thanks!</b> Noted.');}
   ['r-type','r-perfume','r-detail','r-contact'].forEach(id=>document.getElementById(id).value='');
 };
+
+// ========== BEFORE YOU BUY — CHECK ENGINE ==========
+let candidateId = null, candidateName = '';
+const owned = new Map();
+
+// Candidate search
+const cqEl=document.getElementById('cq');
+let cSearchT;
+cqEl.addEventListener('input',()=>{
+  clearTimeout(cSearchT);
+  const q=cqEl.value.trim();
+  if(q.length<2){document.getElementById('cresults').classList.add('hidden');return;}
+  cSearchT=setTimeout(()=>runCandidateSearch(q),280);
+});
+async function runCandidateSearch(q){
+  try{
+    const data=await rpc('search_perfumes',{search_query:q});
+    renderCandidateResults((data||[]).slice(0,10));
+  }catch(e){console.warn('search failed:',e.message);}
+}
+function renderCandidateResults(rows){
+  const el=document.getElementById('cresults');
+  if(!rows.length){el.innerHTML='<div class="empty">No matches found.</div>';el.classList.remove('hidden');return;}
+  el.innerHTML='';
+  rows.forEach(r=>{
+    if(r.id===candidateId)return;
+    const fam=primaryFam(r.olfactory_family);const c=FAM_COLORS[fam]||'#666';
+    const d=document.createElement('div');d.className='opt';
+    d.innerHTML=`<div class="l"><span class="swatch" style="background:${c};color:${c}"></span><div style="min-width:0"><div class="nm">${esc(r.name)}</div><div class="br">${esc(r.brand_name||'')}${r.concentration?' · '+esc(r.concentration):''}</div></div></div><div class="add">+</div>`;
+    d.onclick=()=>{
+      candidateId=r.id;candidateName=r.name;
+      cqEl.value='';el.classList.add('hidden');
+      const chip=document.getElementById('candidate-chip');
+      document.getElementById('cname').textContent=r.name+' — '+esc(r.brand_name||'');
+      chip.classList.remove('hidden');
+      updateCheckBtn();
+    };
+    el.appendChild(d);
+  });
+  el.classList.remove('hidden');
+}
+function clearCandidate(){
+  candidateId=null;candidateName='';
+  document.getElementById('candidate-chip').classList.add('hidden');
+  cqEl.value='';
+  updateCheckBtn();
+}
+
+// Owned search
+const oqEl=document.getElementById('oq');
+let oSearchT;
+oqEl.addEventListener('input',()=>{
+  clearTimeout(oSearchT);
+  const q=oqEl.value.trim();
+  if(q.length<2){document.getElementById('oresults').classList.add('hidden');return;}
+  oSearchT=setTimeout(()=>runOwnedSearch(q),280);
+});
+async function runOwnedSearch(q){
+  try{
+    const data=await rpc('search_perfumes',{search_query:q});
+    renderOwnedResults((data||[]).slice(0,10));
+  }catch(e){console.warn('search failed:',e.message);}
+}
+function renderOwnedResults(rows){
+  const el=document.getElementById('oresults');
+  const avail=rows.filter(r=>!owned.has(r.id)&&r.id!==candidateId);
+  if(!avail.length){el.innerHTML='<div class="empty">No matches or already added.</div>';el.classList.remove('hidden');return;}
+  el.innerHTML='';
+  avail.forEach(r=>{
+    const fam=primaryFam(r.olfactory_family);const c=FAM_COLORS[fam]||'#666';
+    const d=document.createElement('div');d.className='opt';
+    d.innerHTML=`<div class="l"><span class="swatch" style="background:${c};color:${c}"></span><div style="min-width:0"><div class="nm">${esc(r.name)}</div><div class="br">${esc(r.brand_name||'')}</div></div></div><div class="add">+</div>`;
+    d.onclick=()=>{if(owned.size>=20){toast('You can add up to 20 perfumes you own.');return;}owned.set(r.id,r);oqEl.value='';el.classList.add('hidden');renderOwnedChips();};
+    el.appendChild(d);
+  });
+  el.classList.remove('hidden');
+}
+function renderOwnedChips(){
+  const box=document.getElementById('owned-chips');
+  box.innerHTML='';
+  owned.forEach(r=>{
+    const fam=primaryFam(r.olfactory_family);const c=FAM_COLORS[fam]||'#666';
+    const chip=document.createElement('div');chip.className='chip';
+    chip.innerHTML=`<span class="swatch" style="background:${c};color:${c}"></span>${esc(r.name)}<button onclick="owned.delete(${r.id});renderOwnedChips()">×</button>`;
+    box.appendChild(chip);
+  });
+  const s=owned.size;document.getElementById('owned-count').textContent=s===0?'Nothing added yet — search what you own.':`${s} of 20 perfume${s!==1?'s':''} added`;
+  updateCheckBtn();
+}
+function updateCheckBtn(){
+  document.getElementById('checkBtn').disabled=!(candidateId&&owned.size>0);
+}
+
+// Run the check
+document.getElementById('checkBtn').onclick=async()=>{
+  const btn=document.getElementById('checkBtn');
+  btn.textContent='Checking your shelf…';btn.disabled=true;
+  try{
+    const data=await rpc('redundancy_check',{
+      _candidate_id:candidateId,
+      _collection_ids:[...owned.keys()]
+    });
+    renderCheckResult(data||[]);
+  }catch(e){console.warn('check failed:',e.message);toast('Something went wrong. Try again.');}
+  btn.textContent='Check for redundancy';btn.disabled=false;
+};
+
+function renderCheckResult(matches){
+  const res=document.getElementById('check-result');
+  const box=document.getElementById('check-matches');
+  res.classList.remove('hidden');
+  
+  const sorted=matches.sort((a,b)=>b.similarity_pct-a.similarity_pct);
+  const topMatch=sorted[0]?.similarity_pct||0;
+  
+  // Verdict
+  let verdictHtml='';
+  if(sorted.length===0||topMatch<25){
+    verdictHtml=`<div class="verdict safe"><div class="vicon">✅</div><div class="vtitle">Looks safe to buy</div><div class="vtext"><strong>${candidateName}</strong> has low overlap with what you own. It would genuinely add something new to your shelf.</div></div>`;
+  } else if(topMatch<60){
+    verdictHtml=`<div class="verdict caution"><div class="vicon">⚠️</div><div class="vtitle">Some overlap — worth a closer look</div><div class="vtext">You share a few notes with something you already own, but the profiles are different enough to coexist. Check the shared notes below before deciding.</div></div>`;
+  } else {
+    verdictHtml=`<div class="verdict danger"><div class="vicon">🔴</div><div class="vtitle">High overlap — you might already have this</div><div class="vtext">What you're considering smells very similar to something already on your shelf. Ask yourself what this would add that you don't already have.</div></div>`;
+  }
+  
+  if(sorted.length===0){
+    box.innerHTML=verdictHtml+'<div class="empty" style="padding:20px 0">No significant overlap found with your collection.</div>';
+    res.classList.remove('hidden');window.scrollTo({top:800,behavior:'smooth'});return;
+  }
+  
+  box.innerHTML=verdictHtml+sorted.map(m=>{
+    const pct=Math.round(m.similarity_pct);
+    const cls=pct>=60?'high':pct>=30?'medium':'low';
+    const notes=(m.shared_notes||[]).slice(0,6).map(n=>`<span class="note">${esc(n)}</span>`).join('');
+    return `<div class="match-card ${cls}">
+      <div class="match-pct">${pct}%</div>
+      <div class="match-info">
+        <div class="mn">${esc(m.owned_name)}</div>
+        <div class="br">${esc(m.brand_name||'')}</div>
+        ${notes?`<div class="notes">${notes}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  
+  res.classList.remove('hidden');
+  window.scrollTo({top:600,behavior:'smooth'});
+}
+
+function clearCheck(){
+  candidateId=null;candidateName='';owned.clear();
+  document.getElementById('candidate-chip').classList.add('hidden');
+  document.getElementById('check-result').classList.add('hidden');
+  document.getElementById('owned-chips').innerHTML='';
+  document.getElementById('owned-count').textContent='0 perfumes added';
+  document.getElementById('check-matches').innerHTML='';
+  cqEl.value='';oqEl.value='';
+  updateCheckBtn();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+// ========== END CHECK ENGINE ==========
+
 </script>
 </body>
 </html>
