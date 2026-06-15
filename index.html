@@ -63,7 +63,7 @@
   .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--cyan));box-shadow:0 0 16px rgba(52,211,153,.7);animation:pulse 3s ease-in-out infinite}
   @keyframes pulse{50%{box-shadow:0 0 24px rgba(52,211,153,1)}}
   .navlinks{display:flex;gap:2px}
-  .navlinks button{font-size:13px;color:var(--ink-2);padding:7px 11px;border-radius:9px;transition:.2s;white-space:nowrap}
+  .navlinks button{font-size:13px;color:var(--ink-2);padding:7px 11px;border-radius:9px;transition:.2s;white-space:nowrap}.navlinks button[data-view="report"]{font-size:17px;padding:6px 10px}
   .navlinks button:hover{color:var(--ink);background:rgba(255,255,255,.04)}
   .navlinks button.active{color:var(--ink);background:rgba(255,255,255,.07)}
   @media(max-width:520px){
@@ -224,9 +224,8 @@
 <nav><div class="row">
   <button class="brand" onclick="goHome()" style="background:none;border:none;cursor:pointer"><span class="dot"></span>Fragranverse</button>
   <div class="navlinks">
-    <button data-view="rate" class="active">Rate</button>
     <button data-view="help">How it works</button>
-    <button data-view="report">Report</button>
+      <button data-view="report" title="Report an issue" style="font-size:18px;padding:5px 9px">⚑</button>
       <button data-view="blog">Blog</button>
   </div>
 </div></nav>
@@ -433,7 +432,7 @@ const qEl=document.getElementById('q'),resultsEl=document.getElementById('result
 let searchT;
 qEl.addEventListener('input',()=>{const q=qEl.value.trim();clearTimeout(searchT);if(q.length<2){resultsEl.classList.add('hidden');return;}searchT=setTimeout(()=>runSearch(q),260);});
 async function runSearch(q){searchingEl.classList.remove('hidden');
-  try{const data=await rpc('search_perfumes',{search_query:q});renderResults((data||[]).slice(0,12));}
+  try{const data=await rpc('search_perfumes',{search_query:q});renderResults((data||[]).slice(0,20));}
   catch(e){const msg=(e&&e.message)?e.message:JSON.stringify(e);console.error('search failed:',msg,e);resultsEl.innerHTML='<div class="empty">Couldn\'t reach the database.<br><span style="font-size:11px;color:#67676e">'+esc(msg)+'</span></div>';resultsEl.classList.remove('hidden');}
   finally{searchingEl.classList.add('hidden');}}
 function renderResults(rows){
