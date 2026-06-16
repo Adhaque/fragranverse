@@ -251,8 +251,8 @@
   <button class="brand" onclick="goHome()" style="background:none;border:none;cursor:pointer"><span class="dot"></span>Fragranverse</button>
   <div class="navlinks">
     <button data-view="help">How it works</button>
-      <button data-view="check">Before You Buy</button>
-      <button data-view="report" title="Report an issue" style="font-size:18px;padding:5px 9px">⚑</button>
+      <button data-view="check">Check</button>
+      <button data-view="report" title="Report an issue" style="font-size:13px;padding:6px 10px;display:flex;align-items:center;gap:4px"><span style="font-size:15px">⚑</span>Report</button>
       <button data-view="blog">Glossary</button>
   </div>
 </div></nav>
@@ -266,7 +266,7 @@
       <p>It's a hobby, not an addiction.<br>Add what you own here to get your score, a persona, and a suggestion.</p>
       <div class="dbstat">
         <span><b>5,500+</b> perfumes</span><span class="sep">·</span>
-        <span><b>130+</b> brands</span><span class="sep">·</span>
+        <span><b>134</b> brands</span><span class="sep">·</span>
         <span><b>14</b> scent families</span>
       </div>
     </header>
@@ -368,7 +368,8 @@
     <div class="glow"></div>
     <div class="eyebrow">Before you spend ✦</div>
     <h1 class="display" style="font-size:clamp(34px,6vw,52px);margin:14px 0 12px">Before You Buy</h1>
-    <p style="color:var(--ink-2);font-size:16px;max-width:460px;margin:0 auto">Search the perfume you're thinking of buying. Then add what you already own. We'll show you how much they overlap — so you know before you spend.</p>
+    <p style="color:var(--ink-2);font-size:16px;max-width:460px;margin:0 auto">Search the perfume you're thinking of buying. Then add what you already own. We'll show you how much they overlap — so you know before you spend.
+  <p style="font-size:13px;color:var(--ink-3);margin-top:12px;line-height:1.6">How to read the result: <span style="color:#fb7185">above 60%</span> means high overlap — you likely already have something similar. <span style="color:var(--amber)">30 to 60%</span> means some overlap — worth checking the shared notes. <span style="color:var(--green)">Below 30%</span> means safe to buy.</p></p>
   </header>
 
   <!-- Step 1: Candidate perfume -->
@@ -419,7 +420,7 @@
   <h2 class="display">How it works</h2>
   <p class="lead">New to fragrance, or just new to Fragranverse? The whole thing in four steps. No jargon, promise.</p>
   <div class="step"><div class="n">1</div><div><h4>Add what you own</h4><p>Search each perfume and tap it. Wearing a clone? Search the name on your bottle and pick the closest match — clones absolutely count. Add up to 20.</p></div></div>
-  <div class="step"><div class="n">2</div><div><h4>Hit “Rate my collection”</h4><p>We read each fragrance's notes, family, projection and occasion tags from a database of 5,500+ perfumes. Nothing is saved, no account needed.</p></div></div>
+  <div class="step"><div class="n">2</div><div><h4>Hit “Rate my collection”</h4><p>We read each fragrance's notes, family, projection and occasion tags from a database of 5,500+ perfumes. Nothing is saved without your permission. No account needed.</p></div></div>
   <div class="step"><div class="n">3</div><div><h4>Meet your scent persona</h4><p>A 0–100 score, a grade, a persona that captures your shelf's character, and one honest tip to level up.</p></div></div>
   <div class="step"><div class="n">4</div><div><h4>Get your next three bottles</h4><p>We suggest three real perfumes — two <strong style="font-weight:500">upgrades</strong> in your favourite family, one to <strong style="font-weight:500">fill a gap</strong> in your wardrobe. Then download your badge and show it off.</p></div></div>
   <h3 style="margin:42px 0 4px;font-family:'Playfair Display';font-size:21px;font-weight:600;letter-spacing:-.01em;color:var(--ink)">What the score measures</h3>
@@ -428,19 +429,21 @@
   <div class="axis"><div class="ic">🏷️</div><div><h4>Tier range</h4><p>Budget, value, designer, niche. A range of price points tells its own story.</p></div></div>
   <div class="axis"><div class="ic">🗓️</div><div><h4>Occasion coverage</h4><p>Day, night, office, date, summer, winter — scents for every moment of your life.</p></div></div>
   <div class="axis"><div class="ic">💨</div><div><h4>Sillage balance</h4><p>Soft skin-scents through to room-filling beasts. The best wardrobes hold both.</p></div></div>
-  <h3 style="margin:42px 0 4px;font-family:'Playfair Display';font-size:21px;font-weight:600;letter-spacing:-.01em;color:var(--ink)">Reading your grade</h3>
+  <h3 style="margin:42px 0 4px;font-family:'Playfair Display';font-size:21px;font-weight:600;letter-spacing:-.01em;color:var(--ink)">Understanding your score</h3>
+  <p style="color:var(--ink-2);font-size:14px;margin-bottom:16px">Your score is out of 100. Four axes, 25 points each. Here is what each range means.</p>
   <div class="gradekey">
-    <div class="gr"><b>S</b><span>Master — balanced and deep. A complete wardrobe.</span></div>
-    <div class="gr"><b>A</b><span>Exceptional — broad range, barely a gap in sight.</span></div>
-    <div class="gr"><b>B</b><span>Solid — or a focused Specialist who's gone all-in on one family.</span></div>
-    <div class="gr"><b>C</b><span>Developing — a strong start with the best part still ahead.</span></div>
+    <div class="gr"><b style="font-family:'Permanent Marker';font-size:20px;color:var(--amber);width:52px">90+</b><span><strong style="color:var(--ink);font-weight:600">S • Master</strong> — balanced across all four axes. A complete, well rounded wardrobe.</span></div>
+    <div class="gr"><b style="font-family:'Permanent Marker';font-size:20px;color:var(--amber);width:52px">80</b><span><strong style="color:var(--ink);font-weight:600">A • Exceptional</strong> — broad range with very few gaps. You know what you are doing.</span></div>
+    <div class="gr"><b style="font-family:'Permanent Marker';font-size:20px;color:var(--amber);width:52px">65</b><span><strong style="color:var(--ink);font-weight:600">B • Solid</strong> — a strong collection. Also shown as B • Specialist if you have gone deep on one family.</span></div>
+    <div class="gr"><b style="font-family:'Permanent Marker';font-size:20px;color:var(--amber);width:52px">50</b><span><strong style="color:var(--ink);font-weight:600">C • Developing</strong> — a good start. Adding variety across families will push your score up quickly.</span></div>
+    <div class="gr"><b style="font-family:'Permanent Marker';font-size:20px;color:var(--amber);width:52px">&lt;50</b><span><strong style="color:var(--ink);font-weight:600">C • First Steps</strong> — every great collection starts somewhere. Add a few more bottles and rate again.</span></div>
   </div>
   <button class="cta" style="margin-top:34px;max-width:260px" onclick="setView('rate')">Start rating →</button>
 </div></main>
 
 <!-- ============ BLOG ============ -->
 <main id="view-blog" class="wrap hidden"><div class="doc">
-  <div class="eyebrow">Learn the language</div>
+  <div class="eyebrow">Fragrance glossary ✦</div>
   <h2 class="display">Fragrance Glossary</h2>
   <p class="lead">57 terms explained simply. No jargon, no fluff. Written for collectors in India and the Middle East who want to understand what they are buying.</p>
   <div id="glossary-content">
@@ -492,6 +495,49 @@
 </div><div class="gterm">
   <div class="gtname">Batch</div>
   <div class="gtdef">The production run a specific bottle comes from. Tells you roughly when it was made and which formula it uses. Pre August 2024 Hawas is a well known example of why batch awareness matters.</div>
+</div></div><div class="gsec"><div class="gstitle">Scent Families</div><div class="gterm">
+  <div class="gtname">Citrus</div>
+  <div class="gtdef">Lemon, bergamot, grapefruit, orange. Fresh, sharp, and clean. Think nimbu paani in perfume form. A summer staple and a common top note in almost every men's fragrance.</div>
+</div><div class="gterm">
+  <div class="gtname">Woody</div>
+  <div class="gtdef">Sandalwood, cedar, vetiver. Warm, dry, and grounded. The backbone of masculine perfumery and one of the most common families in our database.</div>
+</div><div class="gterm">
+  <div class="gtname">Floral</div>
+  <div class="gtdef">Rose, jasmine, lily. Sweet, romantic, and classic. Modern florals appear in many unisex perfumes and are not just for women anymore.</div>
+</div><div class="gterm">
+  <div class="gtname">Oriental</div>
+  <div class="gtdef">Rich, warm, and spicy. Vanilla, amber, resins, and incense. The masala chai of perfumery. Deep, complex, and long lasting. Very popular in India and the Middle East.</div>
+</div><div class="gterm">
+  <div class="gtname">Oud</div>
+  <div class="gtdef">A scent family built around agarwood resin. Rich, woody, slightly animalic, and deeply complex. The defining family of Middle Eastern perfumery. What smells medicinal at first becomes addictive over time. One of the 14 canonical families tracked by Fragranverse.</div>
+</div><div class="gterm">
+  <div class="gtname">Fresh</div>
+  <div class="gtdef">A modern category combining citrus, aquatic, and clean musk. Blue fragrances sit here. They smell like an expensive shower gel. Dylan Blue, Sauvage, and YSL Y are community favourites for all season wear.</div>
+</div><div class="gterm">
+  <div class="gtname">Aquatic</div>
+  <div class="gtdef">Sea breeze, water, and marine notes. Cool, airy, and fresh. Perfect for gym wear and humid weather. Think Cool Water or Nautica Voyage.</div>
+</div><div class="gterm">
+  <div class="gtname">Aromatic</div>
+  <div class="gtdef">Herbs and green notes. Lavender, rosemary, sage. Clean and traditionally masculine. Often paired with citrus or woody notes to add freshness.</div>
+</div><div class="gterm">
+  <div class="gtname">Gourmand</div>
+  <div class="gtdef">Smells like dessert. Vanilla, caramel, chocolate, coffee. Sweet, warm, and very easy to like. Khamrah, Qahwa, and 9PM all lean into this family.</div>
+</div><div class="gterm">
+  <div class="gtname">Spicy</div>
+  <div class="gtdef">Pepper, cinnamon, cardamom, saffron, and clove. Adds warmth, energy, and personality. Very popular in oriental and winter fragrances. Spicebomb Extreme is the benchmark reference in the community.</div>
+</div><div class="gterm">
+  <div class="gtname">Leather</div>
+  <div class="gtdef">Birch tar and smoky suede. Dark, bold, and not for everyone. Found in Club de Nuit Intense Man, Ombre Leather, and Tuscan Leather.</div>
+</div><div class="gterm">
+  <div class="gtname">Green</div>
+  <div class="gtdef">Fresh cut grass, leaves, stems. Crisp and natural. Not sweet, not woody, just green. Adds realism to floral or citrus compositions.</div>
+</div><div class="gterm">
+  <div class="gtname">Chypre</div>
+  <div class="gtdef">Citrus on top, florals in the middle, mossy and woody at the base. Earthy, sophisticated, and timeless. Less common in budget Middle Eastern perfumes but well respected in niche houses.</div>
+</div><div class="gterm">
+  <div class="gtname">Musk</div>
+  <div class="gtdef">Warm, clean, skin like. Modern white musk is nothing like old animal musk. Found at the base of almost every fresh fragrance on the market.</div>
+</div>
 </div></div><div class="gsec"><div class="gstitle">Community Terms</div><div class="gterm">
   <div class="gtname">Clone</div>
   <div class="gtdef">A budget perfume that copies the scent DNA of an expensive original. Turathi Blue is a good example. To a beginner it reads like Paco Rabanne Invictus. To an experienced nose it smells closer to Bvlgari Tygar. Same perfume, different reference depending on your exposure.</div>
@@ -595,7 +641,14 @@ function primaryFam(raw){if(!raw)return null;const w=raw.split(/\s+/)[0];return 
 const QUOTES={"Floral": ["Your collection doesn't sit on a shelf -- it lives in the air you walk through.", "Your skin turns perfume into poetry, and every day you write a new verse.", "Your perfume collection is a library of invisible poems, and you are the only one who knows how to read them.", "Each fragrance in your care holds a specific sunset, a forgotten laugh, a version of you that almost disappeared -- but didn't."], "Fruity": ["One spritz from your hand can change the mood of an entire room.", "You don't just collect perfume -- you collect tiny, invisible pieces of joy that last all day.", "You didn't just collect bottles. You collected the right to walk through life smelling like your own happiest memory.", "One day, someone will open an old bottle from your collection and smell who you used to be. That is a kind of immortality."], "Oriental": ["You find the lemon blossom in the rain, the cedar in the silence.", "Every bottle you add is a handshake between who you were and who you are becoming.", "Every bottle you chose once whispered to you in a crowd -- and you had the courage to whisper back.", "Collecting taught you that happiness can be liquid, transparent, and still leave a golden trail behind you."], "Woody": ["Each bottle you choose is a chapter of your own unseen story.", "Even empty bottles in your care still whisper their old songs.", "Collecting perfume is not about filling a shelf. It's about learning which scents make your soul stand a little taller.", "You built something beautiful from curiosity, patience, and a nose that refuses to settle. That is an achievement."], "Fresh": ["The trail you leave behind is softer than words but louder than a smile.", "Your collection is a garden where time stands still and every bloom has a voice.", "Choosing a fragrance each morning is your quiet act of self-respect. And you have never skipped it.", "Your passion for perfume is not an interest. It is a love letter you keep rewriting to your own senses."], "Citrus": ["Your nose knows what the heart cannot yet say.", "The way you match a fragrance to a feeling is a quiet kind of magic.", "One spray can bring back a whole year. You understood that before most people ever do.", "You don't need a reason to buy a perfume. You are the reason."], "Green": ["You treat fragrance like a secret language, and you are beautifully fluent.", "Your collection doesn't just smell amazing -- it fills every room with warmth and elegance.", "Some people collect things to show. You collect scents to feel. That makes all the difference.", "Every time you open a new perfume, you are not starting a habit -- you are continuing a conversation with yourself."], "Oud": ["Oud doesn't ask for attention. It simply takes a seat in the room, and the room remembers who sat there.", "Your collection holds bottles that were trees before they were perfume. That kind of patience runs in your veins too.", "You didn't just learn to love oud -- you learned to sit with darkness and find it generous.", "Every oud in your collection is a question that takes all night to answer. You are the only one still listening at dawn."], "Spicy": ["You don't wear spice -- you let it introduce you before you've said a word.", "The warmth on your skin is not accidental. You chose a fragrance that crackles, and now you walk through winter like it's your own season.", "A spiced trail behind you is closer to a handshake than a scent. People lean in without knowing why.", "Collecting spice taught you that comfort doesn't have to be quiet. Sometimes it arrives loud, warm, and unapologetic."], "Leather": ["Leather doesn't soften over time. You do. The bottle stays exactly as fierce as the day you met it.", "You didn't choose leather to fit in. You chose the smell of saddles, libraries, and late nights that refuse to be forgotten.", "When someone smells leather on you, they don't think of a fragrance. They think of a person who keeps their promises.", "Your collection wasn't built to be pretty. It was built to be true. Leather taught you the difference."], "Chypre": ["Chypre is not a note. It's a conversation between citrus and moss that has been going on for centuries, and you finally pulled up a chair.", "You understand that elegance doesn't announce itself. It just settles into the air like it was always supposed to be there.", "Collecting chypre is not for beginners. It's for people who know that beauty complicates itself before it reveals anything.", "The bergamot opens, the oakmoss closes, and somewhere in between is the person you became while waiting."], "Gourmand": ["You carry dessert on your skin and call it confidence. Nobody has ever argued with the result.", "Vanilla, caramel, chocolate -- these are not ingredients, they are memories you chose to bottle before they faded.", "Some people wear perfume to be noticed. You wear it to be remembered the way a kitchen is remembered after the meal.", "You didn't just build a sweet collection. You built a museum of all the moments that deserved to taste better."], "Musk": ["Musk doesn't shout. It stays close to the skin and waits to be discovered. That is the kind of power you understand.", "Your collection smells less like perfume and more like the person you've worked hard to become.", "Musk taught you that the most intimate scents are the ones you forget you're wearing -- until someone leans closer.", "You don't collect musk to impress. You collect it to feel like yourself, only warmer, only softer, only unmistakably you."], "Aromatic": ["You speak in herbs and lavender, in the language perfumery was built on before it learned to show off.", "There is a quiet discipline in what you wear. Aromatic is the choice of someone who trusts the classics.", "Your trail is crisp, intelligent, alive -- the scent of a person who thinks clearly and chooses well.", "You didn't chase trends. You collected the timeless, and time has a way of agreeing with people like you."]};
 
 function goHome(){setView('rate');const r=document.getElementById('result');const l=document.getElementById('landing');if(r)r.classList.add('hidden');if(l)l.classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});}
-function setView(v){document.querySelectorAll('main').forEach(m=>m.classList.add('hidden'));document.getElementById('view-'+v).classList.remove('hidden');document.querySelectorAll('.navlinks button').forEach(b=>b.classList.toggle('active',b.dataset.view===v));window.scrollTo({top:0,behavior:'smooth'});}
+function setView(v){
+  document.querySelectorAll('main').forEach(m=>m.classList.add('hidden'));
+  document.getElementById('view-'+v).classList.remove('hidden');
+  document.querySelectorAll('.navlinks button').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+  const titles={rate:'Fragranverse — Rate Your Collection',check:'Before You Buy — Fragranverse',help:'How It Works — Fragranverse',report:'Report an Issue — Fragranverse',blog:'Fragrance Glossary — Fragranverse'};
+  document.title=titles[v]||'Fragranverse';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 document.querySelectorAll('.navlinks button').forEach(b=>b.onclick=()=>setView(b.dataset.view));
 let toastT;function toast(h){const t=document.getElementById('toast');t.innerHTML=h;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
 function esc(s){return(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
@@ -895,7 +948,7 @@ document.getElementById('checkBtn').onclick=async()=>{
     });
     renderCheckResult(data||[]);
   }catch(e){console.warn('check failed:',e.message);toast('Something went wrong. Try again.');}
-  btn.textContent='Check for redundancy';btn.disabled=false;
+  btn.textContent='Check for redundancy';btn.disabled=false;btn.style.opacity='1';
 };
 
 function renderCheckResult(matches){
