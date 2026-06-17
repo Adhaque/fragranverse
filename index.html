@@ -1078,6 +1078,18 @@ function clearCheck(){
 // ========== END CHECK ENGINE ==========
 
 // ===== INSIGHTS DROPDOWN =====
-// ===== END INSIGHTS =====</script>
+// ===== END INSIGHTS =====
+// ===== INSIGHTS TABS =====
+function switchInsightsTab(tab){
+  ['blog','glossary'].forEach(function(t){
+    var tabEl = document.getElementById('itab-'+t);
+    var panelEl = document.getElementById('ipanel-'+t);
+    if(tabEl) { tabEl.classList.toggle('active', t===tab); tabEl.setAttribute('aria-selected', t===tab); }
+    if(panelEl) panelEl.classList.toggle('active', t===tab);
+  });
+  document.title = tab==='blog' ? 'Blog — Fragranverse Insights' : 'Fragrance Glossary — Fragranverse';
+}
+// ===== END INSIGHTS TABS =====
+</script>
 </body>
 </html>
