@@ -635,11 +635,24 @@
   <h2 class="display">From the Blog</h2>
   <p class="lead">Real talk about fragrance — written from community data, not guesswork.</p>
   <div style="background:var(--bg-soft);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:4px">
-    <div style="font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px">Coming soon</div>
-    <p style="font-weight:600;font-size:17px;margin-bottom:8px;font-family:'Playfair Display',Georgia,serif">Hawas vs Kaaf vs Theoreme — Which Daily Driver Actually Wins?</p>
-    <p style="color:var(--ink-2);font-size:14px;line-height:1.6">Three powerhouse daily drivers, one question: which deserves your money? We break down notes, performance, the Hawas reformulation, and the pan masala debate — with real community data.</p>
-    <div style="margin-top:16px;font-size:12.5px;color:var(--ink-3)">Publishing soon · Fragranverse Insights</div>
-  </div>
+    <div style="  <!-- Article 1 -->
+  <a href="/blogs/hawas-vs-kaaf-vs-theoreme.html" style="text-decoration:none;display:block;background:var(--bg-soft);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:4px;transition:.2s"
+     onmouseover="this.style.borderColor='rgba(52,211,153,.3)';this.style.background='rgba(52,211,153,.04)'"
+     onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--bg-soft)'">
+    <div style="font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);margin-bottom:10px">Comparison · 4 min read</div>
+    <p style="font-weight:600;font-size:17px;margin-bottom:8px;font-family:'Playfair Display',Georgia,serif;color:var(--ink)">Hawas vs Kaaf vs Theoreme — Which Daily Driver Actually Wins?</p>
+    <p style="color:var(--ink-2);font-size:14px;line-height:1.6;margin:0">Three powerhouse daily drivers, one question: which deserves your money? Real similarity scores, reformulation warning, and community verdict.</p>
+    <div style="margin-top:14px;font-size:12.5px;color:var(--green)">Read article →</div>
+  </a>
+  <!-- Article 2 -->
+  <a href="/blogs/best-budget-fragrances-under-2000.html" style="text-decoration:none;display:block;background:var(--bg-soft);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:14px;transition:.2s"
+     onmouseover="this.style.borderColor='rgba(52,211,153,.3)';this.style.background='rgba(52,211,153,.04)'"
+     onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--bg-soft)'">
+    <div style="font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);margin-bottom:10px">Guide · 5 min read</div>
+    <p style="font-weight:600;font-size:17px;margin-bottom:8px;font-family:'Playfair Display',Georgia,serif;color:var(--ink)">Best Budget Fragrances Under ₹2,000 in India — Community Picks 2026</p>
+    <p style="color:var(--ink-2);font-size:14px;line-height:1.6;margin:0">Five community-verified picks under ₹2,000 — with real engine similarity scores, current prices, and honest recommendations.</p>
+    <div style="margin-top:14px;font-size:12.5px;color:var(--green)">Read article →</div>
+  </a>
 </div></main>
 
 <!-- ============ REPORT ============ -->
@@ -1080,8 +1093,10 @@ function toggleInsights(e){
     mobile.style.display=isOpen?'none':'flex';
     btn.classList.toggle('open',!isOpen);
   } else {
-    menu.classList.toggle('open');
-    btn.classList.toggle('open',menu.classList.contains('open'));
+    // On desktop: toggle on click AND hover
+    const isOpen=menu.classList.contains('open');
+    if(isOpen){menu.classList.remove('open');btn.classList.remove('open');}
+    else{menu.classList.add('open');btn.classList.add('open');}
   }
 }
 function setViewFromInsights(v){
