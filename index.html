@@ -845,6 +845,172 @@ if(panelEl) panelEl.classList.toggle('active', t===tab);
 document.title = tab==='blog' ? 'Blog — Fragranverse Insights' : 'Fragrance Glossary — Fragranverse';
 }
 // ===== END INSIGHTS TABS =====
+
+// ===== WHAT IS THIS ENGINE =====
+const SUPABASE_URL='https://zfmcreepfturmqbfffmb.supabase.co';
+const ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmbWNyZWVwZnR1cm1xYmZmZm1iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NTMxMTYsImV4cCI6MjA5NjIyOTExNn0.X0NxIn-se25GU75jzV4EQqWj1rIfIRVz0OmEPk17tWw';
+
+// Search input wiring for What Is This
+const witInput = document.getElementById('witq');
+const witResults = document.getElementById('witresults');
+let witTimer;
+if(witInput){
+  witInput.addEventListener('input', ()=>{
+    clearTimeout(witTimer);
+    const q = witInput.value.trim();
+    if(q.length < 2){ witResults.classList.add('hidden'); return; }
+    witTimer = setTimeout(async ()=>{
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/search_perfumes`,{
+          method:'POST', headers:{'apikey':ANON,'Content-Type':'application/json'},
+          body: JSON.stringify({search_query: q})
+        });
+        const data = await res.json();
+        if(!data.length){ witResults.innerHTML='<div class="ri">No results found</div>'; witResults.classList.remove('hidden'); return; }
+        witResults.innerHTML = data.slice(0,8).map(r=>`
+          <div class="ri" onclick="witSelect(${r.id},'${esc(r.name)}','${esc(r.brand_name||'')}','${esc(r.concentration||'')}','${esc(r.olfactory_family||'')}','${esc(r.brand_logo||'')}','${esc(r.clone_tier||'')}')">
+            ${r.brand_logo ? `<img class="blogo" src="${esc(r.brand_logo)}" alt="" onerror="this.style.display='none'">` : `<span class="bmono" style="background:rgba(52,211,153,.15);color:var(--green)">${(r.brand_name||'?')[0]}</span>`}
+            <div><div style="font-size:14px;color:var(--ink)">${esc(r.name)}</div><div style="font-size:12px;color:var(--ink-3)">${esc(r.brand_name||'')}${r.concentration?' · '+r.concentration:''}</div></div>
+          </div>`).join('');
+        witResults.classList.remove('hidden');
+      } catch(e){ console.error(e); }
+    }, 280);
+  });
+  document.addEventListener('click', e=>{ if(!witInput.contains(e.target)) witResults.classList.add('hidden'); });
+}
+
+async function witSelect(id, name, brand, conc, family, logo, tier){
+  witInput.value = name + (conc?' — '+conc:'');
+  witResults.classList.add('hidden');
+  const card = document.getElementById('witCard');
+  card.innerHTML = '<div style="text-align:center;padding:32px;color:var(--ink-3);font-size:14px">Looking up…</div>';
+  card.classList.remove('hidden');
+  try {
+    // Fetch full perfume data
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/Perfume?id=eq.${id}&select=*,Brands(name,logo_url,category,tier)`,{
+      headers:{'apikey':ANON,'Content-Type':'application/json'}
+    });
+    const data = await res.json();
+    const p = data[0];
+    if(!p){ card.innerHTML='<div class="wit-card">Could not load perfume data.</div>'; return; }
+    card.innerHTML = buildWitCard(p, name, brand, conc, family, logo, tier);
+  } catch(e){ card.innerHTML='<div class="wit-card">Something went wrong. Try again.</div>'; }
+}
+
+function buildWitCard(p, name, brand, conc, family, logo, tier){
+  const top = p.top_notes || [];
+  const mid = p.mid_notes || [];
+  const base = p.base_notes || [];
+  const sillage = p.sillage_norm || p.sillage || 'Moderate';
+  const longevity = p.longevity || '6-8h';
+  const cloneOf = p.clone_of || '';
+  const reformulated = p.reformulated;
+  const fam = p.family_norm || family || 'Fresh';
+  const gender = p.gender || 'Unisex';
+  const year = p.launch_year;
+
+  // Plain language description templates by family
+  const openings = {
+    Fresh: 'Opens clean and airy', Citrus: 'Bursts open with bright citrus energy',
+    Woody: 'Opens with dry, warm woodiness', Oriental: 'Opens rich and warm',
+    Floral: 'Opens with soft florals', Gourmand: 'Opens sweet and edible',
+    Oud: 'Opens with the deep resinous character of oud', Spicy: 'Opens bold and spiced',
+    Aromatic: 'Opens fresh and herbal', Leather: 'Opens dark and smoky',
+    Aquatic: 'Opens like a sea breeze', Green: 'Opens crisp and green',
+    Fruity: 'Opens bright and fruity', Chypre: 'Opens with earthy sophistication',
+    Musk: 'Opens softly musky and clean'
+  };
+  const hearts = {
+    Fresh:'develops into something clean and modern', Citrus:'settles into a fresher, slightly herbal heart',
+    Woody:'develops into a warm, structured woody core', Oriental:'deepens into spiced warmth',
+    Floral:'blooms into a fuller floral bouquet', Gourmand:'becomes even richer and sweeter in the heart',
+    Oud:'develops into complex resinous depth', Spicy:'develops spicy warmth throughout the heart',
+    Aromatic:'develops into a clean aromatic blend', Leather:'reveals its dark leathery character',
+    Aquatic:'stays light and marine in the heart', Green:'stays crisp and natural',
+    Fruity:'develops a juicy fruity heart', Chypre:'develops earthy mossy depth',
+    Musk:'stays clean and skin-close'
+  };
+  const drydowns = {
+    Fresh:'dries down to clean musk on skin', Citrus:'dries down to a soft clean finish',
+    Woody:'settles on a smooth sandalwood-musk base', Oriental:'leaves a warm amber-vanilla trail',
+    Floral:'finishes soft and powdery close to skin', Gourmand:'lingers as a sweet comforting base',
+    Oud:'leaves a rich resinous trail', Spicy:'anchors in warm woody spice',
+    Aromatic:'settles to a clean skin-close finish', Leather:'finishes with smoky dark leather',
+    Aquatic:'fades to light clean musk', Green:'finishes light and natural',
+    Fruity:'finishes light with a hint of musk', Chypre:'finishes with dry mossy warmth',
+    Musk:'finishes as a pure skin scent'
+  };
+  const sillageDesc = {
+    Soft:'stays very close to skin — intimate and personal',
+    Moderate:'projects a comfortable distance — those nearby will notice',
+    Strong:'has noticeable projection — fills the room',
+    Heavy:'beast mode projection — announces your presence before you arrive'
+  };
+  const longevityDesc = l => {
+    if(!l) return '6-8 hours';
+    const m = l.match(/(\d+)/);
+    const h = m ? parseInt(m[1]) : 6;
+    if(h>=10) return '10+ hours — all day wear';
+    if(h>=8) return '8-10 hours — lasts the full working day';
+    if(h>=6) return '6-8 hours — solid daily wear';
+    return '4-6 hours — morning to afternoon';
+  };
+  const genderLabel = {Men:"for men",Women:"for women",Unisex:"unisex"};
+
+  // Translated top note highlights (first 2-3)
+  const topHighlights = top.slice(0,3).map(n=>n.toLowerCase()).join(', ');
+  const baseHighlights = base.slice(0,2).map(n=>n.toLowerCase()).join(' and ');
+
+  const desc = `${name} is a ${fam.toLowerCase()} fragrance ${genderLabel[gender]||''}${year?' launched in '+year:''}. ${openings[fam]||'Opens with a distinctive character'}${topHighlights?' — you get '+topHighlights+' first':''}. It ${hearts[fam]||'develops in the heart'} before it ${drydowns[fam]||'settles on a clean base'}${baseHighlights?' of '+baseHighlights+' in the base':''}.`;
+
+  // Clone section
+  let dupeHtml = '';
+  if(cloneOf && cloneOf.toLowerCase() !== 'original'){
+    const original = cloneOf.replace('Inspired by ','');
+    const tierMap = {'Tier_1':'Budget','Tier_2':'Value','Tier_3':'Designer','Tier_4':'Niche','Tier_2_ME':'Middle Eastern'};
+    const tierLabel = tierMap[tier] || '';
+    dupeHtml = `<div class="wit-dupe">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:6px"><path d="M18 2l4 4-14 14H4v-4L18 2z"/></svg>
+      <b>This is inspired by ${original}</b> — a${tierLabel?' '+tierLabel.toLowerCase():''} original that costs significantly more. ${name} was designed to capture the same DNA at a fraction of the price. The core character — the ${fam.toLowerCase()} profile — is the same.
+    </div>`;
+  } else if(cloneOf.toLowerCase() === 'original'){
+    dupeHtml = `<div class="wit-dupe" style="background:rgba(52,211,153,.06);border-color:rgba(52,211,153,.2)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;margin-right:6px;color:var(--green)"><path d="M20 6L9 17l-5-5"/></svg>
+      <b style="color:var(--green)">This is an original fragrance</b> — not a clone or inspired version. It stands on its own.
+    </div>`;
+  }
+
+  const logoHtml = logo ? `<img class="blogo" src="${esc(logo)}" alt="" style="width:36px;height:36px;border-radius:10px" onerror="this.style.display='none'">` : '';
+
+  return `<div class="wit-card">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      ${logoHtml}
+      <div>
+        <div style="font-size:17px;font-weight:600;color:var(--ink);font-family:'Playfair Display',Georgia,serif">${esc(name)}${conc?' <span style="font-size:13px;color:var(--ink-3);font-family:inherit;font-weight:400">'+conc+'</span>':''}</div>
+        <div style="font-size:13px;color:var(--ink-3)">${esc(brand)}</div>
+      </div>
+    </div>
+    <span class="wit-family">${fam}</span>
+    <p class="wit-desc">${desc}${reformulated?' <span style="font-size:12px;color:var(--amber)">(Note: this fragrance has been reformulated — older batches may smell different)</span>':''}</p>
+    <div class="wit-row">
+      <div class="wit-pill"><b>Projection</b> · ${sillageDesc[sillage]||sillage}</div>
+      <div class="wit-pill"><b>Longevity</b> · ${longevityDesc(longevity)}</div>
+      <div class="wit-pill"><b>Gender</b> · ${gender}</div>
+    </div>
+    ${top.length ? `<div class="wit-row" style="gap:6px">${top.slice(0,5).map(n=>`<span style="font-size:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);padding:3px 9px;border-radius:6px;color:var(--ink-3)">${n}</span>`).join('')}</div>` : ''}
+    ${dupeHtml}
+  </div>`;
+}
+
+function switchCheckTab(tab){
+  ['buy','wit'].forEach(t=>{
+    document.getElementById('ctab-'+t).classList.toggle('active',t===tab);
+    document.getElementById('cpanel-'+t).classList.toggle('active',t===tab);
+  });
+  if(tab==='wit' && document.getElementById('witq')) document.getElementById('witq').focus();
+}
+// ===== END WHAT IS THIS ENGINE =====
+
 </script>
 </body>
 </html>
