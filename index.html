@@ -88,6 +88,12 @@
   .wit-pill b{color:var(--ink);font-weight:500}
   .wit-dupe{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);border-radius:13px;padding:14px 16px;margin-top:12px;font-size:13.5px;color:var(--ink-2);line-height:1.6}
   .wit-dupe b{color:var(--amber)}
+  .wit-notes{margin:16px 0 4px}
+  .wit-layer{margin-bottom:10px}
+  .wit-layer-head{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+  .wit-layer-head svg{flex:none;opacity:.6}
+  .wit-npill{display:inline-block;font-size:12px;padding:3px 10px;border-radius:20px;margin:0 4px 4px 0;font-weight:500}
+  .wit-divider{display:flex;justify-content:center;margin:16px 0 12px;opacity:.25}
   .navlinks{display:flex;gap:2px;align-items:center}
   .navlinks button{font-size:13px;color:var(--ink-2);padding:7px 11px;border-radius:9px;transition:.2s;white-space:nowrap}
   .navlinks button:hover{color:var(--ink);background:rgba(255,255,255,.04)}
@@ -137,6 +143,12 @@
   .wit-pill b{color:var(--ink);font-weight:500}
   .wit-dupe{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);border-radius:13px;padding:14px 16px;margin-top:12px;font-size:13.5px;color:var(--ink-2);line-height:1.6}
   .wit-dupe b{color:var(--amber)}
+  .wit-notes{margin:16px 0 4px}
+  .wit-layer{margin-bottom:10px}
+  .wit-layer-head{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+  .wit-layer-head svg{flex:none;opacity:.6}
+  .wit-npill{display:inline-block;font-size:12px;padding:3px 10px;border-radius:20px;margin:0 4px 4px 0;font-weight:500}
+  .wit-divider{display:flex;justify-content:center;margin:16px 0 12px;opacity:.25}
   .navlinks{flex-wrap:wrap;justify-content:flex-end;gap:2px}
     .navlinks button{font-size:11.5px;padding:6px 8px;border-radius:7px}
     .nav-dropdown-menu{display:none!important}
@@ -1208,9 +1220,16 @@ bybInput.addEventListener('input',function(){
       var data=await res.json();
       if(!data.length){bybResults.innerHTML='<div class="ri" style="padding:16px;color:var(--ink-3)">No results found</div>';bybResults.classList.remove('hidden');return;}
       bybResults.innerHTML=data.slice(0,8).map(function(r){
-        var c=familyColor(r.olfactory_family||'');
-        var logo=r.brand_logo?'<img class="blogo" src="'+esc(r.brand_logo)+'" alt="" onerror="this.style.display=\'none\'">':'<span class="bmono" style="background:'+c+'1a;color:'+c+'">'+esc((r.brand_name||'?')[0])+'</span>';
-        return '<div class="opt" onclick="bybSelect('+r.id+')">'+
+        var fam=primaryFam(r.olfactory_family);var c=FAM_COLORS[fam]||'#666';
+        var mono='<span class="bmono" style="background:'+c+'1a;color:'+c+'">'+esc((r.brand_name||'?')[0])+'</span>';
+        var logo;
+        if(r.brand_logo){
+          var domain=(r.brand_logo.match(/img\.logo\.dev\/([^?]+)/)||[])[1]||'';
+          var gFav=domain?'https://www.google.com/s2/favicons?domain='+domain+'&sz=64':'';
+          logo='<img class="blogo" src="'+esc(r.brand_logo)+'" alt=""'+(gFav?' data-fb="'+esc(gFav)+'" data-mono=\''+mono.replace(/'/g,"&apos;")+'\' onerror="if(this.dataset.tried===\'1\'){this.outerHTML=this.dataset.mono}else{this.dataset.tried=\'1\';this.src=this.dataset.fb}"':'onerror="this.style.display=\'none\'"')+'>';
+        } else { logo=mono; }
+        var logoEnc=esc(r.brand_logo||'');
+        return '<div class="opt" onclick="bybSelect('+r.id+',\''+logoEnc+'\')">'+
           '<div class="l">'+logo+'<div><div class="nm">'+esc(r.name)+'</div><div class="br">'+esc(r.brand_name||'')+(r.concentration?' · '+r.concentration:'')+'</div></div></div>'+
           '<span class="add">→</span></div>';
       }).join('');
@@ -1222,7 +1241,7 @@ bybInput.addEventListener('input',function(){
 document.addEventListener('click',function(e){if(!bybInput.contains(e.target)&&!bybResults.contains(e.target))bybResults.classList.add('hidden');});
 })();
 
-async function bybSelect(id){
+async function bybSelect(id,brandLogo){
   var bybInput=document.getElementById('bybq');
   var bybResults=document.getElementById('bybresults');
   bybResults.classList.add('hidden');
@@ -1237,57 +1256,106 @@ async function bybSelect(id){
     var p=data[0];
     if(!p){card.innerHTML='<div class="wit-card">Could not load perfume data.</div>';return;}
     bybInput.value=p.name+(p.concentration?' — '+p.concentration:'');
-    card.innerHTML=buildBybCard(p);
+    // If it's a clone, look up similarity % against the original
+    var similarityPct=null;
+    var cloneOfRaw=(p.clone_of&&p.clone_of.toLowerCase()!=='original')?p.clone_of:'';
+    if(cloneOfRaw){
+      try{
+        var originalName=cloneOfRaw.replace(/^Inspired by /i,'');
+        var srRes=await rpc('search_perfumes',{search_query:originalName});
+        if(srRes&&srRes.length){
+          var origId=srRes[0].id;
+          var rdRes=await rpc('redundancy_check',{_candidate_id:p.id,_collection_ids:[origId]});
+          if(rdRes&&rdRes.length&&rdRes[0].similarity_pct!=null)similarityPct=rdRes[0].similarity_pct;
+        }
+      }catch(e2){/* similarity optional — don't block card render */}
+    }
+    card.innerHTML=buildBybCard(p,brandLogo||'',similarityPct);
   }catch(e){card.innerHTML='<div class="wit-card">Something went wrong. Try again.</div>';}
 }
 
-function buildBybCard(p){
+function buildBybCard(p,brandLogo,similarityPct){
   var top=p.top_notes||[];
   var mid=p.mid_notes||[];
   var base=p.base_notes||[];
   var sillage=p.sillage_norm||p.sillage||'Moderate';
   var longevity=p.longevity||'6-8h';
-  var cloneOf=p.clone_of||'';
+  var cloneOf=(p.clone_of&&p.clone_of.toLowerCase()!=='original')?p.clone_of:'';
   var fam=p.family_norm||p.olfactory_family||'Fresh';
   var gender=p.gender||'Unisex';
   var year=p.launch_year;
   var brand=p.Brands?p.Brands.name:'';
-  var logo=p.Brands?p.Brands.logo_url:'';
+  var logo=brandLogo||(p.Brands?p.Brands.logo_url:'');
   var tier=p.clone_tier||'';
 
-  var openings={Fresh:'Opens clean and airy',Citrus:'Bursts open with bright citrus energy',Woody:'Opens with dry warm woodiness',Oriental:'Opens rich and warm',Floral:'Opens with soft florals',Gourmand:'Opens sweet and edible',Oud:'Opens with the deep resinous character of oud',Spicy:'Opens bold and spiced',Aromatic:'Opens fresh and herbal',Leather:'Opens dark and smoky',Green:'Opens crisp and green',Fruity:'Opens bright and fruity',Chypre:'Opens with earthy sophistication',Musk:'Opens softly musky and clean'};
-  var hearts={Fresh:'develops into something clean and modern',Citrus:'settles into a fresher slightly herbal heart',Woody:'develops into a warm structured woody core',Oriental:'deepens into spiced warmth',Floral:'blooms into a fuller floral bouquet',Gourmand:'becomes even richer and sweeter',Oud:'develops into complex resinous depth',Spicy:'develops spicy warmth throughout',Aromatic:'develops into a clean aromatic blend',Leather:'reveals its dark leathery character',Green:'stays crisp and natural',Fruity:'develops a juicy fruity heart',Chypre:'develops earthy mossy depth',Musk:'stays clean and skin close'};
-  var drydowns={Fresh:'dries down to clean musk on skin',Citrus:'dries down to a soft clean finish',Woody:'settles on a smooth sandalwood musk base',Oriental:'leaves a warm amber vanilla trail',Floral:'finishes soft and powdery close to skin',Gourmand:'lingers as a sweet comforting base',Oud:'leaves a rich resinous trail',Spicy:'anchors in warm woody spice',Aromatic:'settles to a clean skin close finish',Leather:'finishes with smoky dark leather',Green:'finishes light and natural',Fruity:'finishes light with a hint of musk',Chypre:'finishes with dry mossy warmth',Musk:'finishes as a pure skin scent'};
-  var sillageDesc={Intimate:'stays very close to skin — intimate and personal',Moderate:'projects a comfortable distance — those nearby will notice',Strong:'has noticeable projection — fills the room'};
+  var openings={Fresh:'Opens light and clean',Citrus:'Opens with a burst of citrus',Woody:'Opens warm and woody',Oriental:'Opens rich and warm',Floral:'Opens with soft flowers',Gourmand:'Opens sweet and inviting',Oud:'Opens deep and resinous',Spicy:'Opens bold with spice',Aromatic:'Opens fresh and herbal',Leather:'Opens dark and smoky',Green:'Opens crisp and green',Fruity:'Opens bright and fruity',Chypre:'Opens earthy and refined',Musk:'Opens soft and musky'};
+  var hearts={Fresh:'then becomes clean and modern',Citrus:'then becomes fresh and herbal',Woody:'then settles into a warm woody core',Oriental:'then deepens with warm spice',Floral:'then blooms into full florals',Gourmand:'then becomes richer and sweeter',Oud:'then builds into deep oud',Spicy:'then warms up with more spice',Aromatic:'then develops a clean aromatic blend',Leather:'then reveals dark leather',Green:'then stays crisp and natural',Fruity:'then turns juicy and sweet',Chypre:'then develops earthy depth',Musk:'then stays clean and close to skin'};
+  var drydowns={Fresh:'and finishes with clean musk',Citrus:'and finishes soft and clean',Woody:'and finishes on smooth sandalwood',Oriental:'and leaves a warm amber trail',Floral:'and finishes soft and powdery',Gourmand:'and leaves a sweet, comforting trail',Oud:'and leaves a rich oud trail',Spicy:'and finishes with warm woody spice',Aromatic:'and finishes clean on skin',Leather:'and finishes with smoky leather',Green:'and finishes light and natural',Fruity:'and finishes light with a touch of musk',Chypre:'and finishes with dry mossy warmth',Musk:'and finishes as a pure skin scent'};
+  var sillageDesc={Intimate:'Stays close to skin',Moderate:'Those nearby will notice',Strong:'Fills the room'};
 
   var genderLabel={Men:'for men',Women:'for women',Unisex:'unisex'};
   var topHighlights=top.slice(0,3).map(function(n){return n.toLowerCase();}).join(', ');
   var baseHighlights=base.slice(0,2).map(function(n){return n.toLowerCase();}).join(' and ');
 
-  var desc=esc(p.name)+' is a '+fam.toLowerCase()+' fragrance '+(genderLabel[gender]||'')+(year?' launched in '+year:'')+'. '+(openings[fam]||'Opens with a distinctive character')+(topHighlights?' — you get '+topHighlights+' first':'')+'. It '+(hearts[fam]||'develops in the heart')+' before it '+(drydowns[fam]||'settles on a clean base')+(baseHighlights?' of '+baseHighlights+' in the base':'')+'.';
+  var desc=esc(p.name)+' is a '+fam.toLowerCase()+' fragrance '+(genderLabel[gender]||'')+(year?' from '+year:'')+'. '+(openings[fam]||'Opens with a distinctive character')+(topHighlights?' — expect '+topHighlights+' up front':'')+', '+(hearts[fam]||'develops in the heart')+(baseHighlights?', '+drydowns[fam]+' of '+baseHighlights:'').replace(/^, and /,', and ')+'.';
 
+  // Note pill builder — colored by scent family
+  function notePill(n){var c=noteColor(n);return '<span class="wit-npill" style="color:'+c+';background:'+c+'14;border:1px solid '+c+'33">'+esc(n)+'</span>';}
+
+  // SVG icons for note layers
+  var svgTop='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>';
+  var svgMid='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>';
+  var svgBase='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5-3 9-7.5 9-13A9 9 0 003 9c0 5.5 4 10 9 13z"/></svg>';
+
+  // Note pyramid
+  var notesHtml='';
+  if(top.length||mid.length||base.length){
+    notesHtml='<div class="wit-notes">';
+    if(top.length) notesHtml+='<div class="wit-layer"><div class="wit-layer-head">'+svgTop+' Top</div><div>'+top.slice(0,5).map(notePill).join('')+'</div></div>';
+    if(mid.length) notesHtml+='<div class="wit-layer"><div class="wit-layer-head">'+svgMid+' Heart</div><div>'+mid.slice(0,5).map(notePill).join('')+'</div></div>';
+    if(base.length) notesHtml+='<div class="wit-layer"><div class="wit-layer-head">'+svgBase+' Base</div><div>'+base.slice(0,5).map(notePill).join('')+'</div></div>';
+    notesHtml+='</div>';
+  }
+
+  // Dupe verdict
   var dupeHtml='';
   if(cloneOf){
     var original=cloneOf.replace(/^Inspired by /i,'');
-    dupeHtml='<div class="wit-dupe"><b>This is inspired by '+esc(original)+'</b> — a more expensive original. '+esc(p.name)+' was designed to capture the same DNA at a fraction of the price.</div>';
+    var simBadge='';
+    if(similarityPct!=null){
+      var simColor=similarityPct>=70?'#34d399':similarityPct>=50?'#c9a84c':'#a8a8ad';
+      simBadge='<span style="display:inline-flex;align-items:center;gap:5px;margin-left:8px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;background:'+simColor+'18;color:'+simColor+';border:1px solid '+simColor+'44">'+Math.round(similarityPct)+'% DNA match</span>';
+    }
+    dupeHtml='<div class="wit-dupe"><div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:6px"><b>Inspired by '+esc(original)+'</b>'+simBadge+'</div>This is a budget-friendly alternative that captures the same scent profile at a lower price.</div>';
   } else if(!cloneOf&&tier){
-    dupeHtml='<div class="wit-dupe" style="background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.2)"><b style="color:var(--green)">This is an original fragrance</b> — not a clone or inspired version.</div>';
+    dupeHtml='<div class="wit-dupe" style="background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.2)"><b style="color:var(--green)">Original fragrance</b> — this is not a clone or inspired version.</div>';
   }
 
-  var logoHtml=logo?'<img class="blogo" src="'+esc(logo)+'" alt="" style="width:36px;height:36px;border-radius:10px" onerror="this.style.display=\'none\'">':'';
+  // SVG divider
+  var dividerSvg='<div class="wit-divider"><svg width="120" height="12" viewBox="0 0 120 12" fill="none"><path d="M0 6h50M70 6h50" stroke="currentColor" stroke-width=".5"/><circle cx="60" cy="6" r="3" stroke="currentColor" stroke-width=".5"/><circle cx="60" cy="6" r="1" fill="currentColor"/></svg></div>';
+
+  var fCol=FAM_COLORS[primaryFam(fam)]||'#888';
+  var mono='<span class="bmono" style="width:36px;height:36px;border-radius:10px;font-size:16px;background:'+fCol+'1a;color:'+fCol+'">'+esc((brand||'?')[0])+'</span>';
+  var logoHtml;
+  if(logo){
+    var domain=(logo.match(/img\.logo\.dev\/([^?]+)/)||[])[1]||'';
+    var gFav=domain?'https://www.google.com/s2/favicons?domain='+domain+'&sz=64':'';
+    logoHtml='<img class="blogo" src="'+esc(logo)+'" alt="" style="width:36px;height:36px;border-radius:10px"'+(gFav?' data-fb="'+esc(gFav)+'" data-mono=\''+mono.replace(/'/g,"&apos;")+'\' onerror="if(this.dataset.tried===\'1\'){this.outerHTML=this.dataset.mono}else{this.dataset.tried=\'1\';this.src=this.dataset.fb}"':'onerror="this.outerHTML=\''+mono.replace(/'/g,"&apos;")+'\'"')+'>';
+  } else { logoHtml=mono; }
 
   var longevityText=longevity;
   var m=longevity.match(/(\d+)/);
-  if(m){var h=parseInt(m[1]);if(h>=10)longevityText='10+ hours — all day wear';else if(h>=8)longevityText='8-10 hours — full working day';else if(h>=6)longevityText='6-8 hours — solid daily wear';else longevityText='4-6 hours — morning to afternoon';}
+  if(m){var h=parseInt(m[1]);if(h>=10)longevityText='All day (10+ hours)';else if(h>=8)longevityText='Full day (8–10 hours)';else if(h>=6)longevityText='Solid (6–8 hours)';else longevityText='Half day (4–6 hours)';}
 
   return '<div class="wit-card">'+
     '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">'+logoHtml+
     '<div><div style="font-size:17px;font-weight:600;color:var(--ink);font-family:Playfair Display,Georgia,serif">'+esc(p.name)+(p.concentration?' <span style="font-size:13px;color:var(--ink-3);font-weight:400">'+p.concentration+'</span>':'')+'</div>'+
     '<div style="font-size:13px;color:var(--ink-3)">'+esc(brand)+'</div></div></div>'+
     '<span class="wit-family">'+fam+'</span>'+
-    '<p class="wit-desc">'+desc+(p.reformulated?' <span style="font-size:12px;color:var(--amber)">(Note: this fragrance has been reformulated — older batches may smell different)</span>':'')+'</p>'+
+    '<p class="wit-desc">'+desc+(p.reformulated?' <span style="font-size:12px;color:var(--amber)">(Reformulated — older batches may smell different)</span>':'')+'</p>'+
     '<div class="wit-row"><div class="wit-pill"><b>Projection</b> · '+(sillageDesc[sillage]||sillage)+'</div><div class="wit-pill"><b>Longevity</b> · '+longevityText+'</div><div class="wit-pill"><b>Gender</b> · '+gender+'</div></div>'+
-    (top.length?'<div class="wit-row" style="gap:6px">'+top.slice(0,5).map(function(n){return '<span style="font-size:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);padding:3px 9px;border-radius:6px;color:var(--ink-3)">'+n+'</span>';}).join('')+'</div>':'')+
+    notesHtml+
+    dividerSvg+
     dupeHtml+'</div>';
 }
 
