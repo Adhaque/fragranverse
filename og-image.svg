@@ -1,0 +1,84 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<radialGradient id="g1" cx="80%" cy="25%" r="55%"><stop offset="0%" stop-color="#c9a84c" stop-opacity="0.07"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient>
+<radialGradient id="g2" cx="15%" cy="75%" r="45%"><stop offset="0%" stop-color="#34d399" stop-opacity="0.05"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient>
+<linearGradient id="btn" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#e8d48b"/></linearGradient>
+</defs>
+
+<!-- Background -->
+<rect width="1200" height="630" fill="#08080a"/>
+<rect width="1200" height="630" fill="url(#g1)"/>
+<rect width="1200" height="630" fill="url(#g2)"/>
+
+<!-- Subtle diagonal shard -->
+<polygon points="750,0 1200,0 1200,630 550,630" fill="rgba(201,168,76,0.02)"/>
+
+<!-- Decorative bottle silhouettes (right side, very subtle) -->
+<rect x="950" y="160" width="70" height="110" rx="35" ry="35" fill="none" stroke="#c9a84c" stroke-width="1.2" opacity="0.1"/>
+<line x1="985" y1="125" x2="985" y2="160" stroke="#c9a84c" stroke-width="1.2" opacity="0.08"/>
+<rect x="970" y="116" width="30" height="12" rx="4" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.08"/>
+
+<rect x="1050" y="200" width="55" height="85" rx="27" ry="27" fill="none" stroke="#34d399" stroke-width="1" opacity="0.07"/>
+<line x1="1077" y1="175" x2="1077" y2="200" stroke="#34d399" stroke-width="1" opacity="0.06"/>
+
+<rect x="900" y="320" width="45" height="70" rx="22" ry="22" fill="none" stroke="#c4b5fd" stroke-width="1" opacity="0.06"/>
+
+<!-- Brand mark -->
+<circle cx="90" cy="80" r="6" fill="#34d399" opacity="0.9"/>
+<circle cx="90" cy="80" r="10" fill="#34d399" opacity="0.15"/>
+<text x="110" y="86" font-family="Georgia, 'Times New Roman', serif" font-size="18" font-weight="600" fill="#a6a6ad" letter-spacing="3">FRAGRANVERSE</text>
+
+<!-- Tagline -->
+<text x="90" y="160" font-family="Georgia, 'Times New Roman', serif" font-size="58" font-weight="700" fill="#f2efe9" letter-spacing="-1">Your Fragrance</text>
+<text x="90" y="230" font-family="Georgia, 'Times New Roman', serif" font-size="58" font-weight="700" fill="#f2efe9" letter-spacing="-1">Command Center</text>
+
+<!-- 3 Feature pills -->
+<!-- Feature 1: Rate Collection -->
+<rect x="90" y="268" width="240" height="42" rx="21" fill="rgba(201,168,76,0.12)" stroke="#c9a84c" stroke-width="1" opacity="0.8"/>
+<text x="114" y="294" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#c9a84c">&#9733;</text>
+<text x="134" y="294" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#e8d48b">Rate Your Collection</text>
+
+<!-- Feature 2: Before You Buy -->
+<rect x="345" y="268" width="220" height="42" rx="21" fill="rgba(52,211,153,0.1)" stroke="#34d399" stroke-width="1" opacity="0.8"/>
+<text x="369" y="294" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#34d399">&#10003;</text>
+<text x="389" y="294" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#6ee7b7">Before You Buy</text>
+
+<!-- Feature 3: Redundancy Check -->
+<rect x="580" y="268" width="250" height="42" rx="21" fill="rgba(196,181,253,0.1)" stroke="#c4b5fd" stroke-width="1" opacity="0.8"/>
+<text x="604" y="294" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#c4b5fd">&#8644;</text>
+<text x="628" y="294" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#ddd6fe">Redundancy Check</text>
+
+<!-- Subtitle -->
+<text x="90" y="355" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#a6a6ad">Score out of 100  ·  Scent persona  ·  Clone detection</text>
+
+<!-- Divider line -->
+<line x1="90" y1="380" x2="700" y2="380" stroke="#c9a84c" stroke-width="0.5" opacity="0.2"/>
+
+<!-- Stats row -->
+<text x="90" y="430" font-family="Georgia, serif" font-size="36" font-weight="700" fill="#c9a84c">7,900+</text>
+<text x="252" y="430" font-family="Arial, sans-serif" font-size="16" fill="#67676e">perfumes</text>
+
+<text x="360" y="430" font-family="Georgia, serif" font-size="36" font-weight="700" fill="#c9a84c">206</text>
+<text x="428" y="430" font-family="Arial, sans-serif" font-size="16" fill="#67676e">brands</text>
+
+<text x="520" y="430" font-family="Georgia, serif" font-size="36" font-weight="700" fill="#c9a84c">14</text>
+<text x="560" y="430" font-family="Arial, sans-serif" font-size="16" fill="#67676e">families</text>
+
+<!-- CTA button -->
+<rect x="90" y="470" width="230" height="44" rx="22" fill="url(#btn)"/>
+<text x="205" y="498" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#04201a" text-anchor="middle">fragranverse.com</text>
+
+<!-- Tags inline with CTA -->
+<circle cx="355" y="492" r="4" fill="#34d399" cy="492"/>
+<text x="367" y="496" font-family="Arial, sans-serif" font-size="14" fill="#67676e">Free</text>
+<circle cx="420" cy="492" r="4" fill="#c9a84c"/>
+<text x="432" y="496" font-family="Arial, sans-serif" font-size="14" fill="#67676e">No login</text>
+<circle cx="520" cy="492" r="4" fill="#c4b5fd"/>
+<text x="532" y="496" font-family="Arial, sans-serif" font-size="14" fill="#67676e">Indian &amp; ME focused</text>
+
+<!-- Industry first badge -->
+<rect x="90" y="540" width="180" height="30" rx="15" fill="rgba(251,113,133,0.08)" stroke="#fb7185" stroke-width="0.8" opacity="0.7"/>
+<text x="110" y="560" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#fb7185">INDUSTRY FIRST</text>
+<text x="210" y="560" font-family="Arial, sans-serif" font-size="12" fill="#9ca3af">feature set</text>
+</svg>

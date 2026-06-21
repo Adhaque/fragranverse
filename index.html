@@ -29,6 +29,9 @@
 
 <!-- Theme color for mobile browsers -->
 <meta name="theme-color" content="#08080a" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="FragranVerse" />
 <meta name="google-site-verification" content="jxv3-2mg2G1UhRv_OlPdq2tPdgjCZioLx15l_A_I_E8" />
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
@@ -39,8 +42,8 @@
     --ink:#f2efe9; --ink-2:#a6a6ad; --ink-3:#67676e;
     --green:#34d399; --cyan:#06b6d4; --amber:#fbbf24; --amber-2:#d97706; --violet:#c4b5fd; --rose:#fb7185;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-font-smoothing:antialiased}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
   body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5;overflow-x:hidden}
   .wrap{max-width:660px;margin:0 auto;padding:0 20px}
   .display{font-family:'Playfair Display',Georgia,serif}
@@ -331,7 +334,8 @@
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);border:1px solid var(--line);padding:14px 22px;border-radius:14px;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:60;box-shadow:0 14px 50px rgba(0,0,0,.6)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast b{color:var(--green)}
   .empty{text-align:center;color:var(--ink-3);font-size:14px;padding:30px 0;line-height:1.6}
-  @media(max-width:520px){.score{font-size:90px}header{padding:58px 0 26px}}
+  @media(max-width:520px){.score{font-size:90px}header{padding:58px 0 26px}.persona{font-size:24px}.tabs button{min-height:44px}.ctab{min-height:44px}.itab{min-height:44px}.navlinks button{min-height:44px}.opt{min-height:52px}.chip{min-height:40px}}
+  @media(max-width:375px){.score{font-size:72px}.persona{font-size:20px}header h1{font-size:36px}.wit-card{padding:16px}.card{padding:16px}.badge{padding:36px 16px 28px}.rec{padding:12px;gap:10px}.match-pct{font-size:18px;width:48px}.ctab{font-size:12px;padding:8px 8px;gap:4px}.ctab svg{width:14px;height:14px}.itab{font-size:12px;padding:9px 10px}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 <script type="application/ld+json">
