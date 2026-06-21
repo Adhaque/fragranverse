@@ -63,7 +63,8 @@
 
   nav{position:sticky;top:0;z-index:40;backdrop-filter:saturate(160%) blur(16px);background:rgba(8,8,10,.72);border-bottom:1px solid var(--line)}
   nav .row{max-width:660px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:9px;font-family:'Playfair Display';font-weight:600;font-size:19px;letter-spacing:.3px}
+  .brand{display:flex;align-items:center;gap:0;font-family:'Playfair Display';font-weight:600;font-size:19px;letter-spacing:.3px}
+  .brand-logo{height:18px;width:auto}
   .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--cyan));box-shadow:0 0 16px rgba(52,211,153,.7);animation:pulse 3s ease-in-out infinite}
   @keyframes pulse{50%{box-shadow:0 0 24px rgba(52,211,153,1)}}
 
@@ -120,7 +121,7 @@
   .nav-insights-mobile button:hover{color:var(--ink)}
   .nav-insights-mobile button.active{color:var(--green);background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.2)}
   @media(max-width:520px){
-    .brand{font-size:16px}
+    .brand-logo{height:34px}
   
   /* Check sub-tabs */
   .ctabs{display:flex;gap:4px;background:rgba(255,255,255,.04);border-radius:12px;padding:4px;margin-bottom:24px}
@@ -161,7 +162,7 @@
     nav .row{padding:12px 14px;flex-wrap:wrap;gap:6px}
   }
   @media(max-width:520px){
-    .brand{font-size:16px}
+    .brand-logo{height:34px}
     .navlinks button{font-size:11.5px;padding:6px 8px;border-radius:7px}
     nav .row{padding:12px 14px}
   }
@@ -346,7 +347,7 @@
 <div class="aurora"></div>
 
 <nav><div class="row">
-  <button class="brand" onclick="goHome()" style="background:none;border:none;cursor:pointer"><span class="dot"></span>Fragranverse</button>
+  <button class="brand" onclick="goHome()" style="background:none;border:none;cursor:pointer;gap:0"><svg viewBox="30 55 740 90" class="brand-logo" aria-label="FragranVerse"><defs><linearGradient id="navGold" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/></linearGradient></defs><text x="400" y="130" text-anchor="middle" font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif" font-size="72" font-weight="800" letter-spacing="4"><tspan fill="#e8e4dd">FRAGRAN</tspan><tspan fill="url(#navGold)">V</tspan><tspan fill="#e8e4dd">ERSE</tspan></text></svg></button>
   <div class="navlinks">
     <button data-view="rate">Rate</button>
     <button data-view="check">Check</button>
@@ -1388,5 +1389,11 @@ function buildBybCard(p,brandLogo,similarityPct){
 }
 
 </script>
+
+<footer style="text-align:center;padding:32px 20px 24px;border-top:1px solid var(--line);max-width:640px;margin:0 auto">
+  <p style="font-size:11px;color:var(--ink-3);line-height:1.6;margin:0 0 12px">FragranVerse is an independent tool — not affiliated with, endorsed by, or sponsored by any fragrance brand. Scent descriptions, note profiles, and clone mappings are based on publicly available data and general audience consensus. Individual perception of fragrance may vary based on skin chemistry, climate, and personal preference. No guarantee of satisfaction. Always test a fragrance before buying when possible.</p>
+  <p style="font-size:11px;color:var(--ink-3);margin:0">© 2025 FragranVerse. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
