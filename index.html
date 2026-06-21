@@ -1329,12 +1329,19 @@ function buildBybCard(p,brandLogo,similarityPct){
   var dupeHtml='';
   if(cloneOf){
     var original=cloneOf.replace(/^Inspired by /i,'');
+    var dnaSvg='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex:none;opacity:.8"><path d="M2 15c6.667-6 13.333-6 20 0"/><path d="M2 9c6.667 6 13.333 6 20 0"/><path d="M7 3v4M12 3v2M17 3v4M7 17v4M12 19v2M17 17v4"/></svg>';
     var simBadge='';
+    var simText='This is a budget-friendly alternative that captures a similar scent profile.';
     if(similarityPct!=null){
-      var simColor=similarityPct>=70?'#34d399':similarityPct>=50?'#c9a84c':'#a8a8ad';
-      simBadge='<span style="display:inline-flex;align-items:center;gap:5px;margin-left:8px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;background:'+simColor+'18;color:'+simColor+';border:1px solid '+simColor+'44">'+Math.round(similarityPct)+'% DNA match</span>';
+      var sp=Math.round(similarityPct);
+      var simColor=sp>=70?'#34d399':sp>=50?'#c9a84c':'#a8a8ad';
+      simBadge='<span style="display:inline-flex;align-items:center;gap:4px;margin-left:6px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;background:'+simColor+'18;color:'+simColor+';border:1px solid '+simColor+'44">'+sp+'%</span>';
+      if(sp>=80) simText='Nearly identical DNA — '+sp+'% note overlap with the original. One of the closest alternatives available.';
+      else if(sp>=60) simText='Strong similarity — '+sp+'% note overlap. Captures the essence of the original with its own character.';
+      else if(sp>=40) simText='Moderate resemblance — '+sp+'% note overlap. Shares the general direction but adds its own twist.';
+      else simText='Loosely inspired — '+sp+'% note overlap. Takes the idea in a different direction.';
     }
-    dupeHtml='<div class="wit-dupe"><div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-bottom:6px"><b>Inspired by '+esc(original)+'</b>'+simBadge+'</div>This is a budget-friendly alternative that captures the same scent profile at a lower price.</div>';
+    dupeHtml='<div class="wit-dupe"><div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px">'+dnaSvg+'<b>Inspired by '+esc(original)+'</b>'+simBadge+'</div><span style="font-size:13px;color:var(--ink-3);line-height:1.5">'+simText+'</span></div>';
   } else if(!cloneOf&&tier){
     dupeHtml='<div class="wit-dupe" style="background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.2)"><b style="color:var(--green)">Original fragrance</b> — this is not a clone or inspired version.</div>';
   }
