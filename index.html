@@ -1269,11 +1269,19 @@ async function bybSelect(id,brandLogo){
     var cloneOfRaw=(p.clone_of&&p.clone_of.toLowerCase()!=='original')?p.clone_of:'';
     if(cloneOfRaw){
       try{
-        var originalName=cloneOfRaw.replace(/^Inspired by /i,'').replace(/\s*\\\s*$/,'');
-        var srRes=await rpc('search_perfumes',{search_query:originalName});
+        var originalName=cloneOfRaw.replace(/^Inspired by /i,'').replace(/\s*\\\s*$/,'').replace(/\s*\(?\d+%\)?/g,'').replace(/\s*\+\s*.*/,'').trim();
+        var concMap={'edp':'Eau de Parfum','edt':'Eau de Toilette','parfum':'Parfum','extrait':'Extrait'};
+        var concMatch=originalName.match(/\s+(EDP|EDT|Extrait|Parfum)$/i);
+        var wantConc=concMatch?concMap[concMatch[1].toLowerCase()]||concMatch[1]:'';
+        var searchName=concMatch?originalName.replace(concMatch[0],'').trim():originalName;
+        var srRes=await rpc('search_perfumes',{search_query:searchName});
+        if(srRes&&srRes.length>1&&wantConc){
+          var concHit=srRes.find(function(r){return r.concentration&&r.concentration.toLowerCase()===wantConc.toLowerCase();});
+          if(concHit) srRes=[concHit];
+        }
         if(!srRes||!srRes.length){
-          var shortName=originalName.replace(/\s+by\s+.+$/i,'');
-          if(shortName!==originalName) srRes=await rpc('search_perfumes',{search_query:shortName});
+          var shortName=searchName.replace(/\s+by\s+.+$/i,'');
+          if(shortName!==searchName) srRes=await rpc('search_perfumes',{search_query:shortName});
         }
         if(srRes&&srRes.length){
           var origId=srRes[0].id;
@@ -1335,7 +1343,7 @@ function buildBybCard(p,brandLogo,similarityPct){
     var original=cloneOf.replace(/^Inspired by /i,'');
     var dnaSvg='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="flex:none;opacity:.8"><path d="M2 15c6.667-6 13.333-6 20 0"/><path d="M2 9c6.667 6 13.333 6 20 0"/><path d="M7 3v4M12 3v2M17 3v4M7 17v4M12 19v2M17 17v4"/></svg>';
     var simBadge='';
-    var simText='This is a budget-friendly alternative that captures a similar scent profile.';
+    var simText='';
     if(similarityPct!=null){
       var sp=Math.round(similarityPct);
       var simColor=sp>=70?'#34d399':sp>=50?'#c9a84c':'#a8a8ad';
@@ -1345,7 +1353,8 @@ function buildBybCard(p,brandLogo,similarityPct){
       else if(sp>=40) simText='Moderate resemblance — '+sp+'% note overlap. Shares the general direction but adds its own twist.';
       else simText='Loosely inspired — '+sp+'% note overlap. Takes the idea in a different direction.';
     }
-    dupeHtml='<div class="wit-dupe"><div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px">'+dnaSvg+'<b>Inspired by '+esc(original)+'</b>'+simBadge+'</div><span style="font-size:13px;color:var(--ink-3);line-height:1.5">'+simText+'</span></div>';
+    var simLine=simText?'<span style="font-size:13px;color:var(--ink-3);line-height:1.5">'+simText+'</span>':'';
+    dupeHtml='<div class="wit-dupe"><div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px'+(simText?';margin-bottom:8px':'')+'">'+dnaSvg+'<b>Inspired by '+esc(original)+'</b>'+simBadge+'</div>'+simLine+'</div>';
   } else if(!cloneOf&&tier){
     dupeHtml='<div class="wit-dupe" style="background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.2)"><b style="color:var(--green)">Original fragrance</b> — this is not a clone or inspired version.</div>';
   }
