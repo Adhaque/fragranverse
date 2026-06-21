@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Fragranverse — Rate Your Fragrance Collection</title>
-<meta name="description" content="Rate your fragrance collection and discover your scent persona. Add your perfumes, get a score out of 100, and find your next bottle. 7,800+ perfumes, 200+ brands, 14 scent families. Free, no login." />
+<meta name="description" content="Rate your fragrance collection and discover your scent persona. Add your perfumes, get a score out of 100, and find your next bottle. 7,900+ perfumes, 206 brands, 14 scent families. Free, no login." />
 <meta name="keywords" content="fragrance collection, rate my perfume, perfume score, scent persona, fragrance wardrobe, perfume rating, olfactory wheel, fragrance families, perfume recommendations" />
 <meta name="author" content="Fragranverse" />
 <meta name="robots" content="index, follow" />
@@ -24,7 +24,7 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="What does your collection say? — Fragranverse" />
-<meta name="twitter:description" content="Rate your fragrance collection. Get a score, a persona, and your next bottle. 5,500+ perfumes. Free, no login." />
+<meta name="twitter:description" content="Rate your fragrance collection. Get a score, a persona, and your next bottle. 7,900+ perfumes. Free, no login." />
 <meta name="twitter:image" content="https://fragranverse.com/og-image.png" />
 
 <!-- Theme color for mobile browsers -->
@@ -174,7 +174,7 @@
   .search svg{flex:none;color:var(--ink-3)}
   .search input{flex:1;background:none;border:none;outline:none;color:var(--ink);font-size:16.5px}
   .search input::placeholder{color:var(--ink-3)}
-  .results{max-height:320px;overflow-y:auto;border-top:1px solid var(--line);margin-top:4px}
+  .results{max-height:50vh;overflow-y:auto;border-top:1px solid var(--line);margin-top:4px}
   .results::-webkit-scrollbar{width:8px}.results::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:8px}
   .opt{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-radius:13px;transition:.14s}
   .opt:hover{background:rgba(255,255,255,.05)}
@@ -360,8 +360,8 @@
       <h1 class="display">What does your<br><em>collection</em> say?</h1>
       <p>It's a hobby, not an addiction.<br>Add what you own here to get your score, a persona, and a suggestion.</p>
       <div class="dbstat">
-        <span><b>5,500+</b> perfumes</span><span class="sep">·</span>
-        <span><b>134</b> brands</span><span class="sep">·</span>
+        <span><b>7,900+</b> perfumes</span><span class="sep">·</span>
+        <span><b>206</b> brands</span><span class="sep">·</span>
         <span><b>14</b> scent families</span>
       </div>
     </header>
@@ -544,7 +544,7 @@
   <h2 class="display">How it works</h2>
   <p class="lead">New to fragrance, or just new to Fragranverse? The whole thing in four steps. No jargon, promise.</p>
   <div class="step"><div class="n">1</div><div><h4>Add what you own</h4><p>Search each perfume and tap it. Wearing a clone? Search the name on your bottle and pick the closest match — clones absolutely count. Add up to 20.</p></div></div>
-  <div class="step"><div class="n">2</div><div><h4>Hit “Rate my collection”</h4><p>We read each fragrance's notes, family, projection and occasion tags from a database of 5,500+ perfumes. Nothing is saved without your permission. No account needed.</p></div></div>
+  <div class="step"><div class="n">2</div><div><h4>Hit “Rate my collection”</h4><p>We read each fragrance's notes, family, projection and occasion tags from a database of 7,900+ perfumes. Nothing is saved without your permission. No account needed.</p></div></div>
   <div class="step"><div class="n">3</div><div><h4>Meet your scent persona</h4><p>A 0–100 score, a grade, a persona that captures your shelf's character, and one honest tip to level up.</p></div></div>
   <div class="step"><div class="n">4</div><div><h4>Get your next three bottles</h4><p>We suggest three real perfumes — two <strong style="font-weight:500">upgrades</strong> in your favourite family, one to <strong style="font-weight:500">fill a gap</strong> in your wardrobe. Then download your badge and show it off.</p></div></div>
   <h3 style="margin:42px 0 4px;font-family:'Playfair Display';font-size:21px;font-weight:600;letter-spacing:-.01em;color:var(--ink)">What the score measures</h3>
@@ -746,9 +746,9 @@
   <div class="gtdef">The spray mechanism on a perfume bottle. A good atomizer produces a fine mist with even coverage. Armaf bottles are well known in the community for having excellent atomizers.</div>
 </div></div>
   </div>
-  <p style="font-size:12px;color:var(--ink-3);margin-top:28px;padding-top:18px;border-top:1px solid var(--line)">Sources: Fragranverse database (5,500+ perfumes), community consensus and industry standard glossary</p>
+  <p style="font-size:12px;color:var(--ink-3);margin-top:28px;padding-top:18px;border-top:1px solid var(--line)">Sources: Fragranverse database (7,900+ perfumes), community consensus and industry standard glossary</p>
 
-    <p style="font-size:12px;color:var(--ink-3);margin-top:28px;padding-top:18px;border-top:1px solid var(--line)">Sources: Fragranverse database (5,500+ perfumes), community consensus and industry standard glossary</p>
+    <p style="font-size:12px;color:var(--ink-3);margin-top:28px;padding-top:18px;border-top:1px solid var(--line)">Sources: Fragranverse database (7,900+ perfumes), community consensus and industry standard glossary</p>
   </div>
 </div></main>
 
@@ -1223,7 +1223,7 @@ bybInput.addEventListener('input',function(){
       });
       var data=await res.json();
       if(!data.length){bybResults.innerHTML='<div class="ri" style="padding:16px;color:var(--ink-3)">No results found</div>';bybResults.classList.remove('hidden');return;}
-      bybResults.innerHTML=data.slice(0,8).map(function(r){
+      bybResults.innerHTML=data.map(function(r){
         var fam=primaryFam(r.olfactory_family);var c=FAM_COLORS[fam]||'#666';
         var mono='<span class="bmono" style="background:'+c+'1a;color:'+c+'">'+esc((r.brand_name||'?')[0])+'</span>';
         var logo;
