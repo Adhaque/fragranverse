@@ -1269,8 +1269,12 @@ async function bybSelect(id,brandLogo){
     var cloneOfRaw=(p.clone_of&&p.clone_of.toLowerCase()!=='original')?p.clone_of:'';
     if(cloneOfRaw){
       try{
-        var originalName=cloneOfRaw.replace(/^Inspired by /i,'');
+        var originalName=cloneOfRaw.replace(/^Inspired by /i,'').replace(/\s*\\\s*$/,'');
         var srRes=await rpc('search_perfumes',{search_query:originalName});
+        if(!srRes||!srRes.length){
+          var shortName=originalName.replace(/\s+by\s+.+$/i,'');
+          if(shortName!==originalName) srRes=await rpc('search_perfumes',{search_query:shortName});
+        }
         if(srRes&&srRes.length){
           var origId=srRes[0].id;
           var rdRes=await rpc('redundancy_check',{_candidate_id:p.id,_collection_ids:[origId]});
