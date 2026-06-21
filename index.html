@@ -908,11 +908,11 @@ function renderResult(d,recs){
   document.getElementById('missing').innerHTML=miss.length?miss.map(f=>{const c=FAM_COLORS[f]||'#666';return `<span class="pill fampill" style="color:${c};border-color:${c}44;background:${c}14"><span class="pdot" style="background:${c}"></span>${f}</span>`;}).join(''):'<span class="pill" style="color:var(--green);border-color:rgba(52,211,153,.3)">Full coverage ✦</span>';
   // deep dive: accord cloud (sized by frequency)
   renderCloud(d.stats?.accord_counts);
-  const tiers=d.stats?.tier_counts||{};const TL={Tier_1:'Budget',Tier_2:'Value',Tier_2_ME:'Middle East',Tier_3:'Designer',Tier_4:'Niche',Unknown:'Unknown'};
-  const TC={Tier_1:'#34d399',Tier_2:'#06b6d4',Tier_2_ME:'#06b6d4',Tier_3:'#c4b5fd',Tier_4:'#fbbf24',Unknown:'#6b6b70'};
-  const tierOrder=['Tier_1','Tier_2','Tier_2_ME','Tier_3','Tier_4','Unknown'];
+  const tiers=d.stats?.tier_counts||{};const TL={Tier_1:'Budget',Tier_2:'Middle East',Tier_3:'Designer',Tier_4:'Niche',Unknown:'Unknown'};
+  const TC={Tier_1:'#34d399',Tier_2:'#06b6d4',Tier_3:'#c4b5fd',Tier_4:'#fbbf24',Unknown:'#6b6b70'};
+  const tierOrder=['Tier_1','Tier_2','Tier_3','Tier_4','Unknown'];
   document.getElementById('tiers').innerHTML=Object.entries(tiers).sort((a,b)=>tierOrder.indexOf(a[0])-tierOrder.indexOf(b[0])).map(([k,v])=>{const c=TC[k]||'#6b6b70';return `<span class="pill statpill" style="color:${c};border-color:${c}44;background:${c}14">${TL[k]||k}<b class="cnt" style="background:${c}26;color:${c}">${v}</b></span>`;}).join('')||'<span class="pill">—</span>';
-  const SC={Soft:'#67e8f9',Moderate:'#34d399',Strong:'#fbbf24',Heavy:'#fb7185'};const silOrder=['Soft','Moderate','Strong','Heavy'];
+  const SC={Soft:'#67e8f9',Intimate:'#a78bfa',Moderate:'#34d399',Strong:'#fbbf24',Heavy:'#fb7185'};const silOrder=['Soft','Intimate','Moderate','Strong','Heavy'];
   document.getElementById('sillage').innerHTML=(d.stats?.sillage_levels||[]).sort((a,b)=>silOrder.indexOf(a)-silOrder.indexOf(b)).map(s=>{const c=SC[s]||'#6b6b70';return `<span class="pill statpill" style="color:${c};border-color:${c}44;background:${c}14"><span class="pdot" style="background:${c}"></span>${s}</span>`;}).join('')||'<span class="pill">—</span>';
   const vibes=d.stats?.vibes||[];
   document.getElementById('vibes').innerHTML=vibes.length?vibes.map(v=>`<span class="pill statpill" style="color:#a3e635;border-color:#a3e63540;background:#a3e6351a;font-size:13px"><span class="pdot" style="background:#a3e635"></span>${v.replace(/^#/,'').replace(/_/g,' ')}</span>`).join(''):'<span class="pill">—</span>';
@@ -956,7 +956,7 @@ function renderRecs(recs){
   if(!recs||!recs.length){card.classList.add('hidden');return;}
   card.classList.remove('hidden');box.innerHTML='';
   recs.forEach((r,i)=>{
-    const TL={Tier_1:'Budget',Tier_2:'Value',Tier_2_ME:'Middle East',Tier_3:'Designer',Tier_4:'Niche'};
+    const TL={Tier_1:'Budget',Tier_2:'Middle East',Tier_3:'Designer',Tier_4:'Niche'};
     const d=document.createElement('div');d.className='rec '+r.rec_kind;
     d.innerHTML=`<div class="rank">${i+1}</div>
       <div class="info"><div class="nm">${esc(r.rec_name)}</div>
@@ -1295,7 +1295,7 @@ function buildBybCard(p,brandLogo,similarityPct){
   var openings={Fresh:'Opens light and clean',Citrus:'Opens with a burst of citrus',Woody:'Opens warm and woody',Oriental:'Opens rich and warm',Floral:'Opens with soft flowers',Gourmand:'Opens sweet and inviting',Oud:'Opens deep and resinous',Spicy:'Opens bold with spice',Aromatic:'Opens fresh and herbal',Leather:'Opens dark and smoky',Green:'Opens crisp and green',Fruity:'Opens bright and fruity',Chypre:'Opens earthy and refined',Musk:'Opens soft and musky'};
   var hearts={Fresh:'then becomes clean and modern',Citrus:'then becomes fresh and herbal',Woody:'then settles into a warm woody core',Oriental:'then deepens with warm spice',Floral:'then blooms into full florals',Gourmand:'then becomes richer and sweeter',Oud:'then builds into deep oud',Spicy:'then warms up with more spice',Aromatic:'then develops a clean aromatic blend',Leather:'then reveals dark leather',Green:'then stays crisp and natural',Fruity:'then turns juicy and sweet',Chypre:'then develops earthy depth',Musk:'then stays clean and close to skin'};
   var drydowns={Fresh:'and finishes with clean musk',Citrus:'and finishes soft and clean',Woody:'and finishes on smooth sandalwood',Oriental:'and leaves a warm amber trail',Floral:'and finishes soft and powdery',Gourmand:'and leaves a sweet, comforting trail',Oud:'and leaves a rich oud trail',Spicy:'and finishes with warm woody spice',Aromatic:'and finishes clean on skin',Leather:'and finishes with smoky leather',Green:'and finishes light and natural',Fruity:'and finishes light with a touch of musk',Chypre:'and finishes with dry mossy warmth',Musk:'and finishes as a pure skin scent'};
-  var sillageDesc={Intimate:'Stays close to skin',Moderate:'Those nearby will notice',Strong:'Fills the room'};
+  var sillageDesc={Soft:'Stays very close to skin',Intimate:'Skin scent with a whisper — lean in close',Moderate:'Projects a comfortable distance',Strong:'Has noticeable projection — fills the room',Heavy:'Beast mode projection — announces your presence before you arrive'};
 
   var genderLabel={Men:'for men',Women:'for women',Unisex:'unisex'};
   var topHighlights=top.slice(0,3).map(function(n){return n.toLowerCase();}).join(', ');
