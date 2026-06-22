@@ -1286,8 +1286,8 @@ async function bybSelect(id,brandLogo){
         }
         if(srRes&&srRes.length){
           var origId=srRes[0].id;
-          var rdRes=await rpc('redundancy_check',{_candidate_id:p.id,_collection_ids:[origId]});
-          if(rdRes&&rdRes.length&&rdRes[0].similarity_pct!=null)similarityPct=rdRes[0].similarity_pct;
+          var csRes=await rpc('clone_similarity',{_candidate_id:p.id,_original_id:origId});
+          if(csRes!=null)similarityPct=csRes;
         }
       }catch(e2){/* similarity optional — don't block card render */}
     }
