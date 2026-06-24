@@ -31,8 +31,12 @@
   header.page h1{font-family:'Playfair Display',Georgia,serif;font-size:34px;line-height:1.2;margin-bottom:12px}
   header.page p{color:var(--ink-2);font-size:15px;max-width:540px;margin:0 auto}
   .feed-note{color:var(--ink-3);font-size:12.5px;text-align:center;margin-bottom:26px;text-transform:uppercase;letter-spacing:.08em}
-  .tip{background:var(--bg-soft);border:1px solid var(--line);border-radius:15px;padding:22px 24px;margin-bottom:16px}
-  .tip-date{color:var(--cyan);font-size:12px;font-weight:600;letter-spacing:.04em;margin-bottom:8px;text-transform:uppercase}
+  .tip{background:var(--bg-soft);border:1px solid var(--line);border-radius:15px;padding:22px 24px;margin-bottom:16px;scroll-margin-top:20px}
+  .tip:target{border-color:rgba(6,182,212,.45);box-shadow:0 0 0 1px rgba(6,182,212,.25)}
+  .tip-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+  .tip-date{color:var(--cyan);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+  .tip-share{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1px solid var(--line);border-radius:99px;color:var(--ink-2);font:600 11.5px Inter,system-ui,sans-serif;padding:5px 11px;cursor:pointer;transition:.15s;flex:none}
+  .tip-share:hover{color:var(--ink);border-color:rgba(255,255,255,.18)}
   .tip h2{font-family:'Playfair Display',Georgia,serif;font-size:20px;color:var(--ink);margin-bottom:10px;line-height:1.3}
   .tip p{color:var(--ink-2);font-size:15px;margin-bottom:12px}
   .tip-link{display:inline-block;color:var(--green);font-size:13.5px;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(52,211,153,.3);padding-bottom:1px}
@@ -58,15 +62,23 @@
 <!-- ═══════════════════════════════════════════════════════════════ -->
 
 
-  <article class="tip">
-    <div class="tip-date">June 24, 2026</div>
+  <article class="tip" id="ambroxan">
+    <div class="tip-top">
+      <div class="tip-date">June 24, 2026</div>
+      <button class="tip-share" type="button" onclick="fvShareCard('ambroxan','Ambroxan — the clean, salty wood everyone wears')" aria-label="Share this tip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>Share</button>
+    </div>
     <h2>Ambroxan — the clean, salty wood everyone wears</h2>
     <p>Ambroxan is a synthetic that mimics ambergris: a dry, slightly salty, woody-musky warmth that hugs the skin and radiates without shouting. It's the backbone of modern "fresh but expensive" scents and behaves brilliantly in Indian heat — it doesn't turn sour like sweeter notes can. If a fragrance smells "clean but addictive," ambroxan is usually why.</p>
     <a class="tip-link" href="https://fragranverse.com">Find perfumes built on ambroxan →</a>
   </article>
 
-  <article class="tip">
-    <div class="tip-date">June 23, 2026</div>
+  <article class="tip" id="iso-e-super">
+    <div class="tip-top">
+      <div class="tip-date">June 23, 2026</div>
+      <button class="tip-share" type="button" onclick="fvShareCard('iso-e-super','Iso E Super — the invisible amplifier')" aria-label="Share this tip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>Share</button>
+    </div>
     <h2>Iso E Super — the invisible amplifier</h2>
     <p>Iso E Super is a velvety, cedar-like molecule that's barely noticeable up close but radiates beautifully in your trail. It creates the effortless "your skin but better" effect — the secret behind Molecule 01 and Not a Perfume. Layer a drop under a bold floral or woody scent to add depth and projection without competing with the main notes.</p>
     <a class="tip-link" href="https://fragranverse.com">See scents that feature Iso E Super →</a>
@@ -100,6 +112,8 @@
 (function(){var u=location.href,t=document.title;var w=document.getElementById('fv-wa');if(w)w.href='https://wa.me/?text='+encodeURIComponent(t+' '+u);var x=document.getElementById('fv-x');if(x)x.href='https://twitter.com/intent/tweet?text='+encodeURIComponent(t)+'&url='+encodeURIComponent(u);})();
 function fvShare(){if(navigator.share){navigator.share({title:document.title,url:location.href}).catch(function(){});}else{fvCopy();}}
 function fvCopy(btn){navigator.clipboard.writeText(location.href).then(function(){if(btn){var s=btn.querySelector('span')||btn,o=s.textContent;s.textContent='Copied!';setTimeout(function(){s.textContent=o;},1600);}});}
+function fvToast(msg){var t=document.createElement('div');t.textContent=msg;t.style.cssText='position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#1c1c20;color:#f2efe9;border:1px solid rgba(255,255,255,.12);padding:10px 18px;border-radius:99px;font:600 13px Inter,system-ui,sans-serif;z-index:9999;box-shadow:0 6px 24px rgba(0,0,0,.4)';document.body.appendChild(t);setTimeout(function(){t.remove();},1700);}
+function fvShareCard(id,title){var url=location.origin+location.pathname+'#'+id;if(navigator.share){navigator.share({title:title+' — FragranVerse',url:url}).catch(function(){});}else{navigator.clipboard.writeText(url).then(function(){fvToast('Link to this tip copied');});}}
 </script>
 </body>
 </html>
