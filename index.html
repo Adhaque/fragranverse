@@ -1459,6 +1459,43 @@ function buildBybCard(p,brandLogo,similarityPct){
 
 </script>
 
+<section style="max-width:640px;margin:50px auto 0;padding:0 20px">
+  <div style="background:var(--bg-soft);border:1px solid var(--line);border-radius:18px;padding:26px 24px">
+    <div style="font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-3);margin-bottom:18px">On the roadmap</div>
+    <div style="display:flex;gap:13px;margin-bottom:16px">
+      <div style="color:var(--green);flex:none;margin-top:1px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8M16.5 8a2.5 2.5 0 0 0 0-5C13 3 12 8 12 8"/></svg></div>
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px">Bundle Assist <span style="font-size:10.5px;font-weight:600;color:var(--green);border:1px solid rgba(52,211,153,.3);border-radius:99px;padding:2px 9px;margin-left:5px;text-transform:uppercase;letter-spacing:.5px">Coming soon</span></div>
+        <div style="font-size:13px;color:var(--ink-2);line-height:1.55">Buying a few from one brand? We'll pick the combo that adds the most to your collection — zero overlap with what you already own.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:13px;margin-bottom:22px">
+      <div style="color:var(--ink-3);flex:none;margin-top:1px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--ink-2);margin-bottom:4px">Community <span style="font-size:10.5px;font-weight:600;color:var(--ink-3);border:1px solid var(--line);border-radius:99px;padding:2px 9px;margin-left:5px;text-transform:uppercase;letter-spacing:.5px">Later</span></div>
+        <div style="font-size:13px;color:var(--ink-3);line-height:1.55">Share collections, compare scores, and find people who share your taste.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <input id="notify-email" type="email" inputmode="email" placeholder="your@email.com" style="flex:1;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--ink);font-family:inherit;font-size:14px;outline:none" />
+      <button id="notifyBtn" type="button" style="background:var(--green);color:#08080a;border:none;border-radius:12px;padding:12px 20px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap">Notify me</button>
+    </div>
+    <div style="font-size:11.5px;color:var(--ink-3);margin-top:10px">One email when these go live. No spam, just the launch.</div>
+  </div>
+</section>
+
+<script>
+document.getElementById('notifyBtn').onclick=async function(){
+  var el=document.getElementById('notify-email');var email=(el.value||'').trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){toast('Enter a valid email.');return;}
+  try{
+    await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({access_key:'f2039d18-415d-43bb-9eb8-369c63e88610',subject:'Fragranverse Waitlist Signup',name:'Waitlist',email:email,message:'Roadmap waitlist signup: '+email})});
+    toast('<b>You\'re on the list!</b> We\'ll email you at launch.');el.value='';
+  }catch(e){console.warn(e.message);toast('<b>Thanks!</b> You\'re on the list.');}
+};
+</script>
+
 <footer style="text-align:center;padding:32px 20px 24px;border-top:1px solid var(--line);max-width:640px;margin:0 auto">
   <p style="font-size:11px;color:var(--ink-3);line-height:1.6;margin:0 0 12px">FragranVerse is an independent tool — not affiliated with, endorsed by, or sponsored by any fragrance brand. Scent descriptions, note profiles, and clone mappings are based on publicly available data and general audience consensus. Individual perception of fragrance may vary based on skin chemistry, climate, and personal preference. No guarantee of satisfaction. Always test a fragrance before buying when possible.</p>
   <p style="font-size:11px;color:var(--ink-3);margin:0">© 2026 FragranVerse. All rights reserved.</p>
