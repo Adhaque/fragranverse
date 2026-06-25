@@ -363,15 +363,33 @@
 <main id="view-rate" class="wrap">
   <section id="landing">
     <header>
-      <div class="eyebrow">Your scent identity, scored ✦</div>
-      <h1 class="display">What does your<br><em>collection</em> say?</h1>
-      <p>It's a hobby, not an addiction.<br>Add what you own here to get your score, a persona, and a suggestion.</p>
+      <div class="eyebrow">Real scent data — not marketing ✦</div>
+      <h1 class="display">Know your fragrances —<br><em>before &amp; after you buy</em></h1>
+      <p>Never blind-buy a perfume again. Match any bottle to its pricier original, skip the duplicates you'd regret, and score the collection you've built.</p>
       <div class="dbstat">
         <span><b>8,000+</b> perfumes</span><span class="sep">·</span>
         <span><b>207</b> brands</span><span class="sep">·</span>
         <span><b>14</b> scent families</span>
       </div>
     </header>
+
+    <div class="hero-actions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:26px 0 22px">
+      <button type="button" onclick="setView('check');setTimeout(function(){switchCheckTab('byb')},100)" style="text-align:left;background:var(--bg-soft);border:1px solid rgba(52,211,153,.25);border-radius:16px;padding:18px 16px;cursor:pointer;font-family:inherit;transition:.2s" onmouseover="this.style.borderColor='rgba(52,211,153,.55)'" onmouseout="this.style.borderColor='rgba(52,211,153,.25)'">
+        <div style="color:var(--green);margin-bottom:9px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
+        <div style="font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:5px">Find a clone match</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.5">How close does the budget bottle smell to the original? Real similarity score.</div>
+      </button>
+      <button type="button" onclick="setView('check');setTimeout(function(){switchCheckTab('red')},100)" style="text-align:left;background:var(--bg-soft);border:1px solid rgba(6,182,212,.25);border-radius:16px;padding:18px 16px;cursor:pointer;font-family:inherit;transition:.2s" onmouseover="this.style.borderColor='rgba(6,182,212,.55)'" onmouseout="this.style.borderColor='rgba(6,182,212,.25)'">
+        <div style="color:var(--cyan);margin-bottom:9px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div style="font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:5px">Check before you buy</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.5">Already own something like it? Skip the duplicate before you spend.</div>
+      </button>
+      <button type="button" onclick="var e=document.getElementById('q');if(e){e.focus();e.scrollIntoView({block:'center'})}" style="text-align:left;background:var(--bg-soft);border:1px solid rgba(251,191,36,.25);border-radius:16px;padding:18px 16px;cursor:pointer;font-family:inherit;transition:.2s" onmouseover="this.style.borderColor='rgba(251,191,36,.55)'" onmouseout="this.style.borderColor='rgba(251,191,36,.25)'">
+        <div style="color:var(--amber);margin-bottom:9px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 21.5 12 17.5 5.5 21.5 7 14.5 2 9.5 9 9"/></svg></div>
+        <div style="font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:5px">Rate my collection</div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.5">What does your collection say? Get a score, a persona, and your next bottle.</div>
+      </button>
+    </div>
 
     <div class="panel">
       <div class="search">
