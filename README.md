@@ -8,7 +8,7 @@ https://fragranverse.com
 
 Fragranverse is a free tool that analyzes your perfume collection. Drop in your bottles — whether you own 2 or 50 — and get a score, a scent persona, and smart recommendations. Clones count. Budget bottles are respected. Specialists get celebrated, not scolded.
 
-The database covers **7,500+ perfumes** across **200+ brands** and **14 scent families**.
+The database covers **8000+ perfumes** across **200+ brands** and **14 scent families**.
 
 ---
 
