@@ -37,6 +37,9 @@
   .tip-date{color:var(--cyan);font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
   .tip-share{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1px solid var(--line);border-radius:99px;color:var(--ink-2);font:600 11.5px Inter,system-ui,sans-serif;padding:5px 11px;cursor:pointer;transition:.15s;flex:none}
   .tip-share:hover{color:var(--ink);border-color:rgba(255,255,255,.18)}
+  .tip-tags{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+  .tag{display:inline-block;background:rgba(6,182,212,.12);color:var(--cyan);font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;letter-spacing:.02em}
+  .hl{color:var(--ink);font-weight:600}
   .tip h2{font-family:'Playfair Display',Georgia,serif;font-size:20px;color:var(--ink);margin-bottom:10px;line-height:1.3}
   .tip p{color:var(--ink-2);font-size:15px;margin-bottom:12px}
   .tip-link{display:inline-block;color:var(--green);font-size:13.5px;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(52,211,153,.3);padding-bottom:1px}
@@ -62,11 +65,33 @@
 <!-- ═══════════════════════════════════════════════════════════════ -->
 
 
+  <article class="tip" id="blind-buy">
+    <div class="tip-top">
+      <div class="tip-date">June 26, 2026</div>
+      <button class="tip-share" type="button" onclick="fvShareCard('blind-buy','Blind Buy — ordering a fragrance without smelling it first')" aria-label="Share this tip">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>Share</button>
+    </div>
+    <div class="tip-tags">
+      <span class="tag">#BlindBuy</span>
+      <span class="tag">#PerfumeTips</span>
+    </div>
+    <h2>Blind Buy — ordering a fragrance without smelling it first</h2>
+    <p>A <strong class="hl">blind buy</strong> is buying a perfume based solely on reviews, listed notes, or social media hype — without ever smelling it. In India, most Middle Eastern clone purchases on reseller sites start as blind buys. The golden rule is simple: <strong class="hl">never blind buy a full bottle</strong>. Always start with a 2ml or 5ml <strong class="hl">decant</strong> to test how it sits on your skin — a fragrance that works for one person can smell completely different on you due to <strong class="hl">skin chemistry</strong>.</p>
+    <p><strong>Extra warning for Oud, Leather, Tobacco, and dark fragrances:</strong> these notes vary wildly between brands and batches. One brand's <strong class="hl">Oud</strong> can be smooth and woody; another's can be <strong class="hl">animalic, skunky, and unwearable</strong>. Even if you love one Tobacco or Incense scent, the next from a different house could be a completely different experience. <strong class="hl">Dark, heavy, and animalic notes are the riskiest category to blind buy</strong> — always, always sample these first.</p>
+    <p>For a safe first blind buy, stick to <strong class="hl">mass-appealing blue or fresh scents</strong> where the risk of a bad reaction is lowest. For anything dark or heavy, buy a <strong class="hl">decant first</strong> — it's cheaper than a regretful full bottle.</p>
+    <a class="tip-link" href="https://fragranverse.com">Compare scents on FragranVerse →</a>
+  </article>
+
   <article class="tip" id="concentration">
     <div class="tip-top">
       <div class="tip-date">June 25, 2026</div>
       <button class="tip-share" type="button" onclick="fvShareCard('concentration','Concentration — EDP vs EDT vs Parfum, explained')" aria-label="Share this tip">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>Share</button>
+    </div>
+    <div class="tip-tags">
+      <span class="tag">#Concentration</span>
+      <span class="tag">#EDPvsEDT</span>
+      <span class="tag">#PerfumeBasics</span>
     </div>
     <h2>Concentration — EDP vs EDT vs Parfum, explained</h2>
     <p>Concentration is the percentage of perfume oil in the bottle — more oil means a stronger scent, longer longevity, and a higher price. Parfum (Extrait) runs 20–40% oil and lasts 8+ hours; EDP (Eau de Parfum) sits at 15–20% and lasts 5–8 hours; EDT (Eau de Toilette) is 5–15% and lasts 3–5 hours. For Indian summers, an EDT or a fresh EDP works best — heavy Parfums can choke in humidity. Always check the concentration before buying, and never compare performance across different concentrations.</p>
@@ -79,6 +104,11 @@
       <button class="tip-share" type="button" onclick="fvShareCard('ambroxan','Ambroxan — the clean, salty wood everyone wears')" aria-label="Share this tip">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>Share</button>
     </div>
+    <div class="tip-tags">
+      <span class="tag">#Ambroxan</span>
+      <span class="tag">#SyntheticNotes</span>
+      <span class="tag">#FragranceMolecules</span>
+    </div>
     <h2>Ambroxan — the clean, salty wood everyone wears</h2>
     <p>Ambroxan is a synthetic that mimics ambergris: a dry, slightly salty, woody-musky warmth that hugs the skin and radiates without shouting. It's the backbone of modern "fresh but expensive" scents and behaves brilliantly in Indian heat — it doesn't turn sour like sweeter notes can. If a fragrance smells "clean but addictive," ambroxan is usually why.</p>
     <a class="tip-link" href="https://fragranverse.com">Find perfumes built on ambroxan →</a>
@@ -89,6 +119,11 @@
       <div class="tip-date">June 23, 2026</div>
       <button class="tip-share" type="button" onclick="fvShareCard('iso-e-super','Iso E Super — the invisible amplifier')" aria-label="Share this tip">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>Share</button>
+    </div>
+    <div class="tip-tags">
+      <span class="tag">#IsoESuper</span>
+      <span class="tag">#ScentLayering</span>
+      <span class="tag">#MoleculeFragrance</span>
     </div>
     <h2>Iso E Super — the invisible amplifier</h2>
     <p>Iso E Super is a velvety, cedar-like molecule that's barely noticeable up close but radiates beautifully in your trail. It creates the effortless "your skin but better" effect — the secret behind Molecule 01 and Not a Perfume. Layer a drop under a bold floral or woody scent to add depth and projection without competing with the main notes.</p>
