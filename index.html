@@ -613,7 +613,26 @@
   </div>
   <div class="ipanel active" id="ipanel-blog">
     <p class="lead" style="margin-bottom:22px">Real talk about fragrance — written from community data, not guesswork.</p>
-    <a href="/blogs/hawas-vs-kaaf-vs-theoreme.html" style="text-decoration:none;display:block;background:var(--bg-soft);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:4px;transition:.2s"
+    <!-- BLOG-CARDS:newest-first --><a href="/blogs/eu-allergen-labels-2026-india.html" style="text-decoration:none;display:block;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.28);border-radius:18px;padding:28px;margin-top:4px;transition:.2s"
+     onmouseover="this.style.borderColor='rgba(251,191,36,.55)';this.style.background='rgba(251,191,36,.09)'"
+     onmouseout="this.style.borderColor='rgba(251,191,36,.28)';this.style.background='rgba(251,191,36,.05)'">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <div style="font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--amber)">Deep Dive · Regulation · 10 min read</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:rgba(251,191,36,.15);color:var(--amber);padding:2px 8px;border-radius:99px;border:1px solid rgba(251,191,36,.3)">NEW</div>
+    </div>
+    <p style="font-weight:600;font-size:17px;margin-bottom:8px;font-family:'Playfair Display',Georgia,serif;color:var(--ink)">EU Allergen Labels July 2026 — What Every Indian Collector Must Know</p>
+    <p style="color:var(--ink-2);font-size:14px;line-height:1.6;margin:0">82 allergens must be declared on EU perfumes by July 31. Lattafa, Rasasi, Armaf — all have EU exposure. Here's what changes for your collection and how to protect it.</p>
+    <div style="margin-top:14px;font-size:12.5px;color:var(--amber)">Read article →</div>
+  </a>
+  <a href="/blogs/rasasi-hawas-2026-thunder-exotic-lava-gold.html" style="text-decoration:none;display:block;background:var(--bg-soft);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:14px;transition:.2s"
+     onmouseover="this.style.borderColor='rgba(52,211,153,.3)';this.style.background='rgba(52,211,153,.04)'"
+     onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--bg-soft)'">
+    <div style="font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);margin-bottom:10px">New Release · 6 min read</div>
+    <p style="font-weight:600;font-size:17px;margin-bottom:8px;font-family:'Playfair Display',Georgia,serif;color:var(--ink)">Rasasi Hawas 2026 — Thunder, Exotic & Lava Gold. Which One's Worth Your Money?</p>
+    <p style="color:var(--ink-2);font-size:14px;line-height:1.6;margin:0">Three new Hawas flankers, DB-verified. Thunder for daily wear, Exotic for evenings, Lava Gold for beast-mode. Full breakdown with performance stats.</p>
+    <div style="margin-top:14px;font-size:12.5px;color:var(--green)">Read article →</div>
+  </a>
+  <a href="/blogs/hawas-vs-kaaf-vs-theoreme.html" style="text-decoration:none;display:block;background:var(--bg-soft);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:4px;transition:.2s"
      onmouseover="this.style.borderColor='rgba(52,211,153,.3)';this.style.background='rgba(52,211,153,.04)'"
      onmouseout="this.style.borderColor='var(--line)';this.style.background='var(--bg-soft)'">
     <div style="font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);margin-bottom:10px">Comparison · 4 min read</div>
@@ -794,8 +813,6 @@
 </div></div>
   </div>
   <p style="font-size:12px;color:var(--ink-3);margin-top:28px;padding-top:18px;border-top:1px solid var(--line)">Sources: Fragranverse database (8,000+ perfumes), community consensus and industry standard glossary</p>
-
-    <p style="font-size:12px;color:var(--ink-3);margin-top:28px;padding-top:18px;border-top:1px solid var(--line)">Sources: Fragranverse database (8,000+ perfumes), community consensus and industry standard glossary</p>
   </div>
 </div></main>
 
@@ -1068,7 +1085,7 @@ document.getElementById('submitReport').onclick=async()=>{
 };
 
 // ========== BEFORE YOU BUY — CHECK ENGINE ==========
-let candidateId = null, candidateName = '';
+let candidateId = null, candidateName = '', candidateBrand = '';
 const owned = new Map();
 
 // Candidate search
@@ -1096,7 +1113,7 @@ function renderCandidateResults(rows){
     const d=document.createElement('div');d.className='opt';
     d.innerHTML=`<div class="l"><span class="swatch" style="background:${c};color:${c}"></span><div style="min-width:0"><div class="nm">${esc(r.name)}</div><div class="br">${esc(r.brand_name||'')}${r.concentration?' · '+esc(r.concentration):''}</div></div></div><div class="add">+</div>`;
     d.onclick=()=>{
-      candidateId=r.id;candidateName=r.name;
+      candidateId=r.id;candidateName=r.name;candidateBrand=r.brand_name||'';
       cqEl.value='';el.classList.add('hidden');
       const chip=document.getElementById('candidate-chip');
       document.getElementById('cname').textContent=r.name+' — '+esc(r.brand_name||'');
@@ -1108,7 +1125,7 @@ function renderCandidateResults(rows){
   el.classList.remove('hidden');
 }
 function clearCandidate(){
-  candidateId=null;candidateName='';
+  candidateId=null;candidateName='';candidateBrand='';
   document.getElementById('candidate-chip').classList.add('hidden');
   cqEl.value='';
   updateCheckBtn();
@@ -1196,7 +1213,11 @@ function renderCheckResult(matches){
     res.classList.remove('hidden');window.scrollTo({top:800,behavior:'smooth'});return;
   }
   
-  box.innerHTML=verdictHtml+sorted.map(m=>{
+  var euBrandsR=['Lattafa','Rasasi','Armaf','Afnan','Al Haramain','Ajmal'];
+  var isEuR=euBrandsR.some(b=>candidateBrand.toLowerCase().indexOf(b.toLowerCase())!==-1);
+  var euNoticeR=isEuR?`<div style="margin-top:12px;padding:11px 14px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.2);border-radius:11px;font-size:13px;color:var(--ink-2);line-height:1.6"><span style="color:var(--amber);font-weight:600">⚠️ EU 2026 batch note:</span> This brand may reformulate for EU allergen compliance after July 2026 — similarity ratings may shift between pre/post-2026 batches. <a href="/blogs/eu-allergen-labels-2026-india.html" style="color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(251,191,36,.35)">Learn more →</a></div>`:'';
+
+  box.innerHTML=verdictHtml+euNoticeR+sorted.map(m=>{
     const pct=Math.round(m.similarity_pct);
     const cls=pct>=60?'high':pct>=30?'medium':'low';
     const notes=(m.shared_notes||[]).slice(0,6).map(n=>`<span class="note">${esc(n)}</span>`).join('');
@@ -1445,6 +1466,10 @@ function buildBybCard(p,brandLogo,similarityPct){
   var m=longevity.match(/(\d+)/);
   if(m){var h=parseInt(m[1]);if(h>=10)longevityText='All day (10+ hours)';else if(h>=8)longevityText='Full day (8–10 hours)';else if(h>=6)longevityText='Solid (6–8 hours)';else longevityText='Half day (4–6 hours)';}
 
+  var euBrands=['Lattafa','Rasasi','Armaf','Afnan','Al Haramain','Ajmal'];
+  var isEuBrand=euBrands.some(function(b){return brand.toLowerCase().indexOf(b.toLowerCase())!==-1;});
+  var euNotice=isEuBrand?'<div style="margin-top:12px;padding:11px 14px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.2);border-radius:11px;font-size:13px;color:var(--ink-2);line-height:1.6"><span style="color:var(--amber);font-weight:600">⚠️ EU 2026 batch note:</span> This brand has EU market presence and may reformulate for allergen compliance after July 2026. Performance of pre/post-2026 batches may differ. <a href="/blogs/eu-allergen-labels-2026-india.html" style="color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(251,191,36,.35)">Learn more →</a></div>':'';
+
   return '<div class="wit-card">'+
     '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">'+logoHtml+
     '<div><div style="font-size:17px;font-weight:600;color:var(--ink);font-family:Playfair Display,Georgia,serif">'+esc(p.name)+(p.concentration?' <span style="font-size:13px;color:var(--ink-3);font-weight:400">'+p.concentration+'</span>':'')+'</div>'+
@@ -1454,7 +1479,8 @@ function buildBybCard(p,brandLogo,similarityPct){
     '<div class="wit-row"><div class="wit-pill"><b>Projection</b> · '+(sillageDesc[sillage]||sillage)+'</div><div class="wit-pill"><b>Longevity</b> · '+longevityText+'</div><div class="wit-pill"><b>Gender</b> · '+gender+'</div></div>'+
     notesHtml+
     dividerSvg+
-    dupeHtml+'</div>';
+    dupeHtml+
+    euNotice+'</div>';
 }
 
 </script>
