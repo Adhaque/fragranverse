@@ -78,8 +78,35 @@
   .share-btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; border-radius: 99px; font: 600 13px 'Inter', system-ui, sans-serif; text-decoration: none; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--text); transition: .15s; }
   .share-btn:hover { border-color: rgba(255,255,255,.18); }
   .share-btn.wa { border-color: rgba(37,211,102,.3); background: rgba(37,211,102,.06); color: #25D366; }
-  .chart-container { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; margin: 1.5rem 0; }
-  @media (max-width: 480px) { .stat-box { grid-template-columns: repeat(2,1fr); } h1 { font-size: 1.45rem; } }
+  .chart-container { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+  .chart-wrap { display: flex; flex-direction: column; gap: 0; }
+  .chart-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; color: var(--text); text-align: center; margin-bottom: .6rem; }
+  .chart-legend { display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1rem; font-size: .82rem; color: var(--muted); }
+  .leg-item { display: inline-flex; align-items: center; gap: 6px; }
+  .leg-dot { display: inline-block; width: 12px; height: 12px; border-radius: 3px; }
+  .leg-dot-me { background: #22c55e; }
+  .leg-dot-des { background: #475569; }
+  .chart-section-label { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); text-align: center; margin: .9rem 0 .5rem; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .bar-label { font-size: .82rem; font-weight: 600; width: 115px; flex-shrink: 0; text-align: right; }
+  .bar-label-me { color: #22c55e; }
+  .bar-label-des { color: #94a3b8; }
+  .bar-track { flex: 1; height: 28px; background: rgba(255,255,255,.04); border-radius: 6px; overflow: hidden; min-width: 100px; }
+  .bar { height: 100%; border-radius: 6px; display: flex; align-items: center; }
+  .bar-me { background: #22c55e; }
+  .bar-des { background: #475569; }
+  .bar-value { font-size: .82rem; font-weight: 600; color: var(--text); width: 130px; flex-shrink: 0; }
+  .bar-annotation { font-size: .82rem; font-weight: 700; color: var(--amber); width: 140px; flex-shrink: 0; position: relative; padding-left: 14px; }
+  .bar-annotation::before { content: ''; position: absolute; left: 0; top: 50%; width: 10px; height: 1.5px; background: var(--amber); opacity: .5; }
+  .bar-annotation-cyan { color: var(--teal); }
+  .bar-annotation-cyan::before { background: var(--teal); }
+  @media (max-width: 520px) {
+    .bar-row { flex-wrap: wrap; gap: 4px; }
+    .bar-label { width: 70px; font-size: .75rem; }
+    .bar-value { width: 100px; font-size: .75rem; }
+    .bar-annotation { width: 100%; padding-left: 0; margin-top: 2px; }
+    .bar-annotation::before { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -154,71 +181,79 @@
 <p>Every major discussion thread was about an ME fragrance. Hawas batch concerns. Kaaf vs Theoreme vs Turathi Blue. The debate was never about whether to buy ME or designer. It was about which ME bottle to pick. Of the top 10 trending perfumes, <strong>8 are Middle Eastern</strong> — every single week.</p>
 
 <div class="chart-container">
-  <svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-    <style>
-      .bg { fill: #0a0a0c; }
-      .card-bg { fill: #111114; stroke: rgba(255,255,255,.06); stroke-width: 1; rx: 12; }
-      .title { fill: #e2e8f0; font: 700 16px 'Inter',system-ui,sans-serif; }
-      .label { fill: #94a3b8; font: 500 12px 'Inter',system-ui,sans-serif; }
-      .val-green { fill: #22c55e; font: 700 14px 'Inter',system-ui,sans-serif; }
-      .val-white { fill: #f8fafc; font: 700 14px 'Inter',system-ui,sans-serif; }
-      .bar-me { fill: #22c55e; }
-      .bar-des { fill: #475569; }
-      .bar-des-text { fill: #cbd5e1; font: 600 13px 'Inter',system-ui,sans-serif; }
-      .highlight { fill: #f59e0b; font: 700 14px 'Inter',system-ui,sans-serif; }
-      .highlight-cyan { fill: #22d3ee; font: 700 14px 'Inter',system-ui,sans-serif; }
-      .dash { stroke: #f59e0b; stroke-width: 1; stroke-dasharray: 5,4; opacity: .6; }
-      .dash-cyan { stroke: #22d3ee; stroke-width: 1; stroke-dasharray: 5,4; opacity: .6; }
-      .leg-me { fill: #22c55e; }
-      .leg-des { fill: #475569; }
-    </style>
+  <div class="chart-wrap">
+    <!-- Title -->
+    <div class="chart-title">Middle Eastern vs Designer Fragrances — The Data</div>
 
-    <rect width="720" height="440" class="bg"/>
+    <!-- Legend -->
+    <div class="chart-legend">
+      <span class="leg-item"><span class="leg-dot leg-dot-me"></span> Middle Eastern</span>
+      <span class="leg-item"><span class="leg-dot leg-dot-des"></span> Designer / Niche</span>
+    </div>
 
-    <text x="360" y="36" text-anchor="middle" class="title">Middle Eastern vs Designer Fragrances &mdash; The Data</text>
+    <!-- Section 1 -->
+    <div class="chart-section-label">Community Mentions — Reddit (averaged over 3 weeks)</div>
 
-    <rect x="150" y="56" width="14" height="14" rx="3" class="leg-me"/>
-    <text x="170" y="68" fill="#22c55e" font="600 13px 'Inter',system-ui,sans-serif">Middle Eastern</text>
-    <rect x="340" y="56" width="14" height="14" rx="3" class="leg-des"/>
-    <text x="360" y="68" fill="#94a3b8" font="600 13px 'Inter',system-ui,sans-serif">Designer / Niche</text>
+    <div class="bar-row">
+      <div class="bar-label bar-label-me">ME Brands</div>
+      <div class="bar-track">
+        <div class="bar bar-me" style="width:85%"></div>
+      </div>
+      <div class="bar-value">~67 mentions / week</div>
+      <div class="bar-annotation">5.6x more community talk</div>
+    </div>
 
-    <text x="360" y="104" text-anchor="middle" class="label" font-weight="600">Community Mentions &mdash; Reddit (averaged over 3 weeks)</text>
+    <div class="bar-row">
+      <div class="bar-label bar-label-des">Designer / Niche</div>
+      <div class="bar-track">
+        <div class="bar bar-des" style="width:16%"></div>
+      </div>
+      <div class="bar-value">~12 / week</div>
+      <div class="bar-annotation"></div>
+    </div>
 
-    <rect x="90" y="116" width="370" height="36" rx="8" class="bar-me"/>
-    <text x="102" y="140" fill="#052e16" font="700 14px 'Inter',system-ui,sans-serif">ME Brands</text>
-    <text x="470" y="140" class="val-white">~67 mentions / week</text>
+    <!-- Section 2 -->
+    <div class="chart-section-label">Average Bottle Price — India</div>
 
-    <rect x="90" y="162" width="140" height="36" rx="8" class="bar-des"/>
-    <text x="102" y="186" class="bar-des-text">Designer / Niche</text>
-    <text x="240" y="186" fill="#64748b" font="600 13px 'Inter',system-ui,sans-serif">~12 / week</text>
+    <div class="bar-row">
+      <div class="bar-label bar-label-me">ME</div>
+      <div class="bar-track">
+        <div class="bar bar-me" style="width:25%"></div>
+      </div>
+      <div class="bar-value">₹1,500–3,000</div>
+      <div class="bar-annotation">4x cheaper</div>
+    </div>
 
-    <line x1="470" y1="134" x2="640" y2="134" class="dash"/>
-    <text x="650" y="138" class="highlight" text-anchor="end">5.6x more community talk</text>
+    <div class="bar-row">
+      <div class="bar-label bar-label-des">Designer</div>
+      <div class="bar-track">
+        <div class="bar bar-des" style="width:85%"></div>
+      </div>
+      <div class="bar-value">₹8,000–12,000</div>
+      <div class="bar-annotation"></div>
+    </div>
 
-    <text x="360" y="226" text-anchor="middle" class="label" font-weight="600">Average Bottle Price &mdash; India</text>
+    <!-- Section 3 -->
+    <div class="chart-section-label">FragranVerse Database — Coverage</div>
 
-    <rect x="90" y="240" width="110" height="36" rx="8" class="bar-me"/>
-    <text x="102" y="264" fill="#052e16" font="700 14px 'Inter',system-ui,sans-serif">ME</text>
-    <text x="210" y="264" class="val-white">&#8377;1,500&ndash;3,000</text>
+    <div class="bar-row">
+      <div class="bar-label bar-label-me">ME</div>
+      <div class="bar-track">
+        <div class="bar bar-me" style="width:75%"></div>
+      </div>
+      <div class="bar-value">~1,092 clone mappings</div>
+      <div class="bar-annotation bar-annotation-cyan">Fastest-growing ↑</div>
+    </div>
 
-    <rect x="90" y="286" width="340" height="36" rx="8" class="bar-des"/>
-    <text x="102" y="310" class="bar-des-text">Designer</text>
-    <text x="440" y="310" fill="#64748b" font="600 13px 'Inter',system-ui,sans-serif">&#8377;8,000&ndash;12,000</text>
-
-    <line x1="210" y1="258" x2="640" y2="258" class="dash"/>
-    <text x="650" y="262" class="highlight" text-anchor="end">4x cheaper</text>
-
-    <text x="360" y="352" text-anchor="middle" class="label" font-weight="600">FragranVerse Database &mdash; Coverage</text>
-
-    <rect x="90" y="366" width="350" height="36" rx="8" class="bar-me"/>
-    <text x="102" y="390" fill="#052e16" font="700 14px 'Inter',system-ui,sans-serif">ME: ~1,092 clone mappings</text>
-
-    <rect x="90" y="412" width="200" height="36" rx="8" class="bar-des"/>
-    <text x="102" y="436" class="bar-des-text">Designer + Niche combined</text>
-
-    <line x1="450" y1="384" x2="640" y2="384" class="dash-cyan"/>
-    <text x="650" y="388" class="highlight-cyan" text-anchor="end">Fastest-growing &#8593;</text>
-  </svg>
+    <div class="bar-row">
+      <div class="bar-label bar-label-des">Designer + Niche</div>
+      <div class="bar-track">
+        <div class="bar bar-des" style="width:35%"></div>
+      </div>
+      <div class="bar-value">combined</div>
+      <div class="bar-annotation"></div>
+    </div>
+  </div>
 </div>
 
 <h3>Pricing: The 4x Gap That Changed Everything</h3>
