@@ -154,58 +154,70 @@
 <p>Every major discussion thread was about an ME fragrance. Hawas batch concerns. Kaaf vs Theoreme vs Turathi Blue. The debate was never about whether to buy ME or designer. It was about which ME bottle to pick. Of the top 10 trending perfumes, <strong>8 are Middle Eastern</strong> — every single week.</p>
 
 <div class="chart-container">
-  <svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+  <svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
     <style>
-      .ch-label { fill:#94a3b8; font:500 11px 'Inter',system-ui,sans-serif; }
-      .ch-val { fill:#e2e8f0; font:700 14px 'Inter',system-ui,sans-serif; }
-      .ch-title { fill:#e2e8f0; font:600 15px 'Inter',system-ui,sans-serif; }
-      .ch-legend-me { fill:#34d399; }
-      .ch-legend-des { fill:#64748b; }
+      .bg { fill: #0a0a0c; }
+      .card-bg { fill: #111114; stroke: rgba(255,255,255,.06); stroke-width: 1; rx: 12; }
+      .title { fill: #e2e8f0; font: 700 16px 'Inter',system-ui,sans-serif; }
+      .label { fill: #94a3b8; font: 500 12px 'Inter',system-ui,sans-serif; }
+      .val-green { fill: #22c55e; font: 700 14px 'Inter',system-ui,sans-serif; }
+      .val-white { fill: #f8fafc; font: 700 14px 'Inter',system-ui,sans-serif; }
+      .bar-me { fill: #22c55e; }
+      .bar-des { fill: #475569; }
+      .bar-des-text { fill: #cbd5e1; font: 600 13px 'Inter',system-ui,sans-serif; }
+      .highlight { fill: #f59e0b; font: 700 14px 'Inter',system-ui,sans-serif; }
+      .highlight-cyan { fill: #22d3ee; font: 700 14px 'Inter',system-ui,sans-serif; }
+      .dash { stroke: #f59e0b; stroke-width: 1; stroke-dasharray: 5,4; opacity: .6; }
+      .dash-cyan { stroke: #22d3ee; stroke-width: 1; stroke-dasharray: 5,4; opacity: .6; }
+      .leg-me { fill: #22c55e; }
+      .leg-des { fill: #475569; }
     </style>
 
-    <text x="360" y="32" text-anchor="middle" class="ch-title">Middle Eastern vs Designer Fragrances &mdash; The Data</text>
+    <rect width="720" height="440" class="bg"/>
 
-    <rect x="170" y="52" width="12" height="12" rx="3" fill="#34d399"/>
-    <text x="188" y="63" class="ch-legend-me" font-size="12" font-weight="600">Middle Eastern</text>
-    <rect x="340" y="52" width="12" height="12" rx="3" fill="#64748b"/>
-    <text x="358" y="63" class="ch-label" font-size="12" font-weight="600">Designer / Niche</text>
+    <text x="360" y="36" text-anchor="middle" class="title">Middle Eastern vs Designer Fragrances &mdash; The Data</text>
 
-    <text x="360" y="98" text-anchor="middle" class="ch-label" font-weight="600">Community Mentions (Reddit, averaged over 3 weeks of data)</text>
+    <rect x="150" y="56" width="14" height="14" rx="3" class="leg-me"/>
+    <text x="170" y="68" fill="#22c55e" font="600 13px 'Inter',system-ui,sans-serif">Middle Eastern</text>
+    <rect x="340" y="56" width="14" height="14" rx="3" class="leg-des"/>
+    <text x="360" y="68" fill="#94a3b8" font="600 13px 'Inter',system-ui,sans-serif">Designer / Niche</text>
 
-    <rect x="100" y="110" width="260" height="32" rx="6" fill="#34d399" opacity="0.9"/>
-    <text x="370" y="132" class="ch-val">~67/week avg</text>
-    <text x="110" y="131" fill="#08080a" font="700 13px 'Inter',system-ui,sans-serif">ME Brands</text>
+    <text x="360" y="104" text-anchor="middle" class="label" font-weight="600">Community Mentions &mdash; Reddit (averaged over 3 weeks)</text>
 
-    <rect x="100" y="150" width="260" height="32" rx="6" fill="#64748b" opacity="0.7"/>
-    <text x="370" y="172" class="ch-label" font-size="13" font-weight="600">~12/week avg</text>
-    <text x="110" y="171" fill="#e2e8f0" font="600 13px 'Inter',system-ui,sans-serif">Designer / Niche</text>
+    <rect x="90" y="116" width="370" height="36" rx="8" class="bar-me"/>
+    <text x="102" y="140" fill="#052e16" font="700 14px 'Inter',system-ui,sans-serif">ME Brands</text>
+    <text x="470" y="140" class="val-white">~67 mentions / week</text>
 
-    <text x="645" y="141" fill="#fbbf24" font="700 13px 'Inter',system-ui,sans-serif" text-anchor="end">5.6x more</text>
-    <line x1="370" y1="126" x2="635" y2="126" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+    <rect x="90" y="162" width="140" height="36" rx="8" class="bar-des"/>
+    <text x="102" y="186" class="bar-des-text">Designer / Niche</text>
+    <text x="240" y="186" fill="#64748b" font="600 13px 'Inter',system-ui,sans-serif">~12 / week</text>
 
-    <text x="360" y="210" text-anchor="middle" class="ch-label" font-weight="600">Average Bottle Price (India)</text>
+    <line x1="470" y1="134" x2="640" y2="134" class="dash"/>
+    <text x="650" y="138" class="highlight" text-anchor="end">5.6x more community talk</text>
 
-    <rect x="100" y="222" width="80" height="32" rx="6" fill="#34d399" opacity="0.9"/>
-    <text x="100" y="243" fill="#08080a" font="700 13px 'Inter',system-ui,sans-serif">ME</text>
-    <text x="190" y="244" class="ch-val">&#8377;1,500&ndash;3,000</text>
+    <text x="360" y="226" text-anchor="middle" class="label" font-weight="600">Average Bottle Price &mdash; India</text>
 
-    <rect x="100" y="262" width="290" height="32" rx="6" fill="#64748b" opacity="0.7"/>
-    <text x="100" y="283" fill="#e2e8f0" font="600 13px 'Inter',system-ui,sans-serif">Designer</text>
-    <text x="400" y="284" class="ch-label" font-size="13" font-weight="600">&#8377;8,000&ndash;12,000</text>
+    <rect x="90" y="240" width="110" height="36" rx="8" class="bar-me"/>
+    <text x="102" y="264" fill="#052e16" font="700 14px 'Inter',system-ui,sans-serif">ME</text>
+    <text x="210" y="264" class="val-white">&#8377;1,500&ndash;3,000</text>
 
-    <text x="645" y="253" fill="#fbbf24" font="700 13px 'Inter',system-ui,sans-serif" text-anchor="end">4x cheaper</text>
-    <line x1="300" y1="238" x2="635" y2="238" stroke="#fbbf24" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+    <rect x="90" y="286" width="340" height="36" rx="8" class="bar-des"/>
+    <text x="102" y="310" class="bar-des-text">Designer</text>
+    <text x="440" y="310" fill="#64748b" font="600 13px 'Inter',system-ui,sans-serif">&#8377;8,000&ndash;12,000</text>
 
-    <text x="360" y="325" text-anchor="middle" class="ch-label" font-weight="600">FragranVerse Database Coverage</text>
+    <line x1="210" y1="258" x2="640" y2="258" class="dash"/>
+    <text x="650" y="262" class="highlight" text-anchor="end">4x cheaper</text>
 
-    <rect x="100" y="338" width="310" height="32" rx="6" fill="#34d399" opacity="0.9"/>
-    <text x="110" y="359" fill="#08080a" font="700 13px 'Inter',system-ui,sans-serif">ME: ~1,092 clone mappings</text>
+    <text x="360" y="352" text-anchor="middle" class="label" font-weight="600">FragranVerse Database &mdash; Coverage</text>
 
-    <text x="650" y="357" fill="#06b6d4" font="700 13px 'Inter',system-ui,sans-serif" text-anchor="end">Fastest-growing &#8593;</text>
-    <line x1="420" y1="354" x2="640" y2="354" stroke="#06b6d4" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+    <rect x="90" y="366" width="350" height="36" rx="8" class="bar-me"/>
+    <text x="102" y="390" fill="#052e16" font="700 14px 'Inter',system-ui,sans-serif">ME: ~1,092 clone mappings</text>
 
-    <rect x="100" y="378" width="180" height="32" rx="6" fill="#64748b" opacity="0.7"/>
-    <text x="110" y="399" fill="#e2e8f0" font="600 13px 'Inter',system-ui,sans-serif">Designer + Niche combined</text>
+    <rect x="90" y="412" width="200" height="36" rx="8" class="bar-des"/>
+    <text x="102" y="436" class="bar-des-text">Designer + Niche combined</text>
+
+    <line x1="450" y1="384" x2="640" y2="384" class="dash-cyan"/>
+    <text x="650" y="388" class="highlight-cyan" text-anchor="end">Fastest-growing &#8593;</text>
   </svg>
 </div>
 
